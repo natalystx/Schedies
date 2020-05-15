@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../components/CustomButton.dart';
 import '../screens/signIn.dart';
+import '../components/WelcomeText.dart';
+import '../screens/signUp.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -53,52 +55,29 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text(
-                    'Welcome to',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'Mitr',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                        color: Color.fromRGBO(85, 85, 85, 1)),
-                  ),
-                ),
+                WelcomeText(15, FontWeight.w300, 'Welcome to')
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 0),
-                  child: Text(
-                    'Schedie',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'Mitr',
-                        fontSize: 35,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(85, 85, 85, 1)),
-                  ),
-                ),
+                WelcomeText(
+                  35,
+                  FontWeight.w400,
+                  'Schedie',
+                  paddingSide: EdgeInsets.only(top: 0),
+                )
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(bottom: 55),
-                  child: Text(
-                    'The tools for manage your plans.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'Mitr',
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                        color: Color.fromRGBO(85, 85, 85, 1)),
-                  ),
-                ),
+                WelcomeText(
+                  15,
+                  FontWeight.w300,
+                  'The tools for manage your plans.',
+                  paddingSide: EdgeInsets.only(bottom: 40),
+                )
               ],
             ),
             //buttons section
@@ -119,7 +98,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 'Don’t have any Schedie’s account?',
                 14,
                 AssetImage('assets/images/arrows.png'),
-                MaterialPageRoute(builder: (context) => null)),
+                MaterialPageRoute(builder: (context) => SignUpScreen())),
           ],
         ),
       )),

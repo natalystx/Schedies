@@ -28,6 +28,9 @@ class CustomInput extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
             borderSide: BorderSide(color: Colors.white)),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(color: Colors.white)),
         filled: true,
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(20.0),
@@ -37,7 +40,7 @@ class CustomInput extends StatelessWidget {
       keyboardType: _inputType,
       style: new TextStyle(
           fontFamily: "Mitr",
-          fontSize: 15,
+          fontSize: 18,
           fontWeight: FontWeight.w200,
           color: Colors.white),
     );
