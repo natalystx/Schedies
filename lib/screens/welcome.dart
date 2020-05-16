@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/CustomButton.dart';
-import '../screens/signIn.dart';
-import '../components/WelcomeText.dart';
-import '../screens/signUp.dart';
+import 'package:schedule_app/components/WelcomeText.dart';
+import 'package:schedule_app/components/CustomButton.dart';
+import 'package:schedule_app/screens/signIn.dart';
+import 'package:schedule_app/screens/signUp.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override

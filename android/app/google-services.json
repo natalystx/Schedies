@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1030117561544",
+    "firebase_url": "https://schedie-75961.firebaseio.com",
+    "project_id": "schedie-75961",
+    "storage_bucket": "schedie-75961.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030117561544:android:c2ea3de44d9395016f81fd",
+        "android_client_info": {
+          "package_name": "com.natalyst.schedie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030117561544-mmhnlnqpejitvag474gu7o0sjer9a7eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGLn2N6gpPAjsapLd1tTUPhgwZ9jWBQaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030117561544-mmhnlnqpejitvag474gu7o0sjer9a7eo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1030117561544-udoff7v1ubrai5kfjg06jj9q0c79ef1q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.natalyst.schedie"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

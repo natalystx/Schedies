@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/CustomButton.dart';
-import '../components/CustomInput.dart';
-import '../components/WelcomeText.dart';
+import 'package:schedule_app/components/WelcomeText.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -62,12 +60,41 @@ class _SignInScreenState extends State<SignInScreen> {
                       height: 55,
                       width: 350,
                       margin: EdgeInsets.only(bottom: 20),
-                      child: CustomInput(
-                          Color.fromRGBO(250, 137, 123, 1),
-                          'Email',
-                          Icons.alternate_email,
-                          false,
-                          TextInputType.emailAddress),
+                      child: TextFormField(
+                        onChanged: (value) => {},
+                        obscureText: false,
+                        decoration: new InputDecoration(
+                          prefixIcon: Icon(
+                            Icons.alternate_email,
+                            color: Colors.white,
+                            size: 24.0,
+                          ),
+                          labelText: 'Email',
+                          labelStyle: new TextStyle(
+                              fontFamily: "Mitr",
+                              fontSize: 15,
+                              fontWeight: FontWeight.w200,
+                              color: Colors.white),
+                          fillColor: Color.fromRGBO(250, 137, 123, 1),
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: BorderSide(color: Colors.white)),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              borderSide: BorderSide(color: Colors.white)),
+                          filled: true,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(20.0),
+                            borderSide: new BorderSide(color: Colors.white),
+                          ),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        style: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 18,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                      ),
                     )
                   ],
                 ),
@@ -75,26 +102,138 @@ class _SignInScreenState extends State<SignInScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      height: 55,
-                      width: 350,
-                      margin: EdgeInsets.only(bottom: 40),
-                      child: CustomInput(Color.fromRGBO(62, 230, 192, 1),
-                          'Password', Icons.dialpad, true, TextInputType.text),
+                        height: 55,
+                        width: 350,
+                        margin: EdgeInsets.only(bottom: 40),
+                        child: TextFormField(
+                          onChanged: (value) => {},
+                          obscureText: true,
+                          decoration: new InputDecoration(
+                            prefixIcon: Icon(
+                              Icons.dialpad,
+                              color: Colors.white,
+                              size: 24.0,
+                            ),
+                            labelText: 'Password',
+                            labelStyle: new TextStyle(
+                                fontFamily: "Mitr",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w200,
+                                color: Colors.white),
+                            fillColor: Color.fromRGBO(62, 230, 192, 1),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(color: Colors.white)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                borderSide: BorderSide(color: Colors.white)),
+                            filled: true,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(20.0),
+                              borderSide: new BorderSide(color: Colors.white),
+                            ),
+                          ),
+                          keyboardType: TextInputType.text,
+                          style: new TextStyle(
+                              fontFamily: "Mitr",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w200,
+                              color: Colors.white),
+                        ))
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: ButtonTheme(
+                        minWidth: 350,
+                        height: 50,
+                        child: RaisedButton(
+                          onPressed: () => {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => null))
+                          },
+                          color: Color.fromRGBO(255, 221, 148, 1),
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: 24,
+                                height: 24,
+                                margin: EdgeInsets.only(right: 10),
+                                child: Image(
+                                  image:
+                                      AssetImage('assets/images/account.png'),
+                                ),
+                              ),
+                              Text(
+                                'Sign in',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontFamily: 'Mitr',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(255, 255, 255, 1)),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),
-                CustomButton(
-                    Color.fromRGBO(255, 221, 148, 1),
-                    'Sign in',
-                    20,
-                    AssetImage('assets/images/account.png'),
-                    MaterialPageRoute(builder: (context) => null)),
-                CustomButton(
-                    Color.fromRGBO(85, 85, 85, 1),
-                    'Forgot password?',
-                    20,
-                    AssetImage('assets/images/passkey.png'),
-                    MaterialPageRoute(builder: (context) => null))
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: ButtonTheme(
+                        minWidth: 350,
+                        height: 50,
+                        child: RaisedButton(
+                          onPressed: () => {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => null))
+                          },
+                          color: Color.fromRGBO(85, 85, 85, 1),
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: 24,
+                                height: 24,
+                                margin: EdgeInsets.only(right: 10),
+                                child: Image(
+                                  image:
+                                      AssetImage('assets/images/passkey.png'),
+                                ),
+                              ),
+                              Text(
+                                'Forgot password?',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontFamily: 'Mitr',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color.fromRGBO(255, 255, 255, 1)),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ],
             ),
           ),

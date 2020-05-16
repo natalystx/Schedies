@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/WelcomeText.dart';
-import '../components/CustomInput.dart';
-import '../components/CustomButton.dart';
-import '../screens/signIn.dart';
+import 'package:schedule_app/components/WelcomeText.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -65,12 +62,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(
-                        Color.fromRGBO(62, 230, 192, 1),
-                        'Email',
-                        Icons.alternate_email,
-                        false,
-                        TextInputType.emailAddress),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: false,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.alternate_email,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'Email',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -81,8 +107,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(Color.fromRGBO(62, 230, 192, 1),
-                        'Password', Icons.dialpad, true, TextInputType.text),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: true,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.dialpad,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'Password',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.text,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -93,12 +152,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(
-                        Color.fromRGBO(62, 230, 192, 1),
-                        'Confirm Password',
-                        Icons.dialpad,
-                        true,
-                        TextInputType.text),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: true,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.dialpad,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'Confirm password',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.text,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -109,8 +197,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(Color.fromRGBO(62, 230, 192, 1), 'Name',
-                        Icons.account_circle, false, TextInputType.text),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: false,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.account_circle,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'Name',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.text,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -121,8 +242,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(Color.fromRGBO(62, 230, 192, 1),
-                        'Phonenumber', Icons.call, false, TextInputType.phone),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: false,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.call,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'Phonenumber',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.phone,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -133,12 +287,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(
-                        Color.fromRGBO(62, 230, 192, 1),
-                        'User status',
-                        Icons.more_vert,
-                        false,
-                        TextInputType.text),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: false,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.more_vert,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'User status',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.text,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -149,12 +332,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(
-                        Color.fromRGBO(62, 230, 192, 1),
-                        'Student ID',
-                        Icons.school,
-                        false,
-                        TextInputType.number),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: false,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.school,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'Student ID',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
@@ -165,19 +377,85 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 55,
                     width: 350,
                     margin: EdgeInsets.only(bottom: 20),
-                    child: CustomInput(Color.fromRGBO(62, 230, 192, 1),
-                        'Profile image', Icons.image, false, TextInputType.url),
+                    child: TextFormField(
+                      onChanged: (value) => {},
+                      obscureText: false,
+                      decoration: new InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.image,
+                          color: Colors.white,
+                          size: 24.0,
+                        ),
+                        labelText: 'Profile image',
+                        labelStyle: new TextStyle(
+                            fontFamily: "Mitr",
+                            fontSize: 15,
+                            fontWeight: FontWeight.w200,
+                            color: Colors.white),
+                        fillColor: Color.fromRGBO(62, 230, 192, 1),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            borderSide: BorderSide(color: Colors.white)),
+                        filled: true,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(20.0),
+                          borderSide: new BorderSide(color: Colors.white),
+                        ),
+                      ),
+                      keyboardType: TextInputType.url,
+                      style: new TextStyle(
+                          fontFamily: "Mitr",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w200,
+                          color: Colors.white),
+                    ),
                   )
                 ],
               ),
               Container(
                 margin: EdgeInsets.only(top: 10, bottom: 50),
-                child: CustomButton(
-                    Color.fromRGBO(255, 221, 148, 1),
-                    'Sign up',
-                    20,
-                    AssetImage('assets/images/account.png'),
-                    MaterialPageRoute(builder: (context) => SignInScreen())),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: ButtonTheme(
+                    minWidth: 350,
+                    height: 50,
+                    child: RaisedButton(
+                      onPressed: () => {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => null))
+                      },
+                      color: Color.fromRGBO(255, 221, 148, 1),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: 24,
+                            height: 24,
+                            margin: EdgeInsets.only(right: 10),
+                            child: Image(
+                              image: AssetImage('assets/images/account.png'),
+                            ),
+                          ),
+                          Text(
+                            'Sign up',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontFamily: 'Mitr',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                                color: Color.fromRGBO(255, 255, 255, 1)),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               )
             ],
           ),
