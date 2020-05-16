@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
+import 'package:schedule_app/services/AuthService.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -7,6 +8,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  String _email;
+  String _password;
+  final AuthServices _auth = AuthServices();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -61,7 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       width: 350,
                       margin: EdgeInsets.only(bottom: 20),
                       child: TextFormField(
-                        onChanged: (value) => {},
+                        onChanged: (value) => {setState(() => _email = value)},
                         obscureText: false,
                         decoration: new InputDecoration(
                           prefixIcon: Icon(
@@ -106,7 +110,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         width: 350,
                         margin: EdgeInsets.only(bottom: 40),
                         child: TextFormField(
-                          onChanged: (value) => {},
+                          onChanged: (value) =>
+                              {setState(() => _password = value)},
                           obscureText: true,
                           decoration: new InputDecoration(
                             prefixIcon: Icon(
@@ -151,9 +156,8 @@ class _SignInScreenState extends State<SignInScreen> {
                         minWidth: 350,
                         height: 50,
                         child: RaisedButton(
-                          onPressed: () => {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => null))
+                          onPressed: () async => {
+                            _auth.signInWithEmailAndPassword(_email, _password)
                           },
                           color: Color.fromRGBO(255, 221, 148, 1),
                           shape: RoundedRectangleBorder(

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import './screens/welcome.dart';
+import 'package:schedule_app/model/User.dart';
+import 'package:schedule_app/services/AuthService.dart';
+import 'package:schedule_app/wrapper.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,6 +14,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: WelcomeScreen());
+    return StreamProvider<User>.value(
+      value: AuthServices().user,
+      child: MaterialApp(
+        home: Wrapper(),
+      ),
+    );
   }
 }
