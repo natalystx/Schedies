@@ -12,7 +12,9 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return WelcomeScreen();
     } else {
-      return OverviewScreen();
+      return OverviewScreen(
+        uid: user.uid,
+      );
     }
   }
 }

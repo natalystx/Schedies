@@ -437,7 +437,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       onPressed: () async {
                         if (_signUpFormKey.currentState.validate()) {
                           result = await _auth.signUpWithEmailAndPassword(
-                              _email, _password);
+                              _email, _password,
+                              name: _name,
+                              phoneNumber: _phoneNumber,
+                              userStatus: _userStatus,
+                              imageProfile: _profileImage,
+                              studentID: _studentID);
                           if (result == null) {
                             setState(() => _error =
                                 'Sign up failed. Please enter valid email.');
