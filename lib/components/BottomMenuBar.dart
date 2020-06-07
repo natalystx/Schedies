@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:schedule_app/screens/search.dart';
+import 'package:schedule_app/wrapper.dart';
 
 class BottomMenuBar extends StatefulWidget {
   @override
@@ -35,7 +37,13 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
                   minWidth: 40,
                   height: 40,
                   child: FlatButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Wrapper()),
+                            )
+                          },
                       child: Text(
                         'Home',
                         style: TextStyle(
@@ -49,7 +57,12 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
                   minWidth: 40,
                   height: 40,
                   child: FlatButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => SearchScreen()),
+                      )
+                    },
                     child: Icon(Icons.search, color: Colors.white, size: 35),
                   ),
                 ),

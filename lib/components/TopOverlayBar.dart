@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:schedule_app/services/AuthService.dart';
+import 'package:schedule_app/model/User.dart';
+import 'package:schedule_app/screens/myProfile.dart';
 import 'package:schedule_app/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class TopOverlayBar extends StatelessWidget {
   bool isShowBackButton;
@@ -8,6 +10,7 @@ class TopOverlayBar extends StatelessWidget {
   TopOverlayBar({this.isShowBackButton = false, this.uid});
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,7 +64,14 @@ class TopOverlayBar extends StatelessWidget {
             height: 20,
             padding: EdgeInsets.all(0),
             child: FlatButton(
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                    builder: (context) => new Wrapper(),
+                  ),
+                )
+              },
               child: Image(
                 image: AssetImage('assets/images/interface.png'),
               ),
@@ -75,7 +85,16 @@ class TopOverlayBar extends StatelessWidget {
             height: 20,
             padding: EdgeInsets.all(0),
             child: FlatButton(
-              onPressed: () async => {await AuthServices().signOut()},
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MyProfileScreen(
+                            user.uid,
+                            isMe: true,
+                          )),
+                )
+              },
               child: Image(
                 image: AssetImage('assets/images/social-media.png'),
               ),

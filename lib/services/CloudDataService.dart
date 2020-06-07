@@ -24,12 +24,20 @@ class CloudDataService {
     });
   }
 
-  Future addEventData(String uid, String date, String topic, String details,
-      String inviteUser, String startTime, String endTime, String location,
+  Future addEventData(
+      String myUID,
+      String uid,
+      String date,
+      String topic,
+      String details,
+      String inviteUser,
+      String startTime,
+      String endTime,
+      String location,
       {List<String> moreInvite}) async {
     await firestore
         .collection("Events")
-        .document('$uid+$date+$inviteUser+$startTime+$endTime')
+        .document('$myUID+$uid+$date+$inviteUser+$startTime+$endTime')
         .setData({
       'topic': topic,
       'inviteUser': inviteUser,
@@ -38,8 +46,9 @@ class CloudDataService {
       'location': location,
       'details': details,
       'date': date,
-      'moreInvite': moreInvite,
-      'uid': uid
+      'moreInvite': moreInvite ?? ['none'],
+      'receiver': uid,
+      'sender': myUID
     });
   }
 }

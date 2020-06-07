@@ -20,17 +20,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: <Widget>[
                 // flag icon
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.only(top: 75, right: 20),
+                      margin: EdgeInsets.only(top: 0, right: 30),
                       width: 26,
                       height: 26,
                       child: Image(
                         image: AssetImage('assets/images/country.png'),
                       ),
-                      alignment: Alignment.topRight,
                     ),
                   ],
                 ),
@@ -97,7 +96,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     AssetImage('assets/images/Group170.png'),
                     MaterialPageRoute(builder: (context) => null)),
                 CustomButton(
-                    Color.fromRGBO(255, 221, 148, 1),
+                    Color.fromRGBO(255, 211, 138, 1),
                     'Don’t have any Schedie’s account?',
                     14,
                     AssetImage('assets/images/arrows.png'),
