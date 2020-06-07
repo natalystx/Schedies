@@ -449,7 +449,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           }
                         }
                       },
-                      color: Color.fromRGBO(255, 221, 148, 1),
+                      color: Color.fromRGBO(255, 211, 138, 1),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: Row(
