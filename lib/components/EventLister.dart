@@ -26,7 +26,6 @@ class _EventListerState extends State<EventLister> {
               stream: Firestore.instance
                   .collection('Events')
                   .where('date', isEqualTo: date.date.toString())
-                  .orderBy('onCreatedTime', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return Text(' ');
