@@ -4,11 +4,13 @@ import 'package:schedule_app/components/CalendarCarousel.dart';
 import 'package:schedule_app/components/EventLister.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/services/AuthService.dart';
+import 'package:provider/provider.dart';
 
 class MyProfileScreen extends StatefulWidget {
   final String documentID;
-  final bool isMe;
+  bool isMe;
   MyProfileScreen(this.documentID, {this.isMe = false});
   @override
   _MyProfileScreenState createState() => _MyProfileScreenState();
@@ -17,6 +19,8 @@ class MyProfileScreen extends StatefulWidget {
 class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    widget.isMe = user.uid == widget.documentID ? true : widget.isMe;
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(

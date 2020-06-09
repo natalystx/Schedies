@@ -34,21 +34,25 @@ class CloudDataService {
       String startTime,
       String endTime,
       String location,
+      String eventStatus,
       {List<String> moreInvite}) async {
     await firestore
         .collection("Events")
         .document('$myUID+$uid+$date+$inviteUser+$startTime+$endTime')
         .setData({
       'topic': topic,
+      'onCreatedTime': DateTime.now().toIso8601String(),
       'inviteUser': inviteUser,
       'startTime': startTime,
       'endTime': endTime,
       'location': location,
       'details': details,
       'date': date,
-      'moreInvite': moreInvite ?? ['none'],
+      'moreInvite': moreInvite ?? '',
       'receiver': uid,
-      'sender': myUID
+      'sender': myUID,
+      'eventStatus': eventStatus,
+      'userCount': 2 + (moreInvite != null ? moreInvite.length : 0)
     });
   }
 }

@@ -21,11 +21,12 @@ class _EventListerState extends State<EventLister> {
         Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.only(top: 25),
-          height: 390,
+          height: 400,
           child: StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance
                   .collection('Events')
                   .where('date', isEqualTo: date.date.toString())
+                  .orderBy('onCreatedTime', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) return Text(' ');

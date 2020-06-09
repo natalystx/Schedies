@@ -99,8 +99,8 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddEventScreen(date, widget._uid)),
+                                      builder: (context) => AddEventScreen(
+                                          date: date, uid: widget._uid)),
                                 );
                               }
                             },
@@ -131,8 +131,8 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          AddEventScreen(date, widget._uid)),
+                                      builder: (context) => AddEventScreen(
+                                          date: date, uid: widget._uid)),
                                 );
                               }
                             },
@@ -162,8 +162,8 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddEventScreen(date, widget._uid)),
+                                    builder: (context) => AddEventScreen(
+                                        date: date, uid: widget._uid)),
                               );
                             },
                             child: Container(
