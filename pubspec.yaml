@@ -29,12 +29,16 @@ dev_dependencies:
     sdk: flutter
   firebase_auth: ^0.16.0
   firebase: ^7.3.0
-  localstorage: ^3.0.0
   cloud_firestore: ^0.13.5
   provider: ^4.1.2
-  carousel_slider: ^2.1.0
   table_calendar: ^2.2.3
+  datetime_picker_formfield: ^1.0.0
+  flutter_launcher_icons: ^0.7.5
 
+flutter_icons:
+  image_path: 'assets/images/logo.png'
+  ios: true
+  android: true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
