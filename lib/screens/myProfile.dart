@@ -23,7 +23,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     widget.isMe = user.uid == widget.documentID ? true : widget.isMe;
     return MaterialApp(
       home: Scaffold(
-        body: SingleChildScrollView(
+        body: SafeArea(
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -99,8 +99,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                       : Text(''),
                                   widget.isMe
                                       ? Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, right: 10),
                                           child: ButtonTheme(
                                             minWidth: 25,
                                             height: 25,
@@ -117,8 +117,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                           ),
                                         )
                                       : Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
+                                          padding: const EdgeInsets.only(
+                                              top: 8.0, right: 10),
                                           child: ButtonTheme(
                                             minWidth: 25,
                                             height: 25,
@@ -230,7 +230,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       );
                     }),
                 Positioned(
-                  top: 50,
+                  top: 20,
                   right: 20,
                   child: TopOverlayBar(
                     isShowBackButton: true,

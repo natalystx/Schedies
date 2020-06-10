@@ -26,7 +26,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             if (!snapshot.hasData) return Text('');
             return MaterialApp(
               home: Scaffold(
-                body: SingleChildScrollView(
+                body: SafeArea(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -376,8 +376,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -422,8 +422,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -468,8 +468,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -509,7 +509,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                         ),
                         Positioned(
-                          top: 50,
+                          top: 20,
                           right: 20,
                           child: TopOverlayBar(
                             isShowBackButton: true,
@@ -538,7 +538,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             if (!snapshot.hasData) return Text('');
             return MaterialApp(
               home: Scaffold(
-                body: SingleChildScrollView(
+                body: SafeArea(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -833,8 +833,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -880,8 +880,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -927,8 +927,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -968,7 +968,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                         ),
                         Positioned(
-                          top: 50,
+                          top: 20,
                           right: 20,
                           child: TopOverlayBar(
                             isShowBackButton: true,
@@ -997,7 +997,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
             if (!snapshot.hasData) return Text('');
             return MaterialApp(
               home: Scaffold(
-                body: SingleChildScrollView(
+                body: SafeArea(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -1347,8 +1347,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -1393,8 +1393,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -1439,8 +1439,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 75.0),
+                                        padding: const EdgeInsets.only(
+                                            top: 50.0, bottom: 20),
                                         child: ButtonTheme(
                                           minWidth: 350,
                                           height: 50,
@@ -1480,7 +1480,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                         ),
                         Positioned(
-                          top: 50,
+                          top: 20,
                           right: 20,
                           child: TopOverlayBar(
                             isShowBackButton: true,
