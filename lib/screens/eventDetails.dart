@@ -968,7 +968,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                         ),
                         Positioned(
-                          top: 50,
+                          top: 20,
                           right: 20,
                           child: TopOverlayBar(
                             isShowBackButton: true,
@@ -1480,7 +1480,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                           ),
                         ),
                         Positioned(
-                          top: 50,
+                          top: 20,
                           right: 20,
                           child: TopOverlayBar(
                             isShowBackButton: true,
