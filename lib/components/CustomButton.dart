@@ -19,6 +19,7 @@ class CustomButton extends StatelessWidget {
             minWidth: 350,
             height: 50,
             child: RaisedButton(
+              elevation: 0,
               onPressed: () => {Navigator.push(context, _route)},
               color: _buttonColor,
               shape: RoundedRectangleBorder(
