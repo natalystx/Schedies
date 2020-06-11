@@ -112,7 +112,6 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                     width: 300,
                                     child: Text(
                                       widget.date
-                                          .toLocal()
                                           .toIso8601String()
                                           .substring(0, 10),
                                       style: TextStyle(
@@ -130,8 +129,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                       .collection('Users data')
                                       .document(user.uid)
                                       .snapshots(),
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData)
+                                  builder: (context, snapshotMe) {
+                                    if (!snapshotMe.hasData)
                                       return Text('no data');
                                     return Row(
                                       mainAxisAlignment:
@@ -163,7 +162,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                               bottom: 20, left: 0),
                                           width: 200,
                                           child: Text(
-                                            _inviteUser = snapshot.data['name'],
+                                            _inviteUser =
+                                                snapshotMe.data['name'],
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontFamily: 'Mitr',
@@ -850,10 +850,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                 : _min;
                                             _convertedTime = _hour + ':' + _min;
 
+                                            // check time field
                                             if (_timeField == 'startTime') {
                                               startTime = _convertedTime;
                                             }
-                                            if (_timeField == 'endTime') {
+
+                                            // check time field
+                                            else if (_timeField == 'endTime') {
                                               endTime = _convertedTime;
                                             }
                                           });

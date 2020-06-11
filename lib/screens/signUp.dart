@@ -35,16 +35,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
   dynamic result;
   File _image;
 
+  String _uploadStatus = 'Upload Image';
   bool isImageUploaded = false;
 
   Future getImage() async {
-    final image = await imagePicker.getImage(source: ImageSource.gallery);
+    final image = await imagePicker.getImage(
+        source: ImageSource.gallery, imageQuality: 40);
     setState(() {
+      _uploadStatus = 'Upload Image';
       _image = File(image.path);
     });
   }
 
   Future uploadImage() async {
+    setState(() {
+      _uploadStatus = 'Uploading';
+    });
     String imageName = basename(_image.path);
     StorageReference storageRef = storage.ref().child(imageName);
     StorageUploadTask uploadTask = storageRef.putFile(_image);
@@ -55,9 +61,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         isImageUploaded = true;
         _profileImage = imageUrl;
+        _uploadStatus = 'Upload completed';
       });
     } else {
       print(taskSnapshot.error);
+      setState(() {
+        _uploadStatus = 'Upload Error';
+      });
     }
   }
 
@@ -482,9 +492,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Text(
-                                      !isImageUploaded
-                                          ? 'Upload Image'
-                                          : 'Image uploaded',
+                                      _uploadStatus,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
                                           fontFamily: 'Mitr',

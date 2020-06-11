@@ -15,15 +15,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Center(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
-                    Positioned(
+                    SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Column(

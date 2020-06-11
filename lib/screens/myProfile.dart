@@ -59,13 +59,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   left: 20.0, top: 20, bottom: 0),
                               child: Row(
                                 children: <Widget>[
-                                  Text(
-                                    snapshot.data['name'],
-                                    style: TextStyle(
-                                      fontFamily: 'Mitr',
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(85, 85, 85, 1),
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.8,
+                                    child: Text(
+                                      snapshot.data['name'],
+                                      style: TextStyle(
+                                        fontFamily: 'Mitr',
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w500,
+                                        color: Color.fromRGBO(85, 85, 85, 1),
+                                      ),
                                     ),
                                   ),
                                   widget.isMe
@@ -215,10 +219,10 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 ),
                                 Padding(
                                   padding:
-                                      EdgeInsets.only(left: 20, bottom: 50),
+                                      EdgeInsets.only(left: 20, bottom: 20),
                                   child: Container(
                                     height: MediaQuery.of(context).size.height *
-                                        0.6,
+                                        0.5,
                                     padding: EdgeInsets.only(bottom: 50),
                                     child: EventLister(widget.documentID),
                                   ),

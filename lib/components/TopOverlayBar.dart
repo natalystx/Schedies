@@ -61,7 +61,8 @@ class TopOverlayBar extends StatelessWidget {
                 : null,
           ),
           Container(
-            margin: EdgeInsets.only(right: 0, left: 220, top: 0),
+            margin: EdgeInsets.only(
+                right: 0, left: MediaQuery.of(context).size.width / 2, top: 0),
             child: ButtonTheme(
               minWidth: 20,
               height: 20,
