@@ -22,7 +22,7 @@ class ProfileList extends StatelessWidget {
         elevation: 0,
         child: Container(
           width: MediaQuery.of(context).size.width - 20,
-          height: 70,
+          height: 100,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,

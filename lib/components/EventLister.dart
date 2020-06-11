@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/components/EventCardList.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/model/DateProvider.dart';
+import 'package:schedule_app/model/User.dart';
 
 class EventLister extends StatefulWidget {
   String _uid;
@@ -16,6 +17,7 @@ class _EventListerState extends State<EventLister> {
   @override
   Widget build(BuildContext context) {
     final DateProvider date = Provider.of<DateProvider>(context);
+    final user = Provider.of<User>(context);
     return Stack(
       children: <Widget>[
         Container(
@@ -35,7 +37,7 @@ class _EventListerState extends State<EventLister> {
                   scrollDirection: Axis.vertical,
                   itemCount: snapshot.data.documents.length,
                   itemBuilder: (context, index) => EventCardList(context,
-                      snapshot.data.documents[index], widget._uid.toString()),
+                      snapshot.data.documents[index], user.uid.toString()),
                 );
               }),
         ),
