@@ -33,7 +33,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   String _min;
   String _timeField;
   bool isValidTime = false;
-  String _error = '';
+  String error = '';
   String _eventStatus;
   @override
   Widget build(BuildContext context) {
@@ -260,7 +260,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   ),
                                 ],
                               ),
-                              _error.isNotEmpty
+                              error.isNotEmpty
                                   ? Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -269,7 +269,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           padding:
                                               const EdgeInsets.only(left: 35.0),
                                           child: Text(
-                                            _error,
+                                            error,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: "Mitr",
@@ -330,7 +330,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   ),
                                 ],
                               ),
-                              _error.isNotEmpty
+                              error.isNotEmpty
                                   ? Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
@@ -339,7 +339,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           padding:
                                               const EdgeInsets.only(left: 35.0),
                                           child: Text(
-                                            _error,
+                                            error,
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: "Mitr",
@@ -582,158 +582,290 @@ class _AddEventScreenState extends State<AddEventScreen> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 20, bottom: 50),
-                                    child: ButtonTheme(
-                                      minWidth: 350,
-                                      height: 50,
-                                      child: RaisedButton(
-                                        onPressed: () async {
-                                          // check form valid
-                                          if (_addEventFormKey.currentState
-                                              .validate()) {
-                                            setState(() {
-                                              // check time is empty ?
-                                              if (startTime.isNotEmpty &&
-                                                  endTime.isNotEmpty) {
-                                                _error = '';
-                                                //convert input String date to Datetime
-                                                DateTime inputDate = DateTime(
-                                                    widget.date.year,
-                                                    widget.date.month,
-                                                    widget.date.day);
+                                  StreamBuilder<QuerySnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('Events')
+                                          .where('date',
+                                              isEqualTo:
+                                                  widget.date.toIso8601String())
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 20, bottom: 50),
+                                          child: ButtonTheme(
+                                            minWidth: 350,
+                                            height: 50,
+                                            child: RaisedButton(
+                                              onPressed: () async {
+                                                // check form valid
+                                                if (_addEventFormKey
+                                                    .currentState
+                                                    .validate()) {
+                                                  setState(() {
+                                                    // check time is empty ?
+                                                    if (startTime.isNotEmpty &&
+                                                        endTime.isNotEmpty) {
+                                                      //convert input String date to Datetime
+                                                      DateTime inputDate =
+                                                          DateTime(
+                                                              widget.date.year,
+                                                              widget.date.month,
+                                                              widget.date.day);
 
-                                                //get now Datetime
-                                                DateTime nowDate = DateTime(
-                                                    DateTime.now().year,
-                                                    DateTime.now().month,
-                                                    DateTime.now().day);
+                                                      //get now Datetime
+                                                      DateTime nowDate =
+                                                          DateTime(
+                                                              DateTime.now()
+                                                                  .year,
+                                                              DateTime.now()
+                                                                  .month,
+                                                              DateTime.now()
+                                                                  .day);
 
-                                                //convert input  startTime String date to Datetime
-                                                String startTimeFormat =
-                                                    inputDate
-                                                            .toIso8601String()
-                                                            .substring(0, 10) +
-                                                        ' ' +
-                                                        startTime +
-                                                        ':00';
-                                                //convert input  endTime String date to Datetime
-                                                String endTimeFormat = inputDate
-                                                        .toIso8601String()
-                                                        .substring(0, 10) +
-                                                    ' ' +
-                                                    endTime +
-                                                    ':00';
-                                                // check time is today ? true
-                                                if (inputDate == nowDate) {
-                                                  // check time range is valid ?
-                                                  if (
-                                                      // check time range by start and end time
-                                                      !DateTime.parse(
-                                                                  startTimeFormat)
-                                                              .isAfter(DateTime
-                                                                  .parse(
-                                                                      endTimeFormat)) &&
-                                                          // check start by now time
-                                                          !DateTime.now().isAfter(
+                                                      //convert input  startTime String date to Datetime
+                                                      String startTimeFormat =
+                                                          inputDate
+                                                                  .toIso8601String()
+                                                                  .substring(
+                                                                      0, 10) +
+                                                              ' ' +
+                                                              startTime +
+                                                              ':00';
+                                                      //convert input  endTime String date to Datetime
+                                                      String endTimeFormat =
+                                                          inputDate
+                                                                  .toIso8601String()
+                                                                  .substring(
+                                                                      0, 10) +
+                                                              ' ' +
+                                                              endTime +
+                                                              ':00';
+                                                      DateTime startTimeTemp =
+                                                          DateTime.parse(
+                                                              startTimeFormat);
+                                                      DateTime endTimeTemp =
+                                                          DateTime.parse(
+                                                              endTimeFormat);
+                                                      // check document has data ? true
+                                                      if (snapshot.hasData &&
+                                                          snapshot
+                                                              .data
+                                                              .documents
+                                                              .isNotEmpty) {
+                                                        // loop documents
+                                                        snapshot.data.documents
+                                                            .forEach(
+                                                                (document) {
+                                                          // define DateTime variables based on document start and end time
+                                                          // doc time format
+                                                          String
+                                                              docStartTimeFormat =
+                                                              inputDate
+                                                                      .toIso8601String()
+                                                                      .substring(
+                                                                          0,
+                                                                          10) +
+                                                                  ' ' +
+                                                                  document.data[
+                                                                      'startTime'] +
+                                                                  ':00';
+                                                          String
+                                                              docEndTimeFormat =
+                                                              inputDate
+                                                                      .toIso8601String()
+                                                                      .substring(
+                                                                          0,
+                                                                          10) +
+                                                                  ' ' +
+                                                                  document.data[
+                                                                      'endTime'] +
+                                                                  ':00';
+
+                                                          // Datetime doc time
+                                                          DateTime
+                                                              docStartTime =
                                                               DateTime.parse(
-                                                                  startTimeFormat))) {
-                                                    isValidTime = true;
-                                                  } else {
-                                                    _error =
-                                                        'Range of time is invalid.';
-                                                    isValidTime = false;
-                                                  }
-                                                } else
-                                                // check time is today ? false
-                                                {
-                                                  // check time range is valid ?
-                                                  if (!DateTime.parse(
-                                                          startTimeFormat)
-                                                      .isAfter(DateTime.parse(
-                                                          endTimeFormat))) {
-                                                    isValidTime = true;
-                                                  } else {
-                                                    _error =
-                                                        'Range of time is invalid.';
-                                                    isValidTime = false;
+                                                                  docStartTimeFormat);
+                                                          DateTime docEndTime =
+                                                              DateTime.parse(
+                                                                  docEndTimeFormat);
+                                                          // check time is today ? true
+                                                          if (inputDate ==
+                                                              nowDate) {
+                                                            // check time range is valid ?
+                                                            if (
+                                                                // check time range by start and end time
+                                                                !startTimeTemp
+                                                                        .isAfter(
+                                                                            endTimeTemp) &&
+                                                                    // check start by now time
+                                                                    !DateTime
+                                                                            .now()
+                                                                        .isAfter(
+                                                                            startTimeTemp)) {
+                                                              if ((startTimeTemp
+                                                                          .isBefore(
+                                                                              docEndTime) ||
+                                                                      startTimeTemp
+                                                                          .isAfter(
+                                                                              docEndTime)) &&
+                                                                  (endTimeTemp.isBefore(
+                                                                          docStartTime) &&
+                                                                      !endTimeTemp
+                                                                          .isAtSameMomentAs(
+                                                                              docEndTime))) {
+                                                                isValidTime =
+                                                                    true;
+                                                              } else {
+                                                                isValidTime =
+                                                                    false;
+                                                                error =
+                                                                    'This time is not available.';
+                                                              }
+                                                            } else {
+                                                              isValidTime =
+                                                                  false;
+                                                              error =
+                                                                  'Range of time is invalid.';
+                                                            }
+                                                          } else
+                                                          // check time is today ? false
+                                                          {
+                                                            // check time range is valid ?
+                                                            if (!startTimeTemp
+                                                                .isAfter(
+                                                                    endTimeTemp)) {
+                                                              isValidTime =
+                                                                  true;
+                                                            } else {
+                                                              isValidTime =
+                                                                  false;
+                                                              error =
+                                                                  'Range of time is invalid.';
+                                                            }
+                                                          }
+                                                        });
+                                                      }
+                                                      // check document has data ? false
+                                                      else {
+                                                        // check time is today ? true
+                                                        if (inputDate ==
+                                                            nowDate) {
+                                                          // check time range is valid ?
+                                                          if (
+                                                              // check time range by start and end time
+                                                              !startTimeTemp
+                                                                      .isAfter(
+                                                                          endTimeTemp) &&
+                                                                  // check start by now time
+                                                                  !DateTime
+                                                                          .now()
+                                                                      .isAfter(
+                                                                          startTimeTemp)) {
+                                                            isValidTime = true;
+                                                          } else {
+                                                            isValidTime = false;
+                                                            error =
+                                                                'Range of time is invalid.';
+                                                          }
+                                                        } else
+                                                        // check time is today ? false
+                                                        {
+                                                          // check time range is valid ?
+                                                          if (!startTimeTemp
+                                                              .isAfter(
+                                                                  endTimeTemp)) {
+                                                            isValidTime = true;
+                                                          } else {
+                                                            isValidTime = false;
+                                                            error =
+                                                                'Range of time is invalid.';
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                    // check in case empty
+                                                    else {
+                                                      error =
+                                                          'Please enter start time and end time of event.';
+                                                      isValidTime = false;
+                                                    }
+                                                    print(isValidTime);
+                                                    print(error);
+                                                  });
+
+                                                  // check isValidtime status to access data to database
+                                                  if (isValidTime) {
+                                                    await firestore
+                                                        .addEventData(
+                                                          user.uid,
+                                                          widget.uid,
+                                                          widget.date
+                                                              .toIso8601String(),
+                                                          _topic,
+                                                          _details,
+                                                          _inviteUser,
+                                                          startTime,
+                                                          endTime,
+                                                          _location,
+                                                          _eventStatus =
+                                                              'Pending',
+                                                          moreInvite:
+                                                              _moreInviteList,
+                                                        )
+                                                        //after finished access go to home
+                                                        .then((value) =>
+                                                            Navigator.push(
+                                                              context,
+                                                              new MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        new Wrapper(),
+                                                              ),
+                                                            ));
                                                   }
                                                 }
-                                              }
-                                              // check in case empty
-                                              else {
-                                                _error =
-                                                    'Please enter start time and end time of event.';
-                                                isValidTime = false;
-                                              }
-                                              print(isValidTime);
-                                            });
-
-                                            // check isValidtime status to access data to database
-                                            if (isValidTime) {
-                                              await firestore
-                                                  .addEventData(
-                                                    user.uid,
-                                                    widget.uid,
-                                                    widget.date
-                                                        .toIso8601String(),
-                                                    _topic,
-                                                    _details,
-                                                    _inviteUser,
-                                                    startTime,
-                                                    endTime,
-                                                    _location,
-                                                    _eventStatus = 'Pending',
-                                                    moreInvite: _moreInviteList,
+                                              },
+                                              color: Color.fromRGBO(
+                                                  255, 211, 138, 1),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(20))),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    margin: EdgeInsets.only(
+                                                        right: 10),
+                                                    child: Image(
+                                                      image: AssetImage(
+                                                          'assets/images/fastclock.png'),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Make an appointment',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        fontFamily: 'Mitr',
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Color.fromRGBO(
+                                                            255, 255, 255, 1)),
                                                   )
-                                                  //after finished access go to home
-                                                  .then(
-                                                      (value) => Navigator.push(
-                                                            context,
-                                                            new MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  new Wrapper(),
-                                                            ),
-                                                          ));
-                                            }
-                                          }
-                                        },
-                                        color: Color.fromRGBO(255, 211, 138, 1),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20))),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              width: 24,
-                                              height: 24,
-                                              margin:
-                                                  EdgeInsets.only(right: 10),
-                                              child: Image(
-                                                image: AssetImage(
-                                                    'assets/images/fastclock.png'),
+                                                ],
                                               ),
                                             ),
-                                            Text(
-                                              'Make an appointment',
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                  fontFamily: 'Mitr',
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: Color.fromRGBO(
-                                                      255, 255, 255, 1)),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  )
+                                          ),
+                                        );
+                                      })
                                 ],
                               ),
                             ],
@@ -750,124 +882,146 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     ),
                     // timepicker and toggle condition
                     widget.isSliderShow
-                        ? Positioned(
-                            bottom: 0,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 350,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(204, 171, 216, 1),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(25),
-                                  topRight: Radius.circular(25),
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(left: 320, top: 20),
-                                    child: RaisedButton(
-                                      elevation: 0,
-                                      shape: CircleBorder(),
-                                      color: Color.fromRGBO(250, 137, 123, 1),
-                                      onPressed: () => {
-                                        setState(() {
-                                          widget.isSliderShow = false;
-                                        })
-                                      },
-                                      child: Icon(
-                                        Icons.close,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
+                        ? StreamBuilder<QuerySnapshot>(
+                            stream: Firestore.instance
+                                .collection('Events')
+                                .where('date',
+                                    isEqualTo: widget.date.toIso8601String())
+                                .orderBy('startTime', descending: false)
+                                .orderBy('endTime', descending: false)
+                                .snapshots(),
+                            builder: (context, snapshotEvent) {
+                              // snapshot data
+                              if (!snapshotEvent.hasData) return Text('');
+                              return Positioned(
+                                bottom: 0,
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 350,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(204, 171, 216, 1),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(25),
+                                      topRight: Radius.circular(25),
                                     ),
                                   ),
-                                  Container(
-                                    padding: EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'Select time',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Mitr',
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(top: 10),
-                                    child: Text(
-                                      'At: $_convertedTime',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: 'Mitr',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 350,
-                                    height: 30,
-                                    margin: EdgeInsets.only(top: 30),
-                                    child: SliderTheme(
-                                      data: SliderTheme.of(context).copyWith(
-                                        trackHeight: 10,
-                                        activeTrackColor:
-                                            Color.fromRGBO(250, 137, 123, 1),
-                                        inactiveTrackColor:
-                                            Color.fromRGBO(255, 221, 148, .8),
-                                        thumbColor:
-                                            Color.fromRGBO(252, 254, 255, 1),
-                                        valueIndicatorColor:
-                                            Color.fromRGBO(252, 254, 255, 1),
-                                        valueIndicatorTextStyle: TextStyle(
-                                          fontFamily: 'Mitr',
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color.fromRGBO(84, 84, 84, 1),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 320, top: 20),
+                                        child: RaisedButton(
+                                          elevation: 0,
+                                          shape: CircleBorder(),
+                                          color:
+                                              Color.fromRGBO(250, 137, 123, 1),
+                                          onPressed: () => {
+                                            setState(() {
+                                              widget.isSliderShow = false;
+                                            })
+                                          },
+                                          child: Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                            size: 20,
+                                          ),
                                         ),
                                       ),
-                                      child: Slider(
-                                        min: 0,
-                                        max: 72,
-                                        divisions: 72,
-                                        value: _time,
-                                        label: 'at: $_convertedTime o\'clock',
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _time = value;
-                                            _hour = ((_time * 20) / 60)
-                                                .floor()
-                                                .toStringAsFixed(0);
-                                            _min = ((_time * 10) % 60)
-                                                .toStringAsFixed(0);
-                                            _hour = _hour.length == 1
-                                                ? '0' + _hour
-                                                : _hour;
-                                            _min = _min.length == 1
-                                                ? '0' + _min
-                                                : _min;
-                                            _convertedTime = _hour + ':' + _min;
-
-                                            // check time field
-                                            if (_timeField == 'startTime') {
-                                              startTime = _convertedTime;
-                                            }
-
-                                            // check time field
-                                            else if (_timeField == 'endTime') {
-                                              endTime = _convertedTime;
-                                            }
-                                          });
-                                        },
+                                      Container(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'Select time',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Mitr',
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.w500),
+                                        ),
                                       ),
-                                    ),
+                                      Container(
+                                        padding: EdgeInsets.only(top: 10),
+                                        child: Text(
+                                          'At: $_convertedTime',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'Mitr',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 350,
+                                        height: 30,
+                                        margin: EdgeInsets.only(top: 30),
+                                        child: SliderTheme(
+                                          data:
+                                              SliderTheme.of(context).copyWith(
+                                            trackHeight: 10,
+                                            activeTrackColor: Color.fromRGBO(
+                                                250, 137, 123, 1),
+                                            inactiveTrackColor: Color.fromRGBO(
+                                                255, 221, 148, .8),
+                                            thumbColor: Color.fromRGBO(
+                                                252, 254, 255, 1),
+                                            valueIndicatorColor: Color.fromRGBO(
+                                                252, 254, 255, 1),
+                                            valueIndicatorTextStyle: TextStyle(
+                                              fontFamily: 'Mitr',
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w400,
+                                              color:
+                                                  Color.fromRGBO(84, 84, 84, 1),
+                                            ),
+                                          ),
+                                          child: Slider(
+                                            min: 0,
+                                            max: 72,
+                                            divisions: 72,
+                                            value: _time,
+                                            label:
+                                                'at: $_convertedTime o\'clock',
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _time = value;
+                                                _hour = ((_time * 20) / 60)
+                                                    .floor()
+                                                    .toStringAsFixed(0);
+                                                _min = ((_time * 20) % 60)
+                                                    .toStringAsFixed(0);
+                                                _hour = _hour.length == 1
+                                                    ? '0' + _hour
+                                                    : _hour;
+                                                _min = _min.length == 1
+                                                    ? '0' + _min
+                                                    : _min;
+                                                _convertedTime =
+                                                    _hour + ':' + _min;
+
+                                                ////////////////////////////////////
+                                                // check time field
+                                                if (_timeField == 'startTime') {
+                                                  startTime = _convertedTime;
+                                                }
+
+                                                //////////////////////////////////////
+                                                // check time field
+                                                else if (_timeField ==
+                                                    'endTime') {
+                                                  endTime = _convertedTime;
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                            ),
-                          )
+                                ),
+                              );
+                            })
                         : Padding(padding: EdgeInsets.all(0))
                   ],
                 );
