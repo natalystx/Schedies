@@ -169,78 +169,97 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                           child: ButtonTheme(
                                             minWidth: 350,
                                             height: 50,
-                                            child: RaisedButton(
-                                              elevation: 0,
-                                              onPressed: () => {
-                                                // set event status change
-
-                                                if (widget._document
-                                                        .data['eventStatus'] ==
-                                                    'Pending')
-                                                  {
-                                                    Firestore.instance
-                                                        .document(
-                                                            'Events/${widget._document.documentID}')
-                                                        .updateData({
-                                                      'eventStatus': 'Approved'
-                                                    }),
-                                                    Navigator.push(
-                                                      context,
-                                                      new MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            new Wrapper(),
-                                                      ),
-                                                    )
-                                                  }
-                                                else
-                                                  {
-                                                    Firestore.instance
-                                                        .document(
-                                                            'Events/${widget._document.documentID}')
-                                                        .updateData({
-                                                      'eventStatus': 'Completed'
-                                                    }),
-                                                    Navigator.push(
-                                                      context,
-                                                      new MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            new Wrapper(),
-                                                      ),
-                                                    )
-                                                  }
-                                              },
-                                              color: colorStatus[widget
-                                                  ._document
-                                                  .data['eventStatus']],
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20))),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text(
-                                                    // display button text bosed on status
+                                            child: widget._document
+                                                            .data['sender'] ==
+                                                        widget._uid ||
                                                     widget._document.data[
-                                                                'eventStatus'] ==
-                                                            'Pending'
-                                                        ? 'Accept'
-                                                        : 'Complete',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        fontFamily: 'Mitr',
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Color.fromRGBO(
-                                                            255, 255, 255, 1)),
+                                                            'eventStatus'] ==
+                                                        'Approved'
+                                                ? RaisedButton(
+                                                    elevation: 0,
+                                                    onPressed: () => {
+                                                      // set event status change
+
+                                                      if (widget._document.data[
+                                                              'eventStatus'] ==
+                                                          'Pending')
+                                                        {
+                                                          Firestore.instance
+                                                              .document(
+                                                                  'Events/${widget._document.documentID}')
+                                                              .updateData({
+                                                            'eventStatus':
+                                                                'Approved'
+                                                          }),
+                                                          Navigator.push(
+                                                            context,
+                                                            new MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  new Wrapper(),
+                                                            ),
+                                                          )
+                                                        }
+                                                      else
+                                                        {
+                                                          Firestore.instance
+                                                              .document(
+                                                                  'Events/${widget._document.documentID}')
+                                                              .updateData({
+                                                            'eventStatus':
+                                                                'Completed'
+                                                          }),
+                                                          Navigator.push(
+                                                            context,
+                                                            new MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  new Wrapper(),
+                                                            ),
+                                                          )
+                                                        }
+                                                    },
+                                                    color: colorStatus[widget
+                                                        ._document
+                                                        .data['eventStatus']],
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    20))),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          // display button text bosed on status
+                                                          widget._document.data[
+                                                                      'eventStatus'] ==
+                                                                  'Pending'
+                                                              ? 'Accept'
+                                                              : 'Complete',
+                                                          textAlign:
+                                                              TextAlign.left,
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Mitr',
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      1)),
+                                                        )
+                                                      ],
+                                                    ),
                                                   )
-                                                ],
-                                              ),
-                                            ),
+                                                : Text(''),
                                           ),
                                         ),
                                       ],
@@ -343,7 +362,13 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                   Positioned(
                     bottom: 0,
                     child: isShowReasonBox
-                        ? ReasonBox(widget._document)
+                        ? GestureDetector(
+                            onTap: (() {
+                              setState(() {
+                                isShowReasonBox = false;
+                              });
+                            }),
+                            child: ReasonBox(widget._document))
                         : Text(''),
                   ),
                 ],
