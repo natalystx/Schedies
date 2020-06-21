@@ -53,7 +53,9 @@ class _EventCardListState extends State<EventCardList> {
                       widget._document, widget._document.data['sender']);
                 }
                 //user is more invitee
-                else {
+                else if (widget._document.data['moreInvite']
+                    .toString()
+                    .contains(snapshot.data['name'])) {
                   return CardListTemplate(
                       widget._document, widget._document.data['sender']);
                 }

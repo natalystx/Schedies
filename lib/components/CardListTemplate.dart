@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CardListTemplate extends StatelessWidget {
   final DocumentSnapshot _document;
@@ -13,7 +14,9 @@ class CardListTemplate extends StatelessWidget {
       'Cancelled': Color.fromRGBO(250, 137, 123, .4),
       'Rejected': Color.fromRGBO(180, 175, 175, .4),
       'Completed': Color.fromRGBO(134, 152, 227, .4),
+      'Be over': Color.fromRGBO(204, 171, 216, .4),
     };
+
     return StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('Users data')
