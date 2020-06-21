@@ -32,13 +32,30 @@ class _EventListerState extends State<EventLister> {
                   .orderBy('onCreatedTime', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) return Text(' ');
-                return ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) => EventCardList(context,
-                      snapshot.data.documents[index], user.uid.toString()),
-                );
+                if (!snapshot.hasData)
+                  return Text(' ');
+                else {
+                  snapshot.data.documents.forEach((doc) {
+                    String endTimeFormat = doc.data['date'].substring(0, 10) +
+                        ' ' +
+                        doc.data['endTime'] +
+                        ':00';
+                    DateTime endTime = DateTime.parse(endTimeFormat);
+                    if (endTime.isBefore(DateTime.now()) &&
+                        doc.data['eventStatus'] != 'Completed') {
+                      Firestore.instance
+                          .collection('Events')
+                          .document(doc.documentID)
+                          .updateData({'eventStatus': 'Be over'});
+                    }
+                  });
+                  return ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) => EventCardList(context,
+                        snapshot.data.documents[index], widget._uid.toString()),
+                  );
+                }
               }),
         ),
       ],

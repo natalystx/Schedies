@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schedule_app/components/ProfileList.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
 import 'package:schedule_app/model/User.dart';
@@ -20,12 +21,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final CloudDataService firestore = CloudDataService();
   final _addEventFormKey = GlobalKey<FormState>();
   String _inviteUser;
+  String _me;
   String startTime = '';
   String endTime = '';
   String _topic;
   String _details;
-  String _moreInvite;
-  List<String> _moreInviteList;
+  String _moreInvite = '';
+  List<String> _moreInviteList = [];
   String _location;
   double _time = 0;
   String _convertedTime = '00:00';
@@ -35,6 +37,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   bool isValidTime = false;
   String error = '';
   String _eventStatus;
+  List<dynamic> _moreInviteProfile = [];
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -162,8 +165,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                               bottom: 20, left: 0),
                                           width: 200,
                                           child: Text(
-                                            _inviteUser =
-                                                snapshotMe.data['name'],
+                                            _me = snapshotMe.data['name'],
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                               fontFamily: 'Mitr',
@@ -528,12 +530,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                     margin: EdgeInsets.only(bottom: 20),
                                     child: TextFormField(
                                       onChanged: (value) => {
-                                        setState(() => _moreInvite = value),
-                                        _moreInvite = _moreInvite.isNotEmpty
-                                            ? _moreInvite.trim()
-                                            : null,
-                                        _moreInviteList =
-                                            _moreInvite.split(','),
+                                        setState(() => _moreInvite =
+                                            value[0].toUpperCase() +
+                                                value.substring(1))
                                       },
                                       obscureText: false,
                                       decoration: new InputDecoration(
@@ -575,6 +574,235 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           fontSize: 18,
                                           fontWeight: FontWeight.w200,
                                           color: Colors.white),
+                                    ),
+                                  )
+                                ],
+                              ),
+
+                              // show selected users
+                              _moreInviteProfile?.isNotEmpty ?? false
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(left: 25),
+                                          height: 30,
+                                          child: Text(
+                                            'Invite to: ',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontFamily: 'Mitr',
+                                              fontWeight: FontWeight.w300,
+                                              color:
+                                                  Color.fromRGBO(85, 85, 85, 1),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              100,
+                                          height: 50,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount:
+                                                _moreInviteProfile.length,
+                                            itemBuilder: (context, index) =>
+                                                Column(
+                                              children: <Widget>[
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _moreInviteProfile
+                                                          .removeAt(index);
+                                                      _moreInviteList
+                                                          .removeAt(index);
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    margin: EdgeInsets.all(0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(5),
+                                                      ),
+                                                    ),
+                                                    padding: EdgeInsets.all(5),
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        CircleAvatar(
+                                                          minRadius: 15,
+                                                          maxRadius: 15,
+                                                          backgroundImage:
+                                                              NetworkImage(
+                                                            _moreInviteProfile[
+                                                                    index][
+                                                                'imageProfile'],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : Text(''),
+
+                              // select users for more invite
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 60,
+                                    height: 50,
+                                    child: StreamBuilder<QuerySnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('Users data')
+                                          .where('name',
+                                              isGreaterThanOrEqualTo:
+                                                  _moreInvite)
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData)
+                                          return Text('');
+                                        else if (_moreInvite == '') {
+                                          return Text(
+                                            ' ',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontFamily: 'Mitr',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w400,
+                                              color: Color.fromRGBO(
+                                                  85, 85, 85, .8),
+                                            ),
+                                          );
+                                        }
+                                        return ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount:
+                                                snapshot.data.documents.length,
+                                            itemBuilder:
+                                                (context, index) => Column(
+                                                      children: <Widget>[
+                                                        snapshot.data.documents[
+                                                                            index]
+                                                                        [
+                                                                        'name'] !=
+                                                                    _inviteUser &&
+                                                                snapshot.data.documents[
+                                                                            index]
+                                                                        [
+                                                                        'name'] !=
+                                                                    _me
+                                                            ? GestureDetector(
+                                                                onTap: () {
+                                                                  print(snapshot
+                                                                          .data
+                                                                          .documents[index]
+                                                                      ['name']);
+                                                                  setState(() {
+                                                                    if (!_moreInviteList.contains(snapshot
+                                                                            .data
+                                                                            .documents[index]
+                                                                        [
+                                                                        'name'])) {
+                                                                      _moreInviteProfile
+                                                                          .add({
+                                                                        'name': snapshot
+                                                                            .data
+                                                                            .documents[index]['name'],
+                                                                        'imageProfile': snapshot
+                                                                            .data
+                                                                            .documents[index]['imageProfile'],
+                                                                        'uid': snapshot
+                                                                            .data
+                                                                            .documents[index]
+                                                                            .documentID
+                                                                      });
+                                                                      _moreInviteList.add(snapshot
+                                                                          .data
+                                                                          .documents[index]['name']);
+                                                                    }
+                                                                  });
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  margin:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(5)),
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                            250,
+                                                                            137,
+                                                                            123,
+                                                                            .8),
+                                                                  ),
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              5),
+                                                                  child: Row(
+                                                                    children: <
+                                                                        Widget>[
+                                                                      CircleAvatar(
+                                                                        minRadius:
+                                                                            15,
+                                                                        maxRadius:
+                                                                            15,
+                                                                        backgroundImage:
+                                                                            NetworkImage(
+                                                                          snapshot
+                                                                              .data
+                                                                              .documents[index]['imageProfile'],
+                                                                        ),
+                                                                      ),
+                                                                      Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.all(2.0),
+                                                                        child:
+                                                                            Text(
+                                                                          snapshot
+                                                                              .data
+                                                                              .documents[index]['name'],
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontFamily:
+                                                                                'Mitr',
+                                                                            fontWeight:
+                                                                                FontWeight.w300,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            : Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(0),
+                                                              ),
+                                                      ],
+                                                    ));
+                                      },
                                     ),
                                   )
                                 ],
@@ -690,59 +918,81 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                           DateTime docEndTime =
                                                               DateTime.parse(
                                                                   docEndTimeFormat);
-                                                          // check time is today ? true
-                                                          if (inputDate ==
-                                                              nowDate) {
-                                                            // check time range is valid ?
-                                                            if (
-                                                                // check time range by start and end time
-                                                                !startTimeTemp
-                                                                        .isAfter(
-                                                                            endTimeTemp) &&
-                                                                    // check start by now time
-                                                                    !DateTime
-                                                                            .now()
-                                                                        .isAfter(
-                                                                            startTimeTemp)) {
-                                                              if ((startTimeTemp
-                                                                          .isBefore(
-                                                                              docEndTime) ||
-                                                                      startTimeTemp
+                                                          //condition check event is overlap ?
+                                                          bool isOverlap =
+                                                              (startTimeTemp
+                                                                      .isBefore(
+                                                                          docEndTime) &&
+                                                                  docStartTime
+                                                                      .isBefore(
+                                                                          endTimeTemp));
+                                                          // check event all users events
+                                                          if (document.data[
+                                                                      'receiver'] ==
+                                                                  widget.uid ||
+                                                              document.data[
+                                                                      'sender'] ==
+                                                                  widget.uid ||
+                                                              document.data[
+                                                                      'receiver'] ==
+                                                                  user.uid ||
+                                                              document.data[
+                                                                      'sender'] ==
+                                                                  user.uid ||
+                                                              document.data[
+                                                                      'moreInvite']
+                                                                  .toString()
+                                                                  .contains(
+                                                                      _inviteUser) ||
+                                                              document.data[
+                                                                      'moreInvite']
+                                                                  .toString()
+                                                                  .contains(
+                                                                      _me)) {
+                                                            // check time is today ? true
+                                                            if (inputDate ==
+                                                                nowDate) {
+                                                              // check time range is valid ?
+                                                              if (
+                                                                  // check time range by start and end time
+                                                                  !startTimeTemp
                                                                           .isAfter(
-                                                                              docEndTime)) &&
-                                                                  (endTimeTemp.isBefore(
-                                                                          docStartTime) &&
-                                                                      !endTimeTemp
-                                                                          .isAtSameMomentAs(
-                                                                              docEndTime))) {
+                                                                              endTimeTemp) &&
+                                                                      // check start by now time
+                                                                      !DateTime
+                                                                              .now()
+                                                                          .isAfter(
+                                                                              startTimeTemp)) {
+                                                                if (!isOverlap) {
+                                                                  isValidTime =
+                                                                      true;
+                                                                } else {
+                                                                  isValidTime =
+                                                                      false;
+                                                                  error =
+                                                                      'This time is not available.';
+                                                                }
+                                                              } else {
+                                                                isValidTime =
+                                                                    false;
+                                                                error =
+                                                                    'Range of time is invalid.';
+                                                              }
+                                                            } else
+                                                            // check time is today ? false
+                                                            {
+                                                              // check time range is valid ?
+                                                              if (!startTimeTemp
+                                                                  .isAfter(
+                                                                      endTimeTemp)) {
                                                                 isValidTime =
                                                                     true;
                                                               } else {
                                                                 isValidTime =
                                                                     false;
                                                                 error =
-                                                                    'This time is not available.';
+                                                                    'Range of time is invalid.';
                                                               }
-                                                            } else {
-                                                              isValidTime =
-                                                                  false;
-                                                              error =
-                                                                  'Range of time is invalid.';
-                                                            }
-                                                          } else
-                                                          // check time is today ? false
-                                                          {
-                                                            // check time range is valid ?
-                                                            if (!startTimeTemp
-                                                                .isAfter(
-                                                                    endTimeTemp)) {
-                                                              isValidTime =
-                                                                  true;
-                                                            } else {
-                                                              isValidTime =
-                                                                  false;
-                                                              error =
-                                                                  'Range of time is invalid.';
                                                             }
                                                           }
                                                         });

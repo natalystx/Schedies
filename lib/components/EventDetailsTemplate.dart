@@ -23,6 +23,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
     'Cancelled': Color.fromRGBO(250, 137, 123, 1),
     'Rejected': Color.fromRGBO(180, 175, 175, 1),
     'Completed': Color.fromRGBO(134, 152, 227, 1),
+    'Be over': Color.fromRGBO(204, 171, 216, .4),
   };
   bool isShowReasonBox = false;
   @override

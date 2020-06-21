@@ -3,6 +3,8 @@ import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/EventDetailsTemplate.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:schedule_app/model/User.dart';
+import 'package:provider/provider.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final DocumentSnapshot _document;
@@ -15,6 +17,7 @@ class EventDetailsScreen extends StatefulWidget {
 class _EventDetailsScreenState extends State<EventDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return MaterialApp(
       home: Scaffold(
         body: SafeArea(
@@ -34,14 +37,14 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                       if (widget._document.data['moreInvite']
                               .toString()
                               .contains(snapshot.data['name']) ||
-                          widget._document.data['sender'] == widget._uid ||
-                          widget._document.data['receiver'] == widget._uid) {
+                          widget._document.data['sender'] == user.uid ||
+                          widget._document.data['receiver'] == user.uid) {
                         // user is sender
-                        if (widget._document.data['sender'] == widget._uid) {
+                        if (widget._document.data['sender'] == user.uid) {
                           return EventDetailsTemplate(widget._document,
                               widget._document.data['receiver']);
                         } else if (widget._document.data['receiver'] ==
-                            widget._uid) {
+                            user.uid) {
                           return EventDetailsTemplate(widget._document,
                               widget._document.data['sender']);
                         } else {
