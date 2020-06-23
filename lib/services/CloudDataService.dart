@@ -35,7 +35,8 @@ class CloudDataService {
       String endTime,
       String location,
       String eventStatus,
-      {List<String> moreInvite}) async {
+      {List<String> moreInvite,
+      dynamic eventMemberList}) async {
     await firestore
         .collection("Events")
         .document('$myUID+$uid+$date+$inviteUser+$startTime+$endTime')
@@ -52,7 +53,8 @@ class CloudDataService {
       'receiver': uid,
       'sender': myUID,
       'eventStatus': eventStatus,
-      'userCount': 2 + (moreInvite != null ? moreInvite.length : 0)
+      'userCount': 2 + (moreInvite != null ? moreInvite.length : 0),
+      'eventMemberList': eventMemberList
     });
   }
 }

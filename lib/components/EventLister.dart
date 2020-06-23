@@ -14,6 +14,9 @@ class EventLister extends StatefulWidget {
 }
 
 class _EventListerState extends State<EventLister> {
+  List<String> temp = [];
+  bool isAllStatusSame = false;
+  int counter = 0;
   @override
   Widget build(BuildContext context) {
     final DateProvider date = Provider.of<DateProvider>(context);
@@ -41,6 +44,33 @@ class _EventListerState extends State<EventLister> {
                         doc.data['endTime'] +
                         ':00';
                     DateTime endTime = DateTime.parse(endTimeFormat);
+                    if (doc.data['userCount'] > 2) {
+                      Map<dynamic, dynamic> eventMemberList =
+                          doc.data['eventMemberList'] as Map<dynamic, dynamic>;
+
+                      eventMemberList.forEach((key, value) {
+                        temp.add(value);
+                        if (temp[0] == temp[counter]) {
+                          isAllStatusSame = true;
+                        } else {
+                          isAllStatusSame = false;
+                        }
+                        counter++;
+                      });
+                      counter = 0;
+                      if (isAllStatusSame) {
+                        Firestore.instance
+                            .collection('Events')
+                            .document(doc.documentID)
+                            .updateData({'eventStatus': temp[0]});
+                      }
+                      if (!isAllStatusSame) {
+                        Firestore.instance
+                            .collection('Events')
+                            .document(doc.documentID)
+                            .updateData({'isQuestioning': 'Yes'});
+                      }
+                    }
                     if (endTime.isBefore(DateTime.now()) &&
                         doc.data['eventStatus'] != 'Completed') {
                       Firestore.instance

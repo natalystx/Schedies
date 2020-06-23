@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:schedule_app/components/EventDetailsTemplate.dart';
+import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/wrapper.dart';
+import 'package:provider/provider.dart';
 
 class ReasonBox extends StatefulWidget {
   DocumentSnapshot _document;
@@ -13,9 +14,11 @@ class ReasonBox extends StatefulWidget {
 }
 
 class _ReasonBoxState extends State<ReasonBox> {
-  String _reason;
+  dynamic _reason;
+  String nameTemp;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -97,71 +100,133 @@ class _ReasonBoxState extends State<ReasonBox> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: ButtonTheme(
-                      minWidth: MediaQuery.of(context).size.width - 30,
-                      height: 50,
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {
-                          if (widget._document.data['eventStatus'] == 'Pending')
-                            {
-                              Firestore.instance
-                                  .document(
-                                      'Events/${widget._document.documentID}')
-                                  .updateData({'eventStatus': 'Rejected'}),
-                              Firestore.instance
-                                  .document(
-                                      'Events/${widget._document.documentID}')
-                                  .updateData({'reason': _reason}),
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new Wrapper(),
-                                ),
-                              )
-                            }
-                          else
-                            {
-                              Firestore.instance
-                                  .document(
-                                      'Events/${widget._document.documentID}')
-                                  .updateData({'eventStatus': 'Cancelled'}),
-                              Firestore.instance
-                                  .document(
-                                      'Events/${widget._document.documentID}')
-                                  .updateData({'reason': _reason}),
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                  builder: (context) => new Wrapper(),
-                                ),
-                              )
-                            }
-                        },
-                        color: Color.fromRGBO(255, 211, 138, 1),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Give reason',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  fontFamily: 'Mitr',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color.fromRGBO(255, 255, 255, 1)),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  StreamBuilder<DocumentSnapshot>(
+                      stream: Firestore.instance
+                          .collection('Users data')
+                          .document(user.uid)
+                          .snapshots(),
+                      builder: (context, snapshotMe) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: ButtonTheme(
+                            minWidth: MediaQuery.of(context).size.width - 30,
+                            height: 50,
+                            child: RaisedButton(
+                              elevation: 0,
+                              onPressed: () => {
+                                if (widget._document.data['eventStatus'] ==
+                                    'Pending')
+                                  {
+                                    // check event member
+                                    if (widget._document.data['userCount'] > 2)
+                                      {
+                                        nameTemp = snapshotMe.data['name'],
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData({
+                                          'eventMemberList.$nameTemp':
+                                              'Rejected'
+                                        }),
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData(
+                                                {'reason.$nameTemp': _reason}),
+                                        Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) => new Wrapper(),
+                                          ),
+                                        )
+                                      }
+                                    else
+                                      {
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData(
+                                                {'eventStatus': 'Rejected'}),
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData({'reason': _reason}),
+                                        Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) => new Wrapper(),
+                                          ),
+                                        )
+                                      }
+                                  }
+                                else
+                                  {
+                                    if (widget._document.data['userCount'] > 2)
+                                      {
+                                        nameTemp = snapshotMe.data['name'],
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData({
+                                          'eventMemberList.$nameTemp':
+                                              'Cancelled'
+                                        }),
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData(
+                                                {'reason.$nameTemp': _reason}),
+                                        Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) => new Wrapper(),
+                                          ),
+                                        )
+                                      }
+                                    else
+                                      {
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData(
+                                                {'eventStatus': 'Cancelled'}),
+                                        Firestore.instance
+                                            .document(
+                                                'Events/${widget._document.documentID}')
+                                            .updateData({'reason': _reason}),
+                                        Navigator.push(
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) => new Wrapper(),
+                                          ),
+                                        )
+                                      }
+                                  }
+                              },
+                              color: Color.fromRGBO(255, 211, 138, 1),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Give reason',
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        fontFamily: 'Mitr',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w400,
+                                        color:
+                                            Color.fromRGBO(255, 255, 255, 1)),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                 ],
               ),
             ],
