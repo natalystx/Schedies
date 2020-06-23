@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/components/ReasonBox.dart';
-
+import 'package:schedule_app/model/User.dart';
+import 'package:provider/provider.dart';
 import '../wrapper.dart';
 
 class EventDetailsTemplate extends StatefulWidget {
@@ -24,10 +25,13 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
     'Rejected': Color.fromRGBO(180, 175, 175, 1),
     'Completed': Color.fromRGBO(134, 152, 227, 1),
     'Be over': Color.fromRGBO(204, 171, 216, .4),
+    'Questioning': Color.fromRGBO(255, 148, 230, .4),
   };
   bool isShowReasonBox = false;
+  String nameTemp;
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
             .collection('Users data')
@@ -60,60 +64,60 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 20, left: 20, right: 20, bottom: 85),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    snapshot.data['name'],
-                                    style: TextStyle(
-                                      fontFamily: 'Mitr',
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w300,
-                                      color: Color.fromRGBO(85, 85, 85, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    '${widget._document['topic']} (Topic)',
-                                    style: TextStyle(
-                                      fontFamily: 'Mitr',
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(85, 85, 85, 1),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    'Status: ${widget._document['eventStatus']}',
-                                    style: TextStyle(
-                                      fontFamily: 'Mitr',
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromRGBO(85, 85, 85, .7),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              // is rejected or cancelled
-                              // check reason is not empty
-                              (widget._document['eventStatus'] == 'Rejected' ||
-                                          widget._document['eventStatus'] ==
-                                              'Cancelled') &&
-                                      widget._document['reason'] != null
-                                  ? Row(
+                        StreamBuilder<DocumentSnapshot>(
+                            stream: Firestore.instance
+                                .collection('Users data')
+                                .document(user.uid)
+                                .snapshots(),
+                            builder: (context, snapshotMe) {
+                              if (!snapshotMe.hasData)
+                                return Padding(padding: EdgeInsets.all(0));
+                              Map<dynamic, dynamic> eventMemberList =
+                                  widget._document['eventMemberList']
+                                      as Map<dynamic, dynamic>;
+                              String myEventStatus;
+                              eventMemberList.forEach((key, value) {
+                                if (key == snapshotMe.data['name']) {
+                                  myEventStatus = value;
+                                }
+                              });
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    top: 20, left: 20, right: 20, bottom: 85),
+                                child: Column(
+                                  children: <Widget>[
+                                    Row(
                                       children: <Widget>[
                                         Text(
-                                          'Reason: ${widget._document['reason']}',
+                                          snapshot.data['name'],
+                                          style: TextStyle(
+                                            fontFamily: 'Mitr',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300,
+                                            color:
+                                                Color.fromRGBO(85, 85, 85, 1),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          '${widget._document['topic']} (Topic)',
+                                          style: TextStyle(
+                                            fontFamily: 'Mitr',
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.w500,
+                                            color:
+                                                Color.fromRGBO(85, 85, 85, 1),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Text(
+                                          'Status: ${widget._document['userCount'] <= 2 ? widget._document['eventStatus'] : myEventStatus}',
                                           style: TextStyle(
                                             fontFamily: 'Mitr',
                                             fontSize: 15,
@@ -123,32 +127,77 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                           ),
                                         )
                                       ],
-                                    )
-                                  : Text(''),
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 30),
-                                    width:
-                                        MediaQuery.of(context).size.width - 40,
-                                    child: Text(
-                                      '${widget._document['details']}. On ${widget._document.data['date'].toString().substring(0, 10)}' +
-                                          ' start at ${widget._document.data['startTime']}, end at ${widget._document.data['endTime']}' +
-                                          ' location ${widget._document.data['location']} ' +
-                                          '${widget._document.data['moreInvite'].toString().isNotEmpty ? "with " + widget._document.data['moreInvite'].toString() : ''}. ',
-                                      style: TextStyle(
-                                        fontFamily: 'Mitr',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w300,
-                                        color: Color.fromRGBO(85, 85, 85, 1),
-                                      ),
                                     ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
+                                    // is rejected or cancelled
+                                    // check reason is not empty
+                                    widget._document['reason'].toString().isNotEmpty
+                                        ? Row(
+                                            children: <Widget>[
+                                              Container(
+                                                width: MediaQuery.of(context).size.width-40,
+                                                child: Text(
+                                                  'Reason: ${widget._document['reason']}',
+                                                  maxLines: 5,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Mitr',
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color.fromRGBO(
+                                                        85, 85, 85, .7),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        : Text(''),
+                                    widget._document['eventMemberList'].toString().isNotEmpty
+                                        ? Row(
+                                            children: <Widget>[
+                                              Container(
+                                                width: MediaQuery.of(context).size.width -40,
+                                                child: Text(
+                                                  'Member status: ${widget._document['eventMemberList']}',
+                                                  maxLines: 10,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Mitr',                                                  
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color.fromRGBO(
+                                                        85, 85, 85, .7),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        : Text(''),    
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(bottom: 30),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
+                                          child: Text(
+                                            '${widget._document['details']}. On ${widget._document.data['date'].toString().substring(0, 10)}' +
+                                                ' start at ${widget._document.data['startTime']}, end at ${widget._document.data['endTime']}' +
+                                                ' location ${widget._document.data['location']} ' +
+                                                '${widget._document.data['moreInvite'].toString().isNotEmpty ? "with " + widget._document.data['moreInvite'].toString() : ''}. ',
+                                            style: TextStyle(
+                                              fontFamily: 'Mitr',
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w300,
+                                              color:
+                                                  Color.fromRGBO(85, 85, 85, 1),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              );
+                            }),
 
                         // button base on status
 
@@ -156,163 +205,272 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                         (widget._document.data['eventStatus'] == 'Pending' ||
                                 widget._document.data['eventStatus'] ==
                                     'Approved')
-                            ? Padding(
-                                padding: const EdgeInsets.only(bottom: 20.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Row(
+                            ? StreamBuilder<DocumentSnapshot>(
+                                stream: Firestore.instance
+                                    .collection('Users data')
+                                    .document(user.uid)
+                                    .snapshots(),
+                                builder: (context, snapshotMe) {
+                                  if (!snapshotMe.hasData)
+                                    return Padding(padding: EdgeInsets.all(0));
+                                  Map<dynamic, dynamic> eventMemberList =
+                                      widget._document.data['eventMemberList']
+                                          as Map<dynamic, dynamic>;
+                                  String myEventStatus;
+                                  eventMemberList.forEach((key, value) {
+                                    if (key == snapshotMe.data['name']) {
+                                      myEventStatus = value;
+                                    }
+                                  });
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 20.0),
+                                    child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(7.5),
-                                          child: ButtonTheme(
-                                            minWidth: 350,
-                                            height: 50,
-                                            child: widget._document
-                                                            .data['sender'] ==
-                                                        widget._uid ||
-                                                    widget._document.data[
-                                                            'eventStatus'] ==
-                                                        'Approved'
-                                                ? RaisedButton(
-                                                    elevation: 0,
-                                                    onPressed: () => {
-                                                      // set event status change
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(7.5),
+                                              child: ButtonTheme(
+                                                minWidth: 350,
+                                                height: 50,
+                                                child: ((widget._document.data[
+                                                                'sender'] ==
+                                                            widget._uid ||
+                                                        widget._document.data[
+                                                                'eventStatus'] ==
+                                                            'Pending' || widget._document.data[
+                                                                'eventStatus'] ==
+                                                            'Approved') && widget._document.data['userCount'] <=2) || (
+                                                        myEventStatus ==                                                        
+                                                            'Pending' || myEventStatus ==
+                                                            'Approved' && widget._document.data['userCount'] > 2)
+                                                    ? RaisedButton(
+                                                        elevation: 0,
+                                                        onPressed: () => {
+                                                          // set event status change
 
-                                                      if (widget._document.data[
-                                                              'eventStatus'] ==
-                                                          'Pending')
-                                                        {
-                                                          Firestore.instance
-                                                              .document(
-                                                                  'Events/${widget._document.documentID}')
-                                                              .updateData({
-                                                            'eventStatus':
-                                                                'Approved'
-                                                          }),
-                                                          Navigator.push(
-                                                            context,
-                                                            new MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  new Wrapper(),
-                                                            ),
-                                                          )
-                                                        }
-                                                      else
-                                                        {
-                                                          Firestore.instance
-                                                              .document(
-                                                                  'Events/${widget._document.documentID}')
-                                                              .updateData({
-                                                            'eventStatus':
-                                                                'Completed'
-                                                          }),
-                                                          Navigator.push(
-                                                            context,
-                                                            new MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  new Wrapper(),
-                                                            ),
-                                                          )
-                                                        }
-                                                    },
-                                                    color: colorStatus[widget
-                                                        ._document
-                                                        .data['eventStatus']],
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    20))),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          // display button text bosed on status
-                                                          widget._document.data[
+                                                          if (widget._document
+                                                                          .data[
                                                                       'eventStatus'] ==
-                                                                  'Pending'
-                                                              ? 'Accept'
-                                                              : 'Complete',
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'Mitr',
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                      255,
-                                                                      255,
-                                                                      255,
-                                                                      1)),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
-                                                : Text(''),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(7.5),
-                                          child: ButtonTheme(
-                                            minWidth: 350,
-                                            height: 50,
-                                            child: RaisedButton(
-                                              elevation: 0,
-                                              onPressed: () => {
-                                                setState(() {
-                                                  isShowReasonBox = true;
-                                                })
-                                              },
-                                              color: colorStatus['Cancelled'],
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20))),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: <Widget>[
-                                                  Text(
-                                                    'Cancel',
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                        fontFamily: 'Mitr',
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        color: Color.fromRGBO(
-                                                            255, 255, 255, 1)),
-                                                  )
-                                                ],
+                                                                  'Pending' &&
+                                                              widget._document
+                                                                      .data[
+                                                                  'userCount'] <= 2)
+                                                            {                                                                                                                          
+                                                                  Firestore
+                                                                      .instance
+                                                                      .document(
+                                                                          'Events/${widget._document.documentID}')
+                                                                      .updateData({
+                                                                    'eventStatus':
+                                                                        'Approved'
+                                                                  }),
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    new MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              new Wrapper(),
+                                                                    ),
+                                                                  )
+                                                                
+                                                            }
+                                                          // check event member
+                                                           else if (myEventStatus ==
+                                                                  'Pending' && widget._document
+                                                                          .data[
+                                                                      'userCount'] >
+                                                                  2)
+                                                            {
+                                                                  nameTemp =
+                                                                      snapshotMe
+                                                                              .data[
+                                                                          'name'],
+                                                                  Firestore
+                                                                      .instance
+                                                                      .document(
+                                                                          'Events/${widget._document.documentID}')
+                                                                      .updateData({
+                                                                    'eventMemberList.$nameTemp':
+                                                                        'Approved'
+                                                                  }),
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    new MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              new Wrapper(),
+                                                                    ),
+                                                                  )
+                                                            }   
+                                                          else if( (widget._document
+                                                                      .data[
+                                                                  'userCount'] <= 2 && widget._document
+                                                                          .data[
+                                                                      'eventStatus'] ==
+                                                                  'Approved') || (widget._document
+                                                                      .data[
+                                                                  'userCount'] > 2 && (myEventStatus == 'Approved' && widget._document
+                                                                          .data[
+                                                                      'eventStatus'] ==
+                                                                  'Approved')))
+                                                            {
+                                                              Firestore.instance
+                                                                  .document(
+                                                                      'Events/${widget._document.documentID}')
+                                                                  .updateData({
+                                                                'eventStatus':
+                                                                    'Completed'
+                                                              }),
+                                                              Navigator.push(
+                                                                context,
+                                                                new MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          new Wrapper(),
+                                                                ),
+                                                              )
+                                                            }
+                                                        },
+                                                        color: widget._document.data['userCount'] <= 2 ? colorStatus[
+                                                            widget._document
+                                                                    .data[
+                                                                'eventStatus']] : 
+                                                                colorStatus[myEventStatus],
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            20))),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                           widget._document.data['userCount'] <= 2 ? Text(
+                                                              // display button text bosed on status
+                                                              widget._document.data[
+                                                                          'eventStatus'] ==
+                                                                      'Pending'
+                                                                  ? 'Accept'
+                                                                  : 'Complete',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Mitr',
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1)),
+                                                            ) : Text(
+                                                              // display button text bosed on status
+                                                              myEventStatus ==
+                                                                      'Pending'
+                                                                  ? 'Accept'
+                                                                  : 'Complete',
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'Mitr',
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1)),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : Text(''),
                                               ),
                                             ),
-                                          ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(7.5),
+                                              child: ButtonTheme(
+                                                minWidth: 350,
+                                                height: 50,
+                                                child: RaisedButton(
+                                                  elevation: 0,
+                                                  onPressed: () => {
+                                                    setState(() {
+                                                      isShowReasonBox = true;
+                                                    })
+                                                  },
+                                                  color:
+                                                      colorStatus['Cancelled'],
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  20))),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        'Cancel',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                            fontFamily: 'Mitr',
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    255,
+                                                                    255,
+                                                                    255,
+                                                                    1)),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              )
+                                  );
+                                })
                             // not pending and approved
                             : Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

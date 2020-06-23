@@ -47,7 +47,9 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                             user.uid) {
                           return EventDetailsTemplate(widget._document,
                               widget._document.data['sender']);
-                        } else {
+                        } else if (widget._document.data['moreInvite']
+                            .toString()
+                            .contains(snapshot.data['name'])) {
                           return EventDetailsTemplate(widget._document,
                               widget._document.data['sender']);
                         }

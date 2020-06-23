@@ -38,6 +38,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   String error = '';
   String _eventStatus;
   List<dynamic> _moreInviteProfile = [];
+  Map<dynamic, dynamic> _eventMemberList = {};
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -615,6 +617,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                 GestureDetector(
                                                   onTap: () {
                                                     setState(() {
+                                                      _eventMemberList
+                                                          .removeWhere((key,
+                                                                  value) =>
+                                                              key ==
+                                                              _moreInviteProfile[
+                                                                      index]
+                                                                  ['name']);
                                                       _moreInviteProfile
                                                           .removeAt(index);
                                                       _moreInviteList
@@ -652,161 +661,143 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         )
                                       ],
                                     )
-                                  : Text(''),
+                                  : Padding(
+                                      padding: EdgeInsets.all(0),
+                                    ),
 
                               // select users for more invite
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width - 60,
-                                    height: 50,
-                                    child: StreamBuilder<QuerySnapshot>(
-                                      stream: Firestore.instance
-                                          .collection('Users data')
-                                          .where('name',
-                                              isGreaterThanOrEqualTo:
-                                                  _moreInvite)
-                                          .snapshots(),
-                                      builder: (context, snapshot) {
-                                        if (!snapshot.hasData)
-                                          return Text('');
-                                        else if (_moreInvite == '') {
-                                          return Text(
-                                            ' ',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontFamily: 'Mitr',
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w400,
-                                              color: Color.fromRGBO(
-                                                  85, 85, 85, .8),
-                                            ),
-                                          );
-                                        }
-                                        return ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount:
-                                                snapshot.data.documents.length,
-                                            itemBuilder:
-                                                (context, index) => Column(
-                                                      children: <Widget>[
-                                                        snapshot.data.documents[
-                                                                            index]
-                                                                        [
-                                                                        'name'] !=
-                                                                    _inviteUser &&
-                                                                snapshot.data.documents[
-                                                                            index]
-                                                                        [
-                                                                        'name'] !=
-                                                                    _me
-                                                            ? GestureDetector(
-                                                                onTap: () {
-                                                                  print(snapshot
-                                                                          .data
-                                                                          .documents[index]
-                                                                      ['name']);
-                                                                  setState(() {
-                                                                    if (!_moreInviteList.contains(snapshot
+                              _moreInvite.isNotEmpty
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              60,
+                                          height: 50,
+                                          child: StreamBuilder<QuerySnapshot>(
+                                            stream: Firestore.instance
+                                                .collection('Users data')
+                                                .where('name',
+                                                    isGreaterThanOrEqualTo:
+                                                        _moreInvite)
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData)
+                                                return Text('');
+                                              else if (_moreInvite == '') {
+                                                return Text(
+                                                  ' ',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontFamily: 'Mitr',
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: Color.fromRGBO(
+                                                        85, 85, 85, .8),
+                                                  ),
+                                                );
+                                              }
+                                              return ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount: snapshot
+                                                      .data.documents.length,
+                                                  itemBuilder:
+                                                      (context, index) =>
+                                                          Column(
+                                                            children: <Widget>[
+                                                              snapshot.data.documents[index]
+                                                                              [
+                                                                              'name'] !=
+                                                                          _inviteUser &&
+                                                                      snapshot.data.documents[index]
+                                                                              [
+                                                                              'name'] !=
+                                                                          _me
+                                                                  ? GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        print(snapshot
                                                                             .data
-                                                                            .documents[index]
-                                                                        [
-                                                                        'name'])) {
-                                                                      _moreInviteProfile
-                                                                          .add({
-                                                                        'name': snapshot
-                                                                            .data
-                                                                            .documents[index]['name'],
-                                                                        'imageProfile': snapshot
-                                                                            .data
-                                                                            .documents[index]['imageProfile'],
-                                                                        'uid': snapshot
-                                                                            .data
-                                                                            .documents[index]
-                                                                            .documentID
-                                                                      });
-                                                                      _moreInviteList.add(snapshot
-                                                                          .data
-                                                                          .documents[index]['name']);
-                                                                    }
-                                                                  });
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  margin:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              5),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(5)),
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                            250,
-                                                                            137,
-                                                                            123,
-                                                                            .8),
-                                                                  ),
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              5),
-                                                                  child: Row(
-                                                                    children: <
-                                                                        Widget>[
-                                                                      CircleAvatar(
-                                                                        minRadius:
-                                                                            15,
-                                                                        maxRadius:
-                                                                            15,
-                                                                        backgroundImage:
-                                                                            NetworkImage(
-                                                                          snapshot
+                                                                            .documents[index]['name']);
+                                                                        setState(
+                                                                            () {
+                                                                          if (!_moreInviteList.contains(snapshot
                                                                               .data
-                                                                              .documents[index]['imageProfile'],
+                                                                              .documents[index]['name'])) {
+                                                                            _moreInviteProfile.add({
+                                                                              'name': snapshot.data.documents[index]['name'],
+                                                                              'imageProfile': snapshot.data.documents[index]['imageProfile'],
+                                                                              'uid': snapshot.data.documents[index].documentID
+                                                                            });
+                                                                            _moreInviteList.add(snapshot.data.documents[index]['name']);
+
+                                                                            _eventMemberList.putIfAbsent(snapshot.data.documents[index]['name'],
+                                                                                () => 'Pending');
+                                                                          }
+                                                                        });
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        margin:
+                                                                            EdgeInsets.all(5),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          borderRadius:
+                                                                              BorderRadius.all(Radius.circular(5)),
+                                                                          color: Color.fromRGBO(
+                                                                              250,
+                                                                              137,
+                                                                              123,
+                                                                              .8),
                                                                         ),
-                                                                      ),
-                                                                      Padding(
                                                                         padding:
-                                                                            const EdgeInsets.all(2.0),
+                                                                            EdgeInsets.all(5),
                                                                         child:
-                                                                            Text(
-                                                                          snapshot
-                                                                              .data
-                                                                              .documents[index]['name'],
-                                                                          style:
-                                                                              TextStyle(
-                                                                            fontSize:
-                                                                                14,
-                                                                            fontFamily:
-                                                                                'Mitr',
-                                                                            fontWeight:
-                                                                                FontWeight.w300,
-                                                                            color:
-                                                                                Colors.white,
-                                                                          ),
+                                                                            Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            CircleAvatar(
+                                                                              minRadius: 15,
+                                                                              maxRadius: 15,
+                                                                              backgroundImage: NetworkImage(
+                                                                                snapshot.data.documents[index]['imageProfile'],
+                                                                              ),
+                                                                            ),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.all(2.0),
+                                                                              child: Text(
+                                                                                snapshot.data.documents[index]['name'],
+                                                                                style: TextStyle(
+                                                                                  fontSize: 14,
+                                                                                  fontFamily: 'Mitr',
+                                                                                  fontWeight: FontWeight.w300,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            : Padding(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(0),
-                                                              ),
-                                                      ],
-                                                    ));
-                                      },
+                                                                    )
+                                                                  : Padding(
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              0),
+                                                                    ),
+                                                            ],
+                                                          ));
+                                            },
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : Padding(
+                                      padding: EdgeInsets.all(0),
                                     ),
-                                  )
-                                ],
-                              ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -1047,6 +1038,13 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
                                                   // check isValidtime status to access data to database
                                                   if (isValidTime) {
+                                                    _eventMemberList
+                                                        .putIfAbsent(
+                                                            _inviteUser,
+                                                            () => 'Pending');
+                                                    _eventMemberList
+                                                        .putIfAbsent(_me,
+                                                            () => 'Approved');
                                                     await firestore
                                                         .addEventData(
                                                           user.uid,
@@ -1063,6 +1061,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                               'Pending',
                                                           moreInvite:
                                                               _moreInviteList,
+                                                          eventMemberList:
+                                                              _eventMemberList,
                                                         )
                                                         //after finished access go to home
                                                         .then((value) =>
