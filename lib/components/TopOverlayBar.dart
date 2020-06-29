@@ -5,9 +5,11 @@ import 'package:schedule_app/wrapper.dart';
 import 'package:provider/provider.dart';
 
 class TopOverlayBar extends StatelessWidget {
+  bool isShowRightIcon;
   bool isShowBackButton;
   String uid;
-  TopOverlayBar({this.isShowBackButton = false, this.uid});
+  TopOverlayBar(
+      {this.isShowBackButton = false, this.uid, this.isShowRightIcon = true});
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -60,55 +62,65 @@ class TopOverlayBar extends StatelessWidget {
                   )
                 : null,
           ),
-          Container(
-            margin: EdgeInsets.only(
-                right: 0, left: MediaQuery.of(context).size.width / 2, top: 0),
-            child: ButtonTheme(
-              minWidth: 20,
-              height: 20,
-              padding: EdgeInsets.all(0),
-              child: FlatButton(
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new Wrapper(),
+          isShowRightIcon
+              ? Container(
+                  margin: EdgeInsets.only(
+                      right: 0,
+                      left: MediaQuery.of(context).size.width / 2,
+                      top: 0),
+                  child: ButtonTheme(
+                    minWidth: 20,
+                    height: 20,
+                    padding: EdgeInsets.all(0),
+                    child: FlatButton(
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                            builder: (context) => new Wrapper(),
+                          ),
+                        )
+                      },
+                      child: Icon(
+                        Icons.calendar_today,
+                        size: 23,
+                        color: Color.fromRGBO(85, 85, 85, .7),
+                      ),
                     ),
-                  )
-                },
-                child: Icon(
-                  Icons.calendar_today,
-                  size: 23,
-                  color: Color.fromRGBO(85, 85, 85, .7),
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.all(0),
                 ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(right: 0, top: 0),
-            child: ButtonTheme(
-              minWidth: 20,
-              height: 20,
-              padding: EdgeInsets.all(0),
-              child: FlatButton(
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyProfileScreen(
-                              user.uid,
-                              isMe: true,
-                            )),
-                  )
-                },
-                child: Icon(
-                  Icons.account_circle,
-                  size: 28,
-                  color: Color.fromRGBO(85, 85, 85, .7),
+          isShowRightIcon
+              ? Container(
+                  margin: EdgeInsets.only(right: 0, top: 0),
+                  child: ButtonTheme(
+                    minWidth: 20,
+                    height: 20,
+                    padding: EdgeInsets.all(0),
+                    child: FlatButton(
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyProfileScreen(
+                                    user.uid,
+                                    isMe: true,
+                                  )),
+                        )
+                      },
+                      child: Icon(
+                        Icons.account_circle,
+                        size: 28,
+                        color: Color.fromRGBO(85, 85, 85, .7),
+                      ),
+                    ),
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.all(0),
                 ),
-              ),
-            ),
-          ),
         ],
       ),
     );

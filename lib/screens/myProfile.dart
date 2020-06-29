@@ -5,6 +5,7 @@ import 'package:schedule_app/components/EventLister.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/model/User.dart';
+import 'package:schedule_app/screens/chatting.dart';
 import 'package:schedule_app/services/AuthService.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,7 @@ class MyProfileScreen extends StatefulWidget {
 }
 
 class _MyProfileScreenState extends State<MyProfileScreen> {
+  String chatID;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -127,7 +129,28 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                             minWidth: 25,
                                             height: 25,
                                             child: FlatButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  if (user.uid.hashCode <=
+                                                      widget.documentID
+                                                          .hashCode) {
+                                                    chatID =
+                                                        '${user.uid}-${widget.documentID}';
+                                                  } else {
+                                                    chatID =
+                                                        '${widget.documentID}-${user.uid}';
+                                                  }
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ChattingScreen(
+                                                              chatID: chatID,
+                                                              isShowChat: true,
+                                                              receiver:
+                                                                  snapshot.data,
+                                                            )),
+                                                  );
+                                                },
                                                 child: Icon(
                                                   Icons.forum,
                                                   size: 25,
