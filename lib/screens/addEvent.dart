@@ -976,8 +976,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                               if (!startTimeTemp
                                                                   .isAfter(
                                                                       endTimeTemp)) {
-                                                                isValidTime =
-                                                                    true;
+                                                                if (!isOverlap) {
+                                                                  isValidTime =
+                                                                      true;
+                                                                } else {
+                                                                  isValidTime =
+                                                                      false;
+                                                                  error =
+                                                                      'This time is not available.';
+                                                                }
                                                               } else {
                                                                 isValidTime =
                                                                     false;

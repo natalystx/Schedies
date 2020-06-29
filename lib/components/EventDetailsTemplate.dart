@@ -38,7 +38,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
             .document(widget._uid)
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Text('');
+          if (!snapshot.hasData) return Padding(padding: EdgeInsets.all(0),);
           return SafeArea(
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -239,17 +239,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                               child: ButtonTheme(
                                                 minWidth: 350,
                                                 height: 50,
-                                                child: ((widget._document.data[
-                                                                'sender'] ==
-                                                            widget._uid ||
-                                                        widget._document.data[
-                                                                'eventStatus'] ==
-                                                            'Pending' || widget._document.data[
-                                                                'eventStatus'] ==
-                                                            'Approved') && widget._document.data['userCount'] <=2) || (
-                                                        myEventStatus ==                                                        
-                                                            'Pending' || myEventStatus ==
-                                                            'Approved' && widget._document.data['userCount'] > 2)
+                                                child: myEventStatus == 'Pending'
                                                     ? RaisedButton(
                                                         elevation: 0,
                                                         onPressed: () => {
