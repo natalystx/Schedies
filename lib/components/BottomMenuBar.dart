@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schedule_app/screens/chatting.dart';
 import 'package:schedule_app/screens/search.dart';
 import 'package:schedule_app/wrapper.dart';
 
@@ -70,7 +71,13 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
                   minWidth: 40,
                   height: 40,
                   child: FlatButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChattingScreen()),
+                      )
+                    },
                     child: Icon(Icons.comment, color: Colors.white, size: 35),
                   ),
                 ),
