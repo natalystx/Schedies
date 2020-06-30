@@ -115,6 +115,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                 Color.fromRGBO(85, 85, 85, 1),
                                           ),
                                         ),
+                                       widget._document.data['eventStatus'] == 'Pending' ||  widget._document.data['eventStatus'] == 'Approved' ?
                                         FlatButton(onPressed: () => {
                                          if(widget._document.data['userCount']<= 2){
                                             if (widget._document.data['receiver'].hashCode <=
@@ -150,7 +151,8 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                                   widget._document,
                                                             )),
                                                   ),
-                                        }, child: Icon(Icons.chat_bubble_outline, size: 25, color: Colors.black,)),
+                                        }, child: Icon(Icons.chat_bubble_outline, size: 25, color: Colors.black,),) 
+                                        : Padding(padding: EdgeInsets.all(0)),
                                       ],
                                     ),
                                     Row(
