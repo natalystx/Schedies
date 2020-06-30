@@ -9,6 +9,7 @@ class ChattingScreen extends StatefulWidget {
   final bool isShowChat;
   final String chatID;
   final DocumentSnapshot receiver;
+
   ChattingScreen({this.chatID, this.isShowChat = false, this.receiver});
   @override
   _ChattingScreenState createState() => _ChattingScreenState();
@@ -18,7 +19,6 @@ class _ChattingScreenState extends State<ChattingScreen> {
   bool isShowChat = false;
   DocumentSnapshot receiver;
   String chatID;
-
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -37,7 +37,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
               ),
             ),
             Positioned(
-              top: 95,
+              top: 85,
               left: 35,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

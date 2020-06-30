@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/components/CardListTemplate.dart';
+import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/screens/eventDetails.dart';
+import 'package:provider/provider.dart';
 
 class EventCardList extends StatefulWidget {
   final BuildContext _context;
@@ -17,6 +19,7 @@ class EventCardList extends StatefulWidget {
 class _EventCardListState extends State<EventCardList> {
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -29,7 +32,7 @@ class _EventCardListState extends State<EventCardList> {
       child: StreamBuilder<DocumentSnapshot>(
           stream: Firestore.instance
               .collection('Users data')
-              .document(widget._uid)
+              .document(user.uid)
               .snapshots(),
           builder: (context, snapshot) {
             //check snapshot data
@@ -37,18 +40,18 @@ class _EventCardListState extends State<EventCardList> {
               return Text('NoData');
             } else {
               // check user is in event
-              if (widget._uid == widget._document.data['sender'] ||
-                  widget._uid == widget._document.data['receiver'] ||
+              if (user.uid == widget._document.data['sender'] ||
+                  user.uid == widget._document.data['receiver'] ||
                   widget._document.data['moreInvite']
                       .toString()
                       .contains(snapshot.data['name'])) {
                 // user is sender
-                if (widget._uid == widget._document.data['sender']) {
+                if (user.uid == widget._document.data['sender']) {
                   return CardListTemplate(
                       widget._document, widget._document.data['receiver']);
                 }
                 //user is receiver
-                else if (widget._uid == widget._document.data['receiver']) {
+                else if (user.uid == widget._document.data['receiver']) {
                   return CardListTemplate(
                       widget._document, widget._document.data['sender']);
                 }
