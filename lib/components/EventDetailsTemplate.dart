@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/components/ReasonBox.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
+import 'package:schedule_app/screens/chatting.dart';
 import '../wrapper.dart';
 
 class EventDetailsTemplate extends StatefulWidget {
@@ -29,6 +30,8 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
   };
   bool isShowReasonBox = false;
   String nameTemp;
+  String chatID;
+  List<dynamic> moreInvite= [];
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -112,6 +115,42 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                 Color.fromRGBO(85, 85, 85, 1),
                                           ),
                                         ),
+                                        FlatButton(onPressed: () => {
+                                         if(widget._document.data['userCount']<= 2){
+                                            if (widget._document.data['receiver'].hashCode <=
+                                            widget._document.data['sender'].hashCode) {
+                                              chatID =
+                                              '${widget._document.data['receiver']}-${widget._document.data['sender']}'
+                                            } else {
+                                              chatID =
+                                              '${widget._document.data['sender']}-${widget._document.data['receiver']}'
+                                            } 
+                                         } else{
+                                              if (widget._document.data['receiver'].hashCode <=
+                                                widget._document.data['sender'].hashCode) {
+                                                  chatID =
+                                                  '${widget._document.data['receiver']}-${widget._document.data['sender']}'
+                                              } else {
+                                                  chatID =
+                                                  '${widget._document.data['sender']}-${widget._document.data['receiver']}'
+                                                } ,
+                                             moreInvite = widget._document.data['moreInvite'],                                             
+                                             moreInvite.forEach((name) {
+                                               chatID += '-'+name;
+                                              })                                              
+                                         },                                         
+                                         Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ChattingScreen(
+                                                              chatID: chatID,
+                                                              isShowChat: true,
+                                                              receiver:
+                                                                  widget._document,
+                                                            )),
+                                                  ),
+                                        }, child: Icon(Icons.chat_bubble_outline, size: 25, color: Colors.black,)),
                                       ],
                                     ),
                                     Row(
