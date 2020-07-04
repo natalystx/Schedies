@@ -138,8 +138,10 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                              moreInvite = widget._document.data['moreInvite'],                                             
                                              moreInvite.forEach((name) {
                                                chatID += '-'+name;
-                                              })                                              
-                                         },                                         
+                                              })
+                                                                               
+                                         },   
+                                          chatID += '-'+widget._document.documentID,                                      
                                          Navigator.push(
                                                     context,
                                                     MaterialPageRoute(

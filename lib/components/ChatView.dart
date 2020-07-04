@@ -87,20 +87,20 @@ class _ChatViewState extends State<ChatView> {
                           if (!snapshotMe.hasData)
                             return Padding(padding: EdgeInsets.all(0));
 
-                          imageProfile = snapshotMe.data['imageProfile'];
-                          userName = snapshotMe.data['name'];
-
-                          if (snapshot.data.documents[index].exists)
+                          if (snapshot.data.documents[index].exists) {
+                            imageProfile = snapshotMe.data['imageProfile'];
+                            userName = snapshotMe.data['name'];
                             return Column(
                               children: <Widget>[
-                                snapshot.data.documents[index]['sender'] ==
-                                            widget.receiver.documentID ||
-                                        widget.chatID.contains(user.uid) &&
+                                (widget.chatID.contains(
+                                                    snapshotMe.data['name']) &&
+                                                snapshot.data.documents[index]
+                                                        ['sender'] !=
+                                                    user.uid ||
+                                            widget.chatID.contains(user.uid)) ||
+                                        (user.uid ==
                                             snapshot.data.documents[index]
-                                                    ['sender'] !=
-                                                user.uid ||
-                                        widget.chatID
-                                            .contains(snapshotMe.data['name'])
+                                                ['receiver'])
                                     ? Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
@@ -227,6 +227,8 @@ class _ChatViewState extends State<ChatView> {
                                     : Padding(padding: EdgeInsets.all(0)),
                               ],
                             );
+                          }
+                          return Padding(padding: EdgeInsets.all(0));
                         }),
                   );
                 }),
