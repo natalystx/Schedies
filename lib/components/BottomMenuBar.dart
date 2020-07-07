@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:schedule_app/screens/chatting.dart';
+import 'package:schedule_app/screens/report.dart';
 import 'package:schedule_app/screens/search.dart';
 import 'package:schedule_app/wrapper.dart';
 
@@ -85,7 +86,12 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
                   minWidth: 40,
                   height: 40,
                   child: FlatButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ReportScreen()),
+                      )
+                    },
                     child:
                         Icon(Icons.data_usage, color: Colors.white, size: 35),
                   ),

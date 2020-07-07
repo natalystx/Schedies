@@ -93,11 +93,10 @@ class _ChatViewState extends State<ChatView> {
                             return Column(
                               children: <Widget>[
                                 (widget.chatID.contains(
-                                                    snapshotMe.data['name']) &&
-                                                snapshot.data.documents[index]
-                                                        ['sender'] !=
-                                                    user.uid ||
-                                            widget.chatID.contains(user.uid)) ||
+                                                snapshotMe.data['name']) &&
+                                            snapshot.data.documents[index]
+                                                    ['sender'] !=
+                                                user.uid) ||
                                         (user.uid ==
                                             snapshot.data.documents[index]
                                                 ['receiver'])

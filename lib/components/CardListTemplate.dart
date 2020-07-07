@@ -48,7 +48,9 @@ class CardListTemplate extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Card(
-                    color: _document.data['userCount'] <= 2
+                    color: _document.data['userCount'] <= 2 ||
+                            _document.data['eventStatus'] == 'Be over' ||
+                            _document.data['eventStatus'] == 'Completed'
                         ? colorStatus[_document.data['eventStatus']]
                         : colorStatus[myStatusOnList],
                     elevation: 0,
@@ -89,7 +91,7 @@ class CardListTemplate extends StatelessWidget {
                               Row(
                                 children: <Widget>[
                                   Text(
-                                    'Status: ${_document.data['userCount'] <= 2 ? _document.data['eventStatus'] : myStatusOnList}',
+                                    'Status: ${_document.data['userCount'] <= 2 || _document.data['eventStatus'] == 'Be over' || _document.data['eventStatus'] == 'Completed' ? _document.data['eventStatus'] : myStatusOnList}',
                                     style: TextStyle(
                                       fontFamily: 'Mitr',
                                       fontSize: 14,
