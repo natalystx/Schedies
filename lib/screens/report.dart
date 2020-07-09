@@ -202,8 +202,8 @@ class _ReportScreenState extends State<ReportScreen> {
                                 );
 
                               snapshot.data.documents.forEach((doc) {
-                                  isSeletedList.add({'isSelected': false});
-                                
+                                isSeletedList.add({'isSelected': false});
+
                                 if (doc.documentID == user.uid) {
                                   _myName = doc.data['name'];
                                 }
