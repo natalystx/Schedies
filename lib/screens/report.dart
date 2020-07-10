@@ -309,7 +309,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                         child: ListChartDetails()),
                                     Container(
                                       width: MediaQuery.of(context).size.width /
-                                          1.65,
+                                          1.75,
                                       height:
                                           MediaQuery.of(context).size.height /
                                               2.8,
@@ -417,7 +417,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                     ListChartDetails(),
                                     Container(
                                       width: MediaQuery.of(context).size.width /
-                                          1.65,
+                                          1.75,
                                       height:
                                           MediaQuery.of(context).size.height /
                                               2.8,
@@ -542,7 +542,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                     ListChartDetails(),
                                     Container(
                                       width: MediaQuery.of(context).size.width /
-                                          1.65,
+                                          1.75,
                                       height:
                                           MediaQuery.of(context).size.height /
                                               2.8,
