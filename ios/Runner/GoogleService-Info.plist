@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>1030117561544-udoff7v1ubrai5kfjg06jj9q0c79ef1q.apps.googleusercontent.com</string>
+	<string>119937825853-4tdb1kvtdi3hc701pt08ttj9qigfijrj.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.1030117561544-udoff7v1ubrai5kfjg06jj9q0c79ef1q</string>
+	<string>com.googleusercontent.apps.119937825853-4tdb1kvtdi3hc701pt08ttj9qigfijrj</string>
 	<key>API_KEY</key>
-	<string>AIzaSyB6oVvgMUofelPfI2JdBf3byYrxj29rT_A</string>
+	<string>AIzaSyBtCNFLGFDC8GRLIQs8Fgo9Isjt2dMRTfg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1030117561544</string>
+	<string>119937825853</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.natalyst.schedie</string>
+	<string>com.natalyterist.schedie</string>
 	<key>PROJECT_ID</key>
-	<string>schedie-75961</string>
+	<string>schedie-2</string>
 	<key>STORAGE_BUCKET</key>
-	<string>schedie-75961.appspot.com</string>
+	<string>schedie-2.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1030117561544:ios:1227151d161da6c76f81fd</string>
+	<string>1:119937825853:ios:4f4bf88d1ee47b1a98be54</string>
 	<key>DATABASE_URL</key>
-	<string>https://schedie-75961.firebaseio.com</string>
+	<string>https://schedie-2.firebaseio.com</string>
 </dict>
 </plist>

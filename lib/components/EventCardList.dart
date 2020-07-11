@@ -32,40 +32,38 @@ class _EventCardListState extends State<EventCardList> {
       child: StreamBuilder<DocumentSnapshot>(
           stream: Firestore.instance
               .collection('Users data')
-              .document(user.uid)
+              .document(widget._uid)
               .snapshots(),
           builder: (context, snapshot) {
             //check snapshot data
             if (!snapshot.hasData) {
               return Text('NoData');
-            } else {
-              // check user is in event
-              if (user.uid == widget._document.data['sender'] ||
-                  user.uid == widget._document.data['receiver'] ||
-                  widget._document.data['moreInvite']
-                      .toString()
-                      .contains(snapshot.data['name'])) {
-                // user is sender
-                if (user.uid == widget._document.data['sender']) {
-                  return CardListTemplate(
-                      widget._document, widget._document.data['receiver']);
-                }
-                //user is receiver
-                else if (user.uid == widget._document.data['receiver']) {
-                  return CardListTemplate(
-                      widget._document, widget._document.data['sender']);
-                }
-                //user is more invitee
-                else if (widget._document.data['moreInvite']
+            }
+            // check user is in event
+            if (widget._uid == widget._document.data['sender'] ||
+                widget._uid == widget._document.data['receiver'] ||
+                widget._document.data['moreInvite']
                     .toString()
                     .contains(snapshot.data['name'])) {
-                  return CardListTemplate(
-                      widget._document, widget._document.data['sender']);
-                }
-              } else {
-                return Text('');
+              // user is sender
+              if (user.uid == widget._document.data['sender']) {
+                return CardListTemplate(
+                    widget._document, widget._document.data['receiver']);
+              }
+              //user is receiver
+              else if (user.uid == widget._document.data['receiver']) {
+                return CardListTemplate(
+                    widget._document, widget._document.data['sender']);
+              }
+              //user is more invitee
+              else if (widget._document.data['moreInvite']
+                  .toString()
+                  .contains(snapshot.data['name'])) {
+                return CardListTemplate(
+                    widget._document, widget._document.data['sender']);
               }
             }
+            return Text('');
           }),
     );
   }

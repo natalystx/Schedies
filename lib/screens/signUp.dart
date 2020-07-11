@@ -19,8 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   final AuthServices _auth = AuthServices();
   final imagePicker = ImagePicker();
-  final storage =
-      FirebaseStorage(storageBucket: 'gs://schedie-75961.appspot.com/');
+  final storage = FirebaseStorage(storageBucket: 'gs://schedie-2.appspot.com/');
   // text fields state
   UserSignUp _user;
   String _email;
