@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
 import 'package:schedule_app/components/CustomButton.dart';
 import 'package:schedule_app/screens/signIn.dart';
 import 'package:schedule_app/screens/signUp.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -10,9 +14,23 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  Locale myLocale = Locale('en');
+
   @override
   Widget build(BuildContext context) {
+    var appLanguage = Provider.of<AppLanguage>(context);
+    myLocale = appLanguage.appLocal;
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         body: SafeArea(
           child: Padding(
@@ -34,13 +52,30 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(top: 0, right: 30),
-                                  width: 26,
-                                  height: 26,
-                                  child: Image(
-                                    image:
-                                        AssetImage('assets/images/country.png'),
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      if (myLocale.languageCode == 'en') {
+                                        myLocale = Locale('th');
+                                        appLanguage.changeLanguage(myLocale);
+                                      } else {
+                                        myLocale = Locale('en');
+                                        appLanguage.changeLanguage(myLocale);
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 0, right: 30),
+                                    width: 26,
+                                    height: 26,
+                                    child: Image(
+                                      image: myLocale.languageCode == 'en'
+                                          ? AssetImage(
+                                              'assets/images/country.png')
+                                          : AssetImage(
+                                              'assets/images/nation.png',
+                                            ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -70,7 +105,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                WelcomeText(15, FontWeight.w300, 'Welcome to')
+                                WelcomeText(
+                                    15,
+                                    FontWeight.w300,
+                                    AppLocalizations.of(context)
+                                        .translate('welcome-header'))
                               ],
                             ),
                             Row(
@@ -90,7 +129,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 WelcomeText(
                                   15,
                                   FontWeight.w300,
-                                  'The tools for manage your plans.',
+                                  AppLocalizations.of(context)
+                                      .translate('welcome-message'),
                                   paddingSide: EdgeInsets.only(bottom: 80),
                                 )
                               ],
@@ -98,7 +138,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             //buttons section
                             CustomButton(
                                 Color.fromRGBO(250, 137, 123, 1),
-                                'Sign in with exist account.',
+                                AppLocalizations.of(context)
+                                    .translate('have-exist-account'),
                                 19,
                                 AssetImage('assets/images/account.png'),
                                 MaterialPageRoute(
@@ -111,7 +152,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             //     MaterialPageRoute(builder: (context) => null)),
                             CustomButton(
                                 Color.fromRGBO(255, 211, 138, 1),
-                                'Don’t have any Schedie’s account?',
+                                AppLocalizations.of(context)
+                                    .translate('dont-have-any-account'),
                                 14,
                                 AssetImage('assets/images/arrows.png'),
                                 MaterialPageRoute(

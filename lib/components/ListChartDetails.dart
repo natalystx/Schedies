@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 
 class ListChartDetails extends StatelessWidget {
   final Map<String, Color> colorStatus = {
@@ -24,7 +25,7 @@ class ListChartDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Pending',
+                AppLocalizations.of(context).translate('pending'),
                 style: TextStyle(
                   fontFamily: 'Mitr',
                   fontSize: 15,
@@ -44,7 +45,7 @@ class ListChartDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Approved',
+                AppLocalizations.of(context).translate('approved'),
                 style: TextStyle(
                   fontFamily: 'Mitr',
                   fontSize: 15,
@@ -64,7 +65,7 @@ class ListChartDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Cancelled',
+                AppLocalizations.of(context).translate('cancelled'),
                 style: TextStyle(
                   fontFamily: 'Mitr',
                   fontSize: 15,
@@ -84,7 +85,7 @@ class ListChartDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Rejected',
+                AppLocalizations.of(context).translate('rejected'),
                 style: TextStyle(
                   fontFamily: 'Mitr',
                   fontSize: 15,
@@ -104,7 +105,7 @@ class ListChartDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Completed',
+                AppLocalizations.of(context).translate('completed'),
                 style: TextStyle(
                   fontFamily: 'Mitr',
                   fontSize: 15,
@@ -124,7 +125,7 @@ class ListChartDetails extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                'Be over',
+                AppLocalizations.of(context).translate('be-over'),
                 style: TextStyle(
                   fontFamily: 'Mitr',
                   fontSize: 15,

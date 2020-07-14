@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
 import 'package:schedule_app/model/UserSignUp.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/AuthService.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -71,7 +75,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget build(BuildContext context) {
+    var appLanguage = Provider.of<AppLanguage>(context);
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
           body: SafeArea(
         child: Center(
@@ -93,7 +108,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    WelcomeText(15, FontWeight.w300, 'Welcome to')
+                    WelcomeText(
+                        15,
+                        FontWeight.w300,
+                        AppLocalizations.of(context)
+                            .translate('welcome-header'))
                   ],
                 ),
                 Row(
@@ -113,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     WelcomeText(
                       15,
                       FontWeight.w300,
-                      'The tools for manage your plans.',
+                      AppLocalizations.of(context).translate('welcome-message'),
                       paddingSide: EdgeInsets.only(bottom: 40),
                     )
                   ],
@@ -131,7 +150,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: TextFormField(
                           validator: (value) => value.contains('@g.cmru.ac.th')
                               ? null
-                              : 'You\'re not be apart of CMRU',
+                              : AppLocalizations.of(context)
+                                  .translate('not-in-cmru'),
                           onChanged: (value) =>
                               {setState(() => _email = value)},
                           obscureText: false,
@@ -141,7 +161,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'Email',
+                            labelText:
+                                AppLocalizations.of(context).translate('email'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -175,7 +196,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: TextFormField(
                           validator: (value) => value.length > 8
                               ? null
-                              : 'Password Must be more than 8 characters.',
+                              : AppLocalizations.of(context)
+                                  .translate('password-must-8'),
                           onChanged: (value) =>
                               {setState(() => _password = value)},
                           obscureText: true,
@@ -185,7 +207,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'Password',
+                            labelText: AppLocalizations.of(context)
+                                .translate('password'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -220,7 +243,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           onChanged: (value) =>
                               {setState(() => _confirmPassword = value)},
                           validator: (value) => _password != value
-                              ? 'Password and confirm password must be match.'
+                              ? AppLocalizations.of(context)
+                                  .translate('password-not-match')
                               : null,
                           obscureText: true,
                           decoration: new InputDecoration(
@@ -229,7 +253,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'Confirm password',
+                            labelText: AppLocalizations.of(context)
+                                .translate('confirm-password'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -261,8 +286,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: 350,
                         margin: EdgeInsets.only(bottom: 20),
                         child: TextFormField(
-                          validator: (value) =>
-                              value.isNotEmpty ? null : 'Name can\' be empty.',
+                          validator: (value) => value.isNotEmpty
+                              ? null
+                              : AppLocalizations.of(context)
+                                  .translate('name-isEmpty'),
                           onChanged: (value) => {setState(() => _name = value)},
                           obscureText: false,
                           decoration: new InputDecoration(
@@ -271,7 +298,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'Name',
+                            labelText:
+                                AppLocalizations.of(context).translate('name'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -305,7 +333,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: TextFormField(
                           validator: (value) => value.length >= 10
                               ? null
-                              : 'Phonenumber must be more than 10 characters.',
+                              : AppLocalizations.of(context)
+                                  .translate('phone-not-10'),
                           onChanged: (value) =>
                               {setState(() => _phoneNumber = value)},
                           obscureText: false,
@@ -315,7 +344,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'Phonenumber',
+                            labelText: AppLocalizations.of(context)
+                                .translate('phone-number'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -349,7 +379,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: TextFormField(
                           validator: (value) => value.isNotEmpty
                               ? null
-                              : 'User status can\'t be empty.',
+                              : AppLocalizations.of(context)
+                                  .translate('user-status-isEmpty'),
                           onChanged: (value) =>
                               {setState(() => _userStatus = value)},
                           obscureText: false,
@@ -359,7 +390,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'User status',
+                            labelText: AppLocalizations.of(context)
+                                .translate('user-status'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -400,7 +432,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'Student ID',
+                            labelText: AppLocalizations.of(context)
+                                .translate('student-id'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -456,7 +489,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: EdgeInsets.all(0),
                                   child: Text(
                                     _image == null
-                                        ? 'Image Profile'
+                                        ? AppLocalizations.of(context)
+                                            .translate('image-profile')
                                         : '${_image.toString()}',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -552,7 +586,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                             Text(
-                              'Sign up',
+                              AppLocalizations.of(context).translate('sign-up'),
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   fontFamily: 'Mitr',

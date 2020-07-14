@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/ProfileList.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -12,9 +16,21 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String _searchText = '';
+
   @override
   Widget build(BuildContext context) {
+    var appLanguage = Provider.of<AppLanguage>(context);
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         body: SafeArea(
           child: SizedBox(
@@ -42,7 +58,8 @@ class _SearchScreenState extends State<SearchScreen> {
                               WelcomeText(
                                 25,
                                 FontWeight.w400,
-                                'Search something',
+                                AppLocalizations.of(context)
+                                    .translate('search-welcome'),
                                 paddingSide: EdgeInsets.only(top: 20),
                               )
                             ],
@@ -69,7 +86,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                   color: Color.fromRGBO(180, 175, 175, 1),
                                   size: 24.0,
                                 ),
-                                labelText: 'Search',
+                                labelText: AppLocalizations.of(context)
+                                    .translate('search'),
                                 labelStyle: new TextStyle(
                                   fontFamily: "Mitr",
                                   fontSize: 20,

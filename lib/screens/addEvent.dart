@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/ProfileList.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
 import 'package:schedule_app/model/User.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/CloudDataService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +46,18 @@ class _AddEventScreenState extends State<AddEventScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    var appLanguage = Provider.of<AppLanguage>(context);
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         body: SafeArea(
           child: SizedBox(
@@ -78,7 +92,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   WelcomeText(
                                     25,
                                     FontWeight.w400,
-                                    'Make an appointment',
+                                    AppLocalizations.of(context)
+                                        .translate('make-an-appointment'),
                                     paddingSide: EdgeInsets.only(top: 20),
                                   )
                                 ],
@@ -89,7 +104,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   WelcomeText(
                                     15,
                                     FontWeight.w300,
-                                    'Let’s do some events.',
+                                    AppLocalizations.of(context)
+                                        .translate('add-event-welcome-message'),
                                     paddingSide: EdgeInsets.only(bottom: 40),
                                   )
                                 ],
@@ -103,7 +119,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         EdgeInsets.only(bottom: 20, left: 15),
                                     width: 50,
                                     child: Text(
-                                      'At',
+                                      AppLocalizations.of(context)
+                                          .translate('at'),
                                       style: TextStyle(
                                         fontFamily: 'Mitr',
                                         fontSize: 15,
@@ -151,7 +168,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           ),
                                           width: 100,
                                           child: Text(
-                                            'Request by',
+                                            AppLocalizations.of(context)
+                                                .translate('request-by'),
                                             style: TextStyle(
                                               fontFamily: 'Mitr',
                                               fontSize: 15,
@@ -190,7 +208,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         EdgeInsets.only(bottom: 20, left: 15),
                                     width: 50,
                                     child: Text(
-                                      'With',
+                                      AppLocalizations.of(context)
+                                          .translate('with'),
                                       style: TextStyle(
                                         fontFamily: 'Mitr',
                                         fontSize: 15,
@@ -249,7 +268,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'Start time: $startTime',
+                                              '${AppLocalizations.of(context).translate('start-time')} $startTime',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontFamily: "Mitr",
@@ -319,7 +338,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                               ),
                                             ),
                                             Text(
-                                              'End time: $endTime',
+                                              '${AppLocalizations.of(context).translate('end-time')} $endTime',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontFamily: "Mitr",
@@ -365,7 +384,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                     child: TextFormField(
                                       validator: (value) => value.isNotEmpty
                                           ? null
-                                          : 'Please enter your event\'s topic.',
+                                          : AppLocalizations.of(context)
+                                              .translate('topic-isEmpty'),
                                       onChanged: (value) =>
                                           {setState(() => _topic = value)},
                                       obscureText: false,
@@ -375,7 +395,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           color: Colors.white,
                                           size: 24.0,
                                         ),
-                                        labelText: 'Topic',
+                                        labelText: AppLocalizations.of(context)
+                                            .translate('topic'),
                                         labelStyle: new TextStyle(
                                             fontFamily: "Mitr",
                                             fontSize: 15,
@@ -420,7 +441,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                     child: new TextFormField(
                                       validator: (value) => value.isNotEmpty
                                           ? null
-                                          : 'Please enter event\'s details.',
+                                          : AppLocalizations.of(context)
+                                              .translate('details-isEmpty'),
                                       onChanged: (value) =>
                                           {setState(() => _details = value)},
                                       obscureText: false,
@@ -430,7 +452,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           color: Colors.white,
                                           size: 24.0,
                                         ),
-                                        labelText: 'Details',
+                                        labelText: AppLocalizations.of(context)
+                                            .translate('details'),
                                         labelStyle: new TextStyle(
                                             fontFamily: "Mitr",
                                             fontSize: 15,
@@ -477,7 +500,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                     child: TextFormField(
                                       validator: (value) => value.isNotEmpty
                                           ? null
-                                          : 'Please enter location\'s name.',
+                                          : AppLocalizations.of(context)
+                                              .translate('location-isEmpty'),
                                       onChanged: (value) =>
                                           {setState(() => _location = value)},
                                       obscureText: false,
@@ -487,7 +511,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           color: Colors.white,
                                           size: 24.0,
                                         ),
-                                        labelText: 'Location',
+                                        labelText: AppLocalizations.of(context)
+                                            .translate('location'),
                                         labelStyle: new TextStyle(
                                             fontFamily: "Mitr",
                                             fontSize: 15,
@@ -543,8 +568,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           color: Colors.white,
                                           size: 24.0,
                                         ),
-                                        labelText:
-                                            'More invite people (Optional)',
+                                        labelText: AppLocalizations.of(context)
+                                            .translate('more-invite-message'),
                                         labelStyle: new TextStyle(
                                             fontFamily: "Mitr",
                                             fontSize: 15,
@@ -591,7 +616,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                           margin: EdgeInsets.only(left: 25),
                                           height: 30,
                                           child: Text(
-                                            'Invite to: ',
+                                            AppLocalizations.of(context)
+                                                .translate('invite-to'),
                                             style: TextStyle(
                                               fontSize: 14,
                                               fontFamily: 'Mitr',
@@ -1107,7 +1133,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    'Make an appointment',
+                                                    AppLocalizations.of(context)
+                                                        .translate(
+                                                            'make-an-appointment'),
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         fontFamily: 'Mitr',

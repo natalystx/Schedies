@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/screens/myProfile.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +49,7 @@ class TopOverlayBar extends StatelessWidget {
                             size: 12,
                           ),
                           Text(
-                            'Back',
+                            AppLocalizations.of(context).translate('back'),
                             style: TextStyle(
                               fontFamily: 'Mitr',
                               fontSize: 12,

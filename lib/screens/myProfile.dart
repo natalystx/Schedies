@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/CalendarCarousel.dart';
 import 'package:schedule_app/components/EventLister.dart';
@@ -6,6 +7,8 @@ import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/screens/chatting.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/AuthService.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +25,19 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    var appLanguage = Provider.of<AppLanguage>(context);
     widget.isMe = user.uid == widget.documentID ? true : widget.isMe;
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         body: SafeArea(
           child: SizedBox(
@@ -91,7 +105,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                                   250, 137, 123, 1),
                                               onPressed: () {},
                                               child: Text(
-                                                'Edit',
+                                                AppLocalizations.of(context)
+                                                    .translate('edit'),
                                                 style: TextStyle(
                                                   fontFamily: 'Mitr',
                                                   fontSize: 15,
@@ -163,11 +178,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 20.0),
+                              padding: const EdgeInsets.only(left: 15.0),
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                    'User status: ' +
+                                    AppLocalizations.of(context)
+                                            .translate('user-status-2') +
                                         snapshot.data['userStatus'],
                                     style: TextStyle(
                                       fontFamily: 'Mitr',
@@ -184,7 +200,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                    'Email: ' + snapshot.data['email'],
+                                    AppLocalizations.of(context)
+                                            .translate('email-2') +
+                                        snapshot.data['email'],
                                     style: TextStyle(
                                       fontFamily: 'Mitr',
                                       fontSize: 15,
@@ -200,7 +218,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               child: Row(
                                 children: <Widget>[
                                   Text(
-                                    'Phone: ' + snapshot.data['phoneNumber'],
+                                    AppLocalizations.of(context)
+                                            .translate('phone') +
+                                        snapshot.data['phoneNumber'],
                                     style: TextStyle(
                                       fontFamily: 'Mitr',
                                       fontSize: 15,
@@ -217,7 +237,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 children: <Widget>[
                                   snapshot.data['studentID'] != null
                                       ? Text(
-                                          'StudentID: ' +
+                                          AppLocalizations.of(context)
+                                                  .translate('student-id-2') +
                                               snapshot.data['studentID'],
                                           style: TextStyle(
                                             fontFamily: 'Mitr',

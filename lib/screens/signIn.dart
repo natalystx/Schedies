@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/AuthService.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
   @override
@@ -13,7 +17,18 @@ class _SignInScreenState extends State<SignInScreen> {
   final AuthServices _auth = AuthServices();
   @override
   Widget build(BuildContext context) {
+    var appLanguage = Provider.of<AppLanguage>(context);
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         body: SafeArea(
           child: Center(
@@ -33,7 +48,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      WelcomeText(15, FontWeight.w300, 'Welcome to')
+                      WelcomeText(
+                          15,
+                          FontWeight.w300,
+                          AppLocalizations.of(context)
+                              .translate('welcome-header'))
                     ],
                   ),
                   Row(
@@ -53,7 +72,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       WelcomeText(
                         15,
                         FontWeight.w300,
-                        'The tools for manage your plans.',
+                        AppLocalizations.of(context)
+                            .translate('welcome-message'),
                         paddingSide: EdgeInsets.only(bottom: 40),
                       )
                     ],
@@ -75,7 +95,8 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: Colors.white,
                               size: 24.0,
                             ),
-                            labelText: 'Email',
+                            labelText:
+                                AppLocalizations.of(context).translate('email'),
                             labelStyle: new TextStyle(
                                 fontFamily: "Mitr",
                                 fontSize: 15,
@@ -121,7 +142,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                 color: Colors.white,
                                 size: 24.0,
                               ),
-                              labelText: 'Password',
+                              labelText: AppLocalizations.of(context)
+                                  .translate('password'),
                               labelStyle: new TextStyle(
                                   fontFamily: "Mitr",
                                   fontSize: 15,
@@ -181,7 +203,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                 ),
                                 Text(
-                                  'Sign in',
+                                  AppLocalizations.of(context)
+                                      .translate('sign-in'),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontFamily: 'Mitr',
@@ -228,7 +251,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                 ),
                                 Text(
-                                  'Forgot password?',
+                                  AppLocalizations.of(context)
+                                      .translate('forgot-pass'),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       fontFamily: 'Mitr',
