@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/CalendarCarousel.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:schedule_app/model/DateProvider.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/CloudDataService.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/components/EventLister.dart';
@@ -19,9 +22,20 @@ class _OverviewScreenState extends State<OverviewScreen> {
   final CloudDataService firestore = CloudDataService();
   @override
   Widget build(BuildContext context) {
+    var appLanguage = Provider.of<AppLanguage>(context);
     return ChangeNotifierProvider<DateProvider>(
       create: (context) => DateProvider(),
       child: MaterialApp(
+        locale: appLanguage.appLocal,
+        supportedLocales: [
+          Locale('en'),
+          Locale('th'),
+        ],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
         home: Scaffold(
           body: SafeArea(
             child: SizedBox(
@@ -44,7 +58,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                                 padding:
                                     const EdgeInsets.only(left: 30, right: 10),
                                 child: Text(
-                                  'Hi,',
+                                  AppLocalizations.of(context).translate('hi'),
                                   style: TextStyle(
                                     fontFamily: 'Mitr',
                                     fontSize: 24,
@@ -96,7 +110,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                             child: Row(
                               children: <Widget>[
                                 Text(
-                                  'Let’s check your events.',
+                                  AppLocalizations.of(context)
+                                      .translate('overview-welcome-message'),
                                   style: TextStyle(
                                     fontFamily: 'Mitr',
                                     fontSize: 15,

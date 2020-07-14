@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/model/User.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/wrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,8 @@ class _ReasonBoxState extends State<ReasonBox> {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Text(
-                      'Give some reason.',
+                      AppLocalizations.of(context)
+                          .translate('pls-give-some-reason'),
                       style: TextStyle(
                           fontFamily: 'Mitr',
                           fontSize: 25,
@@ -57,8 +59,10 @@ class _ReasonBoxState extends State<ReasonBox> {
                     height: 100,
                     margin: EdgeInsets.only(top: 25, bottom: 0),
                     child: new TextFormField(
-                      validator: (value) =>
-                          value.isNotEmpty ? null : 'Please give some reason.',
+                      validator: (value) => value.isNotEmpty
+                          ? null
+                          : AppLocalizations.of(context)
+                              .translate('pls-give-some-reason'),
                       onChanged: (value) => {setState(() => _reason = value)},
                       obscureText: false,
                       decoration: new InputDecoration(
@@ -67,7 +71,8 @@ class _ReasonBoxState extends State<ReasonBox> {
                           color: Colors.white,
                           size: 24.0,
                         ),
-                        labelText: 'Give some reason.',
+                        labelText: AppLocalizations.of(context)
+                            .translate('pls-give-some-reason'),
                         labelStyle: new TextStyle(
                             fontFamily: "Mitr",
                             fontSize: 15,
@@ -212,7 +217,8 @@ class _ReasonBoxState extends State<ReasonBox> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   Text(
-                                    'Give reason',
+                                    AppLocalizations.of(context)
+                                        .translate('give-reason'),
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                         fontFamily: 'Mitr',

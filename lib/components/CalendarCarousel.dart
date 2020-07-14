@@ -1,5 +1,6 @@
 import 'package:schedule_app/model/DateProvider.dart';
 import 'package:schedule_app/screens/addEvent.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,10 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
   @override
   Widget build(BuildContext context) {
     final DateProvider dateProvider = Provider.of<DateProvider>(context);
-
+    var appLanguage = Provider.of<AppLanguage>(context);
+    String shrink = appLanguage.appLocal.languageCode == 'en' ? 'Shirnk' : 'หด';
+    String expand =
+        appLanguage.appLocal.languageCode == 'en' ? 'Expand' : 'ขยาย';
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -48,6 +52,9 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                 // Incase other's calendar
                 !widget.isMe
                     ? TableCalendar(
+                        locale: appLanguage.appLocal.languageCode == 'en'
+                            ? 'en_US'
+                            : 'th_TH',
                         calendarController: _calendarController,
                         onDaySelected: (date, events) {
                           dateProvider.getDate(date.toIso8601String());
@@ -87,9 +94,9 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                             ),
                           ),
                         ),
-                        availableCalendarFormats: const {
-                          CalendarFormat.week: 'Shrink',
-                          CalendarFormat.month: 'Expand',
+                        availableCalendarFormats: {
+                          CalendarFormat.week: shrink,
+                          CalendarFormat.month: expand,
                         },
                         builders: CalendarBuilders(
                           dayBuilder: (context, date, events) =>
@@ -203,6 +210,9 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                       )
                     //Incase own calendar
                     : TableCalendar(
+                        locale: appLanguage.appLocal.languageCode == 'en'
+                            ? 'en_US'
+                            : 'th_TH',
                         calendarController: _calendarController,
                         onDaySelected: (date, events) {
                           dateProvider.getDate(date.toIso8601String());
@@ -242,9 +252,9 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                             ),
                           ),
                         ),
-                        availableCalendarFormats: const {
-                          CalendarFormat.week: 'Shrink',
-                          CalendarFormat.month: 'Expand',
+                        availableCalendarFormats: {
+                          CalendarFormat.week: shrink,
+                          CalendarFormat.month: expand,
                         },
                         builders: CalendarBuilders(
                           dayBuilder: (context, date, events) =>

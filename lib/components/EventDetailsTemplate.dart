@@ -4,7 +4,9 @@ import 'package:schedule_app/components/ReasonBox.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/screens/chatting.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import '../wrapper.dart';
+
 
 class EventDetailsTemplate extends StatefulWidget {
   final String _uid;
@@ -34,6 +36,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
   List<dynamic> moreInvite= [];
   @override
   Widget build(BuildContext context) {
+
     final user = Provider.of<User>(context);
     return StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
@@ -106,7 +109,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                     Row(
                                       children: <Widget>[
                                         Text(
-                                          '${widget._document['topic']} (Topic)',
+                                          '${widget._document['topic']} (${AppLocalizations.of(context).translate('topic')})',
                                           style: TextStyle(
                                             fontFamily: 'Mitr',
                                             fontSize: 25,
@@ -160,7 +163,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                     Row(
                                       children: <Widget>[
                                         Text(
-                                          'Status: ${widget._document['userCount'] <= 2 ? widget._document['eventStatus'] : myEventStatus}',
+                                          '${AppLocalizations.of(context).translate('status-2')} ${widget._document['userCount'] <= 2 ? widget._document['eventStatus'] : myEventStatus}',
                                           style: TextStyle(
                                             fontFamily: 'Mitr',
                                             fontSize: 15,
@@ -179,7 +182,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                               Container(
                                                 width: MediaQuery.of(context).size.width-40,
                                                 child: Text(
-                                                  'Reason: ${widget._document['reason']}',
+                                                  '${AppLocalizations.of(context).translate('reason-2')} ${widget._document['reason']}',
                                                   maxLines: 5,
                                                   style: TextStyle(
                                                     fontFamily: 'Mitr',
@@ -199,7 +202,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                               Container(
                                                 width: MediaQuery.of(context).size.width -40,
                                                 child: Text(
-                                                  'Member status: ${widget._document['eventMemberList']}',
+                                                  '${AppLocalizations.of(context).translate('member-status-2')} ${widget._document['eventMemberList']}',
                                                   maxLines: 10,
                                                   style: TextStyle(
                                                     fontFamily: 'Mitr',                                                  
@@ -222,10 +225,10 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                   .width -
                                               40,
                                           child: Text(
-                                            '${widget._document['details']}. On ${widget._document.data['date'].toString().substring(0, 10)}' +
-                                                ' start at ${widget._document.data['startTime']}, end at ${widget._document.data['endTime']}' +
-                                                ' location ${widget._document.data['location']} ' +
-                                                '${widget._document.data['moreInvite'].toString().isNotEmpty ? "with " + widget._document.data['moreInvite'].toString() : ''}. ',
+                                            '${widget._document['details']}. ${AppLocalizations.of(context).translate('on')} ${widget._document.data['date'].toString().substring(0, 10)}' +
+                                                ' ${AppLocalizations.of(context).translate('start-at')} ${widget._document.data['startTime']}, ${AppLocalizations.of(context).translate('end-at')} ${widget._document.data['endTime']}' +
+                                                ' ${AppLocalizations.of(context).translate('location-2')} ${widget._document.data['location']} ' +
+                                                '${widget._document.data['moreInvite'].toString().isNotEmpty ?  AppLocalizations.of(context).translate('with-2') + widget._document.data['moreInvite'].toString() : ''}. ',
                                             style: TextStyle(
                                               fontFamily: 'Mitr',
                                               fontSize: 15,
@@ -397,8 +400,8 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                               widget._document.data[
                                                                           'eventStatus'] ==
                                                                       'Pending'
-                                                                  ? 'Accept'
-                                                                  : 'Complete',
+                                                                  ? AppLocalizations.of(context).translate('accept')
+                                                                  : AppLocalizations.of(context).translate('complete'),
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -419,8 +422,8 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                               // display button text bosed on status
                                                               myEventStatus ==
                                                                       'Pending'
-                                                                  ? 'Accept'
-                                                                  : 'Complete',
+                                                                  ? AppLocalizations.of(context).translate('accept')
+                                                                  : AppLocalizations.of(context).translate('complete'),
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -478,7 +481,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                             .center,
                                                     children: <Widget>[
                                                       Text(
-                                                        'Cancel',
+                                                        AppLocalizations.of(context).translate('cancel'),
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/model/User.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 
 class ChatView extends StatefulWidget {
   final DocumentSnapshot receiver;
@@ -280,7 +281,8 @@ class _ChatViewState extends State<ChatView> {
                     size: 24.0,
                   ),
                 ),
-                labelText: 'Type your massage.',
+                labelText:
+                    AppLocalizations.of(context).translate('type-your-message'),
                 labelStyle: new TextStyle(
                     fontFamily: "Mitr",
                     fontSize: 15,

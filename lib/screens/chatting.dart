@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/ChatView.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 
 class ChattingScreen extends StatefulWidget {
   final bool isShowChat;
@@ -22,7 +25,18 @@ class _ChattingScreenState extends State<ChattingScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    var appLanguage = Provider.of<AppLanguage>(context);
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         backgroundColor: Color.fromRGBO(255, 221, 148, 1),
         body: SafeArea(
@@ -46,7 +60,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                   Padding(
                     padding: const EdgeInsets.only(left: 0),
                     child: Text(
-                      'Chat',
+                      AppLocalizations.of(context).translate('chat'),
                       style: TextStyle(
                         fontFamily: 'Mitr',
                         fontSize: 30,

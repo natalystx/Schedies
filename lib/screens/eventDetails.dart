@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/EventDetailsTemplate.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 
 class EventDetailsScreen extends StatefulWidget {
   final DocumentSnapshot _document;
@@ -18,7 +21,18 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
+    var appLanguage = Provider.of<AppLanguage>(context);
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         body: SafeArea(
           child: SizedBox(

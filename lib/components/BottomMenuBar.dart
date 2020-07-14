@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:schedule_app/screens/chatting.dart';
 import 'package:schedule_app/screens/report.dart';
 import 'package:schedule_app/screens/search.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/wrapper.dart';
 
 class BottomMenuBar extends StatefulWidget {
@@ -47,7 +48,7 @@ class _BottomMenuBarState extends State<BottomMenuBar> {
                             )
                           },
                       child: Text(
-                        'Home',
+                        AppLocalizations.of(context).translate('home'),
                         style: TextStyle(
                             fontFamily: 'Mitr',
                             fontWeight: FontWeight.w400,

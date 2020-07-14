@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 
 class CardListTemplate extends StatelessWidget {
   final DocumentSnapshot _document;
@@ -78,7 +79,7 @@ class CardListTemplate extends StatelessWidget {
                               Row(
                                 children: <Widget>[
                                   Text(
-                                    '${_document.data['topic']} (Topic)',
+                                    '${_document.data['topic']} (${AppLocalizations.of(context).translate('topic')})',
                                     style: TextStyle(
                                       fontFamily: 'Mitr',
                                       fontSize: 15,
@@ -91,7 +92,7 @@ class CardListTemplate extends StatelessWidget {
                               Row(
                                 children: <Widget>[
                                   Text(
-                                    'Status: ${_document.data['userCount'] <= 2 || _document.data['eventStatus'] == 'Be over' || _document.data['eventStatus'] == 'Completed' ? _document.data['eventStatus'] : myStatusOnList}',
+                                    '${AppLocalizations.of(context).translate('status-2')} ${_document.data['userCount'] <= 2 || _document.data['eventStatus'] == 'Be over' || _document.data['eventStatus'] == 'Completed' ? _document.data['eventStatus'] : myStatusOnList}',
                                     style: TextStyle(
                                       fontFamily: 'Mitr',
                                       fontSize: 14,
@@ -145,7 +146,7 @@ class CardListTemplate extends StatelessWidget {
                               Row(
                                 children: <Widget>[
                                   Text(
-                                    'Location: ${_document.data['location']}',
+                                    '${AppLocalizations.of(context).translate('location-3')} ${_document.data['location']}',
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: TextStyle(
@@ -163,7 +164,7 @@ class CardListTemplate extends StatelessWidget {
                                           .toString()
                                           .isNotEmpty
                                       ? Text(
-                                          'with: ${_document.data['moreInvite']}',
+                                          '${AppLocalizations.of(context).translate('with-2')} ${_document.data['moreInvite']}',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
                                           style: TextStyle(

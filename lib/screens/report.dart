@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/CalendarCarousel.dart';
 import 'package:schedule_app/components/ListChartDetails.dart';
 import 'package:schedule_app/components/ReportChart.dart';
@@ -9,6 +10,8 @@ import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:schedule_app/services/AppLanguage.dart';
+import 'package:schedule_app/services/AppLocalizations.dart';
 
 class ReportScreen extends StatefulWidget {
   @override
@@ -48,10 +51,21 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     final DateProvider dateProvider = Provider.of<DateProvider>(context);
+    var appLanguage = Provider.of<AppLanguage>(context);
     String next7Days = DateTime.parse(dateProvider.date)
         .add(Duration(days: 6))
         .toIso8601String();
     return MaterialApp(
+      locale: appLanguage.appLocal,
+      supportedLocales: [
+        Locale('en'),
+        Locale('th'),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: Scaffold(
         backgroundColor: Color.fromRGBO(255, 202, 148, 1),
         body: SafeArea(
@@ -81,7 +95,7 @@ class _ReportScreenState extends State<ReportScreen> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
                           child: Text(
-                            'Report',
+                            AppLocalizations.of(context).translate('report'),
                             style: TextStyle(
                               fontFamily: 'Mitr',
                               fontSize: 30,
@@ -105,7 +119,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             });
                           },
                           child: Text(
-                            'DAY',
+                            AppLocalizations.of(context).translate('day'),
                             style: TextStyle(
                               fontFamily: 'Mitr',
                               fontSize: 15,
@@ -125,7 +139,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             });
                           },
                           child: Text(
-                            'WEEK',
+                            AppLocalizations.of(context).translate('week'),
                             style: TextStyle(
                               fontFamily: 'Mitr',
                               fontSize: 15,
@@ -146,7 +160,7 @@ class _ReportScreenState extends State<ReportScreen> {
                             });
                           },
                           child: Text(
-                            'MONTH',
+                            AppLocalizations.of(context).translate('month'),
                             style: TextStyle(
                               fontFamily: 'Mitr',
                               fontSize: 15,
@@ -176,7 +190,7 @@ class _ReportScreenState extends State<ReportScreen> {
                           })
                         },
                         child: Text(
-                          'All users',
+                          AppLocalizations.of(context).translate('all-users'),
                           style: TextStyle(
                             fontFamily: 'Mitr',
                             fontSize: 15,
@@ -187,7 +201,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(10),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 40,
                         height: 110,
@@ -268,7 +282,7 @@ class _ReportScreenState extends State<ReportScreen> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.all(5.0),
                                                   child: Text(
                                                     snapshot.data
                                                             .documents[index]
