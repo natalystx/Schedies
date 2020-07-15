@@ -4,6 +4,7 @@ import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/CalendarCarousel.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:schedule_app/model/DateProvider.dart';
+import 'package:schedule_app/push_nofitications.dart';
 import 'package:schedule_app/services/AppLanguage.dart';
 import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/CloudDataService.dart';
@@ -19,6 +20,14 @@ class OverviewScreen extends StatefulWidget {
 }
 
 class _OverviewScreenState extends State<OverviewScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    PushNotificationsManager().init();
+    PushNotificationsManager().saveToken(widget.uid);
+  }
+
   final CloudDataService firestore = CloudDataService();
   @override
   Widget build(BuildContext context) {

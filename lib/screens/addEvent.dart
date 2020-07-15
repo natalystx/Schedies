@@ -1218,7 +1218,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                       Container(
                                         padding: EdgeInsets.only(top: 10),
                                         child: Text(
-                                          'Select time',
+                                          AppLocalizations.of(context)
+                                              .translate('select-time'),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'Mitr',
@@ -1229,7 +1230,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                       Container(
                                         padding: EdgeInsets.only(top: 10),
                                         child: Text(
-                                          'At: $_convertedTime',
+                                          '${AppLocalizations.of(context).translate('at-3')}: $_convertedTime',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'Mitr',
