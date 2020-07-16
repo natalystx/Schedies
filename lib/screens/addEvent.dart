@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:schedule_app/components/ProfileList.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
 import 'package:schedule_app/model/User.dart';

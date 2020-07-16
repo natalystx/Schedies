@@ -80,5 +80,13 @@
     "expand": "Expand",
     "home": "Home",
     "select-time": "Select time",
-    "at-3": "At"
+    "at-3": "At",
+    "edit-header": "Edit your personal information.",
+    "update": "Update",
+    "are-you": "Are you",
+    "forgot-password": "Forgot password",
+    "let-us-help": "Let us help you.",
+    "send-email-topic": "We're already send email for password reset.",
+    "check-inbox": "Please check in your email inbox.",
+    "ok": "Okay"
 }
