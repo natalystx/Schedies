@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
+import 'package:schedule_app/screens/forgotPass.dart';
 import 'package:schedule_app/services/AppLanguage.dart';
 import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/AuthService.dart';
@@ -230,8 +231,10 @@ class _SignInScreenState extends State<SignInScreen> {
                           child: RaisedButton(
                             elevation: 0,
                             onPressed: () => {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => null))
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ForgotPassScreen()))
                             },
                             color: Color.fromRGBO(85, 85, 85, 1),
                             shape: RoundedRectangleBorder(

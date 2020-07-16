@@ -7,6 +7,7 @@ import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/screens/chatting.dart';
+import 'package:schedule_app/screens/updateData.dart';
 import 'package:schedule_app/services/AppLanguage.dart';
 import 'package:schedule_app/services/AppLocalizations.dart';
 import 'package:schedule_app/services/AuthService.dart';
@@ -103,7 +104,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                               elevation: 0,
                                               color: Color.fromRGBO(
                                                   250, 137, 123, 1),
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        UpdateDataScreen(
+                                                            snapshot.data),
+                                                  ),
+                                                );
+                                              },
                                               child: Text(
                                                 AppLocalizations.of(context)
                                                     .translate('edit'),
