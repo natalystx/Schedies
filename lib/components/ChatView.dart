@@ -100,7 +100,21 @@ class _ChatViewState extends State<ChatView> {
                                                 user.uid) ||
                                         (user.uid ==
                                             snapshot.data.documents[index]
-                                                ['receiver'])
+                                                ['receiver']) ||
+                                        (snapshot.data
+                                                .documents[index]['receiver']
+                                                .toString()
+                                                .contains(user.uid) &&
+                                            user.uid !=
+                                                snapshot.data.documents[index]
+                                                    ['sender']) ||
+                                        (snapshot.data
+                                                .documents[index]['receiver']
+                                                .toString()
+                                                .contains(userName) &&
+                                            user.uid !=
+                                                snapshot.data.documents[index]
+                                                    ['sender'])
                                     ? Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
