@@ -32,14 +32,7 @@ class TopOverlayBar extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: RaisedButton(
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new Wrapper(),
-                          ),
-                        )
-                      },
+                      onPressed: () => {Navigator.pop(context)},
                       elevation: 0,
                       child: Row(
                         children: <Widget>[
@@ -74,14 +67,7 @@ class TopOverlayBar extends StatelessWidget {
                     height: 20,
                     padding: EdgeInsets.all(0),
                     child: FlatButton(
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                            builder: (context) => new Wrapper(),
-                          ),
-                        )
-                      },
+                      onPressed: () => {Navigator.pushNamed(context, '/')},
                       child: Icon(
                         Icons.calendar_today,
                         size: 23,
@@ -106,7 +92,7 @@ class TopOverlayBar extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => MyProfileScreen(
-                                    user.uid,
+                                    documentID: user.uid,
                                     isMe: true,
                                   )),
                         )

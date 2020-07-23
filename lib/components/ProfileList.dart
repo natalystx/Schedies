@@ -13,7 +13,8 @@ class ProfileList extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => MyProfileScreen(_documentID)),
+          MaterialPageRoute(
+              builder: (context) => MyProfileScreen(documentID: _documentID)),
         );
       },
       child: ListTile(

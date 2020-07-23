@@ -1,7 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:schedule_app/screens/overview.dart';
+import 'package:flutter/material.dart';
+import 'package:schedule_app/services/NavigationService.dart';
+import 'package:get_it/get_it.dart';
 
 class PushNotificationsManager {
   PushNotificationsManager._();
@@ -14,6 +15,9 @@ class PushNotificationsManager {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   bool _initialized = false;
   String token;
+  final GetIt locator = GetIt.instance;
+  final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
   Future<void> init() async {
     if (!_initialized) {
       // For iOS request permission first.
@@ -26,16 +30,17 @@ class PushNotificationsManager {
 
       _initialized = true;
     }
-
-    _firebaseMessaging.configure(
+    FirebaseMessaging().configure(
       onMessage: (message) async {
         print(message);
       },
       onResume: (message) async {
         print(message);
+        locator<NavigationService>().navigateTo(message['data']['screen']);
       },
       onLaunch: (message) async {
         print(message);
+        locator<NavigationService>().navigateTo(message['data']['screen']);
       },
     );
   }

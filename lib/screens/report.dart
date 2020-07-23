@@ -55,18 +55,7 @@ class _ReportScreenState extends State<ReportScreen> {
     String next7Days = DateTime.parse(dateProvider.date)
         .add(Duration(days: 6))
         .toIso8601String();
-    return MaterialApp(
-      locale: appLanguage.appLocal,
-      supportedLocales: [
-        Locale('en'),
-        Locale('th'),
-      ],
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      home: Scaffold(
+    return  Scaffold(
         backgroundColor: Color.fromRGBO(255, 202, 148, 1),
         body: SafeArea(
             child: Stack(
@@ -677,7 +666,7 @@ class _ReportScreenState extends State<ReportScreen> {
             ),
           ],
         )),
-      ),
+      
     );
   }
 }

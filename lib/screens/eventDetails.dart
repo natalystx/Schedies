@@ -22,68 +22,56 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     var appLanguage = Provider.of<AppLanguage>(context);
-    return MaterialApp(
-      locale: appLanguage.appLocal,
-      supportedLocales: [
-        Locale('en'),
-        Locale('th'),
-      ],
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      home: Scaffold(
-        body: SafeArea(
-          child: SizedBox(
-            child: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                StreamBuilder<DocumentSnapshot>(
-                  stream: Firestore.instance
-                      .collection('Users data')
-                      .document(widget._uid)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    // check snapshot data
-                    if (snapshot.hasData) {
-                      // check user is in event
-                      if (widget._document.data['moreInvite']
-                              .toString()
-                              .contains(snapshot.data['name']) ||
-                          widget._document.data['sender'] == user.uid ||
-                          widget._document.data['receiver'] == user.uid) {
-                        // user is sender
-                        if (widget._document.data['sender'] == user.uid) {
-                          return EventDetailsTemplate(widget._document,
-                              widget._document.data['receiver']);
-                        } else if (widget._document.data['receiver'] ==
-                            user.uid) {
-                          return EventDetailsTemplate(widget._document,
-                              widget._document.data['sender']);
-                        } else if (widget._document.data['moreInvite']
+    return Scaffold(
+      body: SafeArea(
+        child: SizedBox(
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              StreamBuilder<DocumentSnapshot>(
+                stream: Firestore.instance
+                    .collection('Users data')
+                    .document(widget._uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  // check snapshot data
+                  if (snapshot.hasData) {
+                    // check user is in event
+                    if (widget._document.data['moreInvite']
                             .toString()
-                            .contains(snapshot.data['name'])) {
-                          return EventDetailsTemplate(widget._document,
-                              widget._document.data['sender']);
-                        }
-                      } else {
-                        return Text('');
+                            .contains(snapshot.data['name']) ||
+                        widget._document.data['sender'] == user.uid ||
+                        widget._document.data['receiver'] == user.uid) {
+                      // user is sender
+                      if (widget._document.data['sender'] == user.uid) {
+                        return EventDetailsTemplate(widget._document,
+                            widget._document.data['receiver']);
+                      } else if (widget._document.data['receiver'] ==
+                          user.uid) {
+                        return EventDetailsTemplate(
+                            widget._document, widget._document.data['sender']);
+                      } else if (widget._document.data['moreInvite']
+                          .toString()
+                          .contains(snapshot.data['name'])) {
+                        return EventDetailsTemplate(
+                            widget._document, widget._document.data['sender']);
                       }
                     } else {
                       return Text('');
                     }
-                  },
-                ),
-                Positioned(
-                    top: 20,
-                    right: 20,
-                    child: TopOverlayBar(
-                      isShowBackButton: true,
-                    )),
-                Positioned(bottom: 0, child: BottomMenuBar())
-              ],
-            ),
+                  } else {
+                    return Text('');
+                  }
+                },
+              ),
+              Positioned(
+                  top: 20,
+                  right: 20,
+                  child: TopOverlayBar(
+                    isShowBackButton: true,
+                  )),
+              Positioned(bottom: 0, child: BottomMenuBar())
+            ],
           ),
         ),
       ),

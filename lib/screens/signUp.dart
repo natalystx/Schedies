@@ -76,19 +76,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget build(BuildContext context) {
     var appLanguage = Provider.of<AppLanguage>(context);
-    return MaterialApp(
-      locale: appLanguage.appLocal,
-      supportedLocales: [
-        Locale('en'),
-        Locale('th'),
-      ],
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      home: Scaffold(
-          body: SafeArea(
+    return Scaffold(
+      body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -563,6 +552,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 userStatus: _userStatus,
                                 imageProfile: _profileImage,
                                 studentID: _studentID);
+                            Navigator.pushNamed(context, '/wrapper');
                             if (result == null) {
                               setState(() => _error =
                                   'Sign up failed. Please enter valid email.');
@@ -604,7 +594,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 }

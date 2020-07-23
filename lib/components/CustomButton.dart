@@ -5,7 +5,7 @@ class CustomButton extends StatelessWidget {
   Color _buttonColor;
   double _fontSize;
   AssetImage _imageIcon;
-  MaterialPageRoute _route;
+  String _route;
   CustomButton(this._buttonColor, this._buttonTitle, this._fontSize,
       this._imageIcon, this._route);
   @override
@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
             height: 50,
             child: RaisedButton(
               elevation: 0,
-              onPressed: () => {Navigator.push(context, _route)},
+              onPressed: () => {Navigator.of(context).pushNamed(_route)},
               color: _buttonColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(20))),
