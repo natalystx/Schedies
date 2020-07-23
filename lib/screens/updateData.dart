@@ -91,12 +91,6 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
       body: SafeArea(
           child: Stack(
         children: [
-          Positioned(
-              top: 20,
-              right: 20,
-              child: TopOverlayBar(
-                isShowBackButton: true,
-              )),
           Form(
             key: _signUpFormKey,
             child: SingleChildScrollView(
@@ -405,6 +399,12 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
               ),
             ),
           ),
+          Positioned(
+              top: 20,
+              right: 20,
+              child: TopOverlayBar(
+                isShowBackButton: true,
+              )),
         ],
       )),
     );

@@ -6,8 +6,9 @@ import 'package:schedule_app/services/AppLocalizations.dart';
 
 class ChatView extends StatefulWidget {
   final DocumentSnapshot receiver;
+  final DocumentSnapshot sender;
   final String chatID;
-  ChatView({this.chatID, this.receiver});
+  ChatView({this.chatID, this.receiver, this.sender});
   @override
   _ChatViewState createState() => _ChatViewState();
 }
@@ -19,6 +20,14 @@ class _ChatViewState extends State<ChatView> {
   String userName;
   clearText() {
     textController.clear();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    userName = widget.sender.data['name'];
+    imageProfile = widget.sender.data['imageProfile'];
+    super.initState();
   }
 
   @override
@@ -88,161 +97,148 @@ class _ChatViewState extends State<ChatView> {
                           if (!snapshotMe.hasData)
                             return Padding(padding: EdgeInsets.all(0));
 
-                          if (snapshot.data.documents[index].exists) {
-                            imageProfile = snapshotMe.data['imageProfile'];
-                            userName = snapshotMe.data['name'];
-                            return Column(
-                              children: <Widget>[
-                                (widget.chatID.contains(
-                                                snapshotMe.data['name']) &&
-                                            snapshot.data.documents[index]
-                                                    ['sender'] !=
-                                                user.uid) ||
-                                        (user.uid ==
-                                            snapshot.data.documents[index]
-                                                ['receiver']) ||
-                                        (snapshot.data
-                                                .documents[index]['receiver']
-                                                .toString()
-                                                .contains(user.uid) &&
-                                            user.uid !=
+                          return Column(
+                            children: <Widget>[
+                              (widget.chatID.contains(snapshotMe.data['name']) &&
+                                          snapshot.data.documents[index]['sender'] !=
+                                              user.uid) ||
+                                      (user.uid ==
+                                              snapshot.data.documents[index]
+                                                  ['receiver']) &&
+                                          snapshot.data.documents[index]['receiver'] !=
+                                              snapshot.data.documents[index]
+                                                  ['sender'] ||
+                                      (snapshot.data.documents[index]['receiver']
+                                              .toString()
+                                              .contains(user.uid) &&
+                                          user.uid !=
+                                              snapshot.data.documents[index]
+                                                  ['sender']) ||
+                                      (snapshot.data.documents[index]['receiver']
+                                              .toString()
+                                              .contains(userName) &&
+                                          user.uid != snapshot.data.documents[index]['sender'])
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              snapshot.data.documents[index]
+                                                  ['imageProfile']),
+                                          radius: 25,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, bottom: 10),
+                                          child: Container(
+                                            constraints: BoxConstraints(
+                                                minWidth: 50, maxWidth: 200),
+                                            margin: EdgeInsets.only(top: 50),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    250, 137, 123, 1),
+                                                borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(20),
+                                                  bottomLeft:
+                                                      Radius.circular(20),
+                                                  bottomRight:
+                                                      Radius.circular(20),
+                                                )),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Text(
                                                 snapshot.data.documents[index]
-                                                    ['sender']) ||
-                                        (snapshot.data
-                                                .documents[index]['receiver']
-                                                .toString()
-                                                .contains(userName) &&
-                                            user.uid !=
-                                                snapshot.data.documents[index]
-                                                    ['sender'])
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                snapshot.data.documents[index]
-                                                    ['imageProfile']),
-                                            radius: 25,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, bottom: 10),
-                                            child: Container(
-                                              constraints: BoxConstraints(
-                                                  minWidth: 50, maxWidth: 200),
-                                              margin: EdgeInsets.only(top: 50),
-                                              decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      250, 137, 123, 1),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(20),
-                                                    bottomLeft:
-                                                        Radius.circular(20),
-                                                    bottomRight:
-                                                        Radius.circular(20),
-                                                  )),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Text(
-                                                  snapshot.data.documents[index]
-                                                      ['message'],
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontFamily: 'Mitr',
-                                                    fontWeight: FontWeight.w300,
-                                                    color: Colors.white,
-                                                  ),
+                                                    ['message'],
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Mitr',
+                                                  fontWeight: FontWeight.w300,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          Text(
-                                            snapshot.data
-                                                .documents[index]['createdTime']
-                                                .toString()
-                                                .substring(11, 16),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontFamily: 'Mitr',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.black54,
-                                            ),
+                                        ),
+                                        Text(
+                                          snapshot.data
+                                              .documents[index]['createdTime']
+                                              .toString()
+                                              .substring(11, 16),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontFamily: 'Mitr',
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.black54,
                                           ),
-                                        ],
-                                      )
-                                    : Padding(padding: EdgeInsets.all(0)),
-                                snapshot.data.documents[index]['sender'] ==
-                                        user.uid
-                                    ? Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Text(
-                                            snapshot.data
-                                                .documents[index]['createdTime']
-                                                .toString()
-                                                .substring(11, 16),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontFamily: 'Mitr',
-                                              fontWeight: FontWeight.w300,
-                                              color: Colors.black54,
-                                            ),
+                                        ),
+                                      ],
+                                    )
+                                  : Padding(padding: EdgeInsets.all(0)),
+                              snapshot.data.documents[index]['sender'] ==
+                                      user.uid
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Text(
+                                          snapshot.data
+                                              .documents[index]['createdTime']
+                                              .toString()
+                                              .substring(11, 16),
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontFamily: 'Mitr',
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.black54,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10, bottom: 10),
-                                            child: Container(
-                                              constraints: BoxConstraints(
-                                                  minWidth: 50, maxWidth: 200),
-                                              margin: EdgeInsets.only(top: 20),
-                                              decoration: BoxDecoration(
-                                                  color: Color.fromRGBO(
-                                                      62, 230, 192, 1),
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(20),
-                                                    bottomLeft:
-                                                        Radius.circular(20),
-                                                    bottomRight:
-                                                        Radius.circular(20),
-                                                  )),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Text(
-                                                  snapshot.data.documents[index]
-                                                      ['message'],
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontFamily: 'Mitr',
-                                                    fontWeight: FontWeight.w300,
-                                                    color: Colors.white,
-                                                  ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, bottom: 10),
+                                          child: Container(
+                                            constraints: BoxConstraints(
+                                                minWidth: 50, maxWidth: 200),
+                                            margin: EdgeInsets.only(top: 20),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    62, 230, 192, 1),
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  bottomLeft:
+                                                      Radius.circular(20),
+                                                  bottomRight:
+                                                      Radius.circular(20),
+                                                )),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(10.0),
+                                              child: Text(
+                                                snapshot.data.documents[index]
+                                                    ['message'],
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Mitr',
+                                                  fontWeight: FontWeight.w300,
+                                                  color: Colors.white,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      )
-                                    : Padding(padding: EdgeInsets.all(0)),
-                              ],
-                            );
-                          }
-                          return Padding(padding: EdgeInsets.all(0));
+                                        ),
+                                      ],
+                                    )
+                                  : Padding(padding: EdgeInsets.all(0)),
+                            ],
+                          );
                         }),
                   );
                 }),
@@ -279,7 +275,11 @@ class _ChatViewState extends State<ChatView> {
                         'message': message,
                         'createdTime': DateTime.now().toIso8601String(),
                         'imageProfile': imageProfile,
-                        'name': userName
+                        'name': userName,
+                        'isRead': {
+                          user.uid: true,
+                          widget.receiver.documentID: false
+                        }
                       });
                       setState(() {
                         imageProfile = imageProfile;

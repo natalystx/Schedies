@@ -2,20 +2,25 @@ import 'package:schedule_app/model/DateProvider.dart';
 import 'package:schedule_app/screens/addEvent.dart';
 import 'package:schedule_app/services/AppLanguage.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart';
 
 class CalendarCarousel extends StatefulWidget {
   @override
   _CalendarCarouselState createState() => _CalendarCarouselState();
   final String _uid;
   bool isMe;
-  CalendarCarousel(this._uid, {this.isMe = true});
+
+  String name;
+  QuerySnapshot document;
+  CalendarCarousel(this._uid, {this.isMe = true, this.document, this.name});
 }
 
 class _CalendarCarouselState extends State<CalendarCarousel> {
   CalendarController _calendarController;
-
+  Map<String, dynamic> myevents = {};
   @override
   void initState() {
     super.initState();
@@ -30,6 +35,15 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    widget.document.documents.forEach((doc) {
+      if ((doc.data['sender'] == (widget._uid) ||
+              doc.data['receiver'] == (widget._uid) ||
+              doc.data['moreInvite'].contains(widget.name)) &&
+          (doc.data['eventStatus'] == 'Pending' ||
+              doc.data['eventStatus'] == 'Approved')) {
+        myevents.putIfAbsent(doc.data['date'], () => 1);
+      }
+    });
     final DateProvider dateProvider = Provider.of<DateProvider>(context);
     var appLanguage = Provider.of<AppLanguage>(context);
     String shrink = appLanguage.appLocal.languageCode == 'en' ? 'Shirnk' : 'หด';
@@ -259,69 +273,135 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
                         builders: CalendarBuilders(
                           dayBuilder: (context, date, events) =>
                               GestureDetector(
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 40,
-                              height: 40,
-                              margin:
-                                  EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                              child: Text(
-                                date.day.toString(),
-                                style: TextStyle(
-                                    fontFamily: 'Mitr',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 221, 148, 1),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
+                            child: myevents[date.toIso8601String()] == 1
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    width: 40,
+                                    height: 40,
+                                    margin: EdgeInsets.only(
+                                        left: 5, right: 5, bottom: 5),
+                                    child: Badge(
+                                      child: Text(
+                                        date.day.toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'Mitr',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(255, 221, 148, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  )
+                                : Container(
+                                    alignment: Alignment.center,
+                                    width: 40,
+                                    height: 40,
+                                    margin: EdgeInsets.only(
+                                        left: 5, right: 5, bottom: 5),
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(
+                                          fontFamily: 'Mitr',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(255, 221, 148, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
                           ),
                           selectedDayBuilder: (context, date, events) =>
                               GestureDetector(
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 40,
-                              height: 40,
-                              margin:
-                                  EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                              child: Text(
-                                date.day.toString(),
-                                style: TextStyle(
-                                    fontFamily: 'Mitr',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(250, 137, 123, 1),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
+                            child: myevents[date.toIso8601String()] == 1
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    width: 40,
+                                    height: 40,
+                                    margin: EdgeInsets.only(
+                                        left: 5, right: 5, bottom: 5),
+                                    child: Badge(
+                                      child: Text(
+                                        date.day.toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'Mitr',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(250, 137, 123, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  )
+                                : Container(
+                                    alignment: Alignment.center,
+                                    width: 40,
+                                    height: 40,
+                                    margin: EdgeInsets.only(
+                                        left: 5, right: 5, bottom: 5),
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(
+                                          fontFamily: 'Mitr',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(250, 137, 123, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
                           ),
                           todayDayBuilder: (context, date, events) =>
                               GestureDetector(
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 40,
-                              height: 40,
-                              margin:
-                                  EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                              child: Text(
-                                date.day.toString(),
-                                style: TextStyle(
-                                    fontFamily: 'Mitr',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white),
-                              ),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(208, 230, 165, 1),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
+                            child: myevents[date.toIso8601String()] == 1
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    width: 40,
+                                    height: 40,
+                                    margin: EdgeInsets.only(
+                                        left: 5, right: 5, bottom: 5),
+                                    child: Badge(
+                                      child: Text(
+                                        date.day.toString(),
+                                        style: TextStyle(
+                                            fontFamily: 'Mitr',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.white),
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(208, 230, 165, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  )
+                                : Container(
+                                    alignment: Alignment.center,
+                                    width: 40,
+                                    height: 40,
+                                    margin: EdgeInsets.only(
+                                        left: 5, right: 5, bottom: 5),
+                                    child: Text(
+                                      date.day.toString(),
+                                      style: TextStyle(
+                                          fontFamily: 'Mitr',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(208, 230, 165, 1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
                           ),
                           dowWeekdayBuilder: (context, weekday) => Container(
                             alignment: Alignment.center,
