@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/CalendarCarousel.dart';
@@ -41,7 +43,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
                 ),
                 SizedBox(height: 16),
                 new GestureDetector(
-                  onTap: () => Navigator.of(context).pop(true),
+                  onTap: () => exit(0),
                   child: Text("YES"),
                 ),
               ],
