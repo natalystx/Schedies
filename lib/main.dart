@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:schedule_app/model/DateProvider.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/push_nofitications.dart';
 import 'package:schedule_app/screens/addEvent.dart';
 import 'package:schedule_app/screens/chatting.dart';
+import 'package:schedule_app/screens/eventDetails.dart';
 import 'package:schedule_app/screens/forgotPass.dart';
 import 'package:schedule_app/screens/myProfile.dart';
 import 'package:schedule_app/screens/report.dart';
@@ -47,57 +49,60 @@ class MyApp extends StatelessWidget {
     PushNotificationsManager().init();
     return StreamProvider<User>.value(
       value: AuthServices().user,
-      child: ChangeNotifierProvider<AppLanguage>(
-        create: (_) => appLanguage,
-        child: Consumer<AppLanguage>(
-          builder: (context, model, child) {
-            return MaterialApp(
-              navigatorKey: locator<NavigationService>().navigatorKey,
-              onGenerateRoute: (routeSettings) {
-                switch (routeSettings.name) {
-                  case '/chat':
-                    return MaterialPageRoute(
-                        builder: (context) => ChattingScreen());
-                  default:
-                    return MaterialPageRoute(builder: (context) => Wrapper());
-                }
-              },
-              initialRoute: '/',
-              routes: {
-                '/wrapper': (context) => Wrapper(),
-                '/chat': (context) => ChattingScreen(),
-                '/myProfile': (context) => MyProfileScreen(),
-                '/search': (context) => SearchScreen(),
-                '/report': (context) => ReportScreen(),
-                '/welcome': (context) => WelcomeScreen(),
-                '/signup': (context) => SignUpScreen(),
-                '/signin': (context) => SignInScreen(),
-                '/addEvent': (context) => AddEventScreen(),
-                '/forgotpass': (context) => ForgotPassScreen(),
-                '/updateData': (context) => UpdateDataScreen()
-              },
-              locale: model.appLocal,
-              supportedLocales: [
-                Locale('en'),
-                Locale('th'),
-              ],
-              localizationsDelegates: [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              localeResolutionCallback: (locale, supportedLocales) {
-                for (var supportedLocale in supportedLocales) {
-                  if (supportedLocale.languageCode == locale.languageCode &&
-                      supportedLocale.countryCode == locale.countryCode) {
-                    return supportedLocale;
+      child: ChangeNotifierProvider<DateProvider>(
+        create: (context) => DateProvider(),
+        child: ChangeNotifierProvider<AppLanguage>(
+          create: (_) => appLanguage,
+          child: Consumer<AppLanguage>(
+            builder: (context, model, child) {
+              return MaterialApp(
+                navigatorKey: locator<NavigationService>().navigatorKey,
+                onGenerateRoute: (routeSettings) {
+                  switch (routeSettings.name) {
+                    case '/chat':
+                      return MaterialPageRoute(
+                          builder: (context) => ChattingScreen());
+                    default:
+                      return MaterialPageRoute(builder: (context) => Wrapper());
                   }
-                }
-                return supportedLocales.first;
-              },
-              home: Wrapper(),
-            );
-          },
+                },
+                initialRoute: '/',
+                routes: {
+                  '/wrapper': (context) => Wrapper(),
+                  '/chat': (context) => ChattingScreen(),
+                  '/myProfile': (context) => MyProfileScreen(),
+                  '/search': (context) => SearchScreen(),
+                  '/report': (context) => ReportScreen(),
+                  '/welcome': (context) => WelcomeScreen(),
+                  '/signup': (context) => SignUpScreen(),
+                  '/signin': (context) => SignInScreen(),
+                  '/addEvent': (context) => AddEventScreen(),
+                  '/forgotpass': (context) => ForgotPassScreen(),
+                  '/updateData': (context) => UpdateDataScreen(),
+                },
+                locale: model.appLocal,
+                supportedLocales: [
+                  Locale('en'),
+                  Locale('th'),
+                ],
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                ],
+                localeResolutionCallback: (locale, supportedLocales) {
+                  for (var supportedLocale in supportedLocales) {
+                    if (supportedLocale.languageCode == locale.languageCode &&
+                        supportedLocale.countryCode == locale.countryCode) {
+                      return supportedLocale;
+                    }
+                  }
+                  return supportedLocales.first;
+                },
+                home: Wrapper(),
+              );
+            },
+          ),
         ),
       ),
     );

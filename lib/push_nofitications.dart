@@ -36,11 +36,13 @@ class PushNotificationsManager {
       },
       onResume: (message) async {
         print(message);
-        locator<NavigationService>().navigateTo(message['data']['screen']);
+        locator<NavigationService>()
+            .navigateTo(message['data']['screen'], message['data']['docid']);
       },
       onLaunch: (message) async {
         print(message);
-        locator<NavigationService>().navigateTo(message['data']['screen']);
+        locator<NavigationService>()
+            .navigateTo(message['data']['screen'], message['data']['docid']);
       },
     );
   }

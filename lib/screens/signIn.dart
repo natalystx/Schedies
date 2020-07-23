@@ -172,7 +172,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           onPressed: () async => {
                             await _auth.signInWithEmailAndPassword(
                                 _email, _password),
-                            Navigator.pushNamed(context, '/wrapper')
+                            Navigator.popAndPushNamed(context, '/wrapper')
                           },
                           color: Color.fromRGBO(255, 211, 138, 1),
                           shape: RoundedRectangleBorder(

@@ -31,7 +31,10 @@ export const toSendTopicToDevices = functions.firestore
       .get()
       .then((snapshots) => {
         snapshots.forEach((doc) => {
-          if (doc.id == event.receiver) {
+          if (
+            doc.id == event.receiver ||
+            event.moreInvite >= doc.data()['name']
+          ) {
             token = doc.data()['fcmToken']
           }
         })
@@ -64,7 +67,7 @@ export const toSendChatToDevices = functions.firestore
       .get()
       .then((snapshots) => {
         snapshots.forEach((doc) => {
-          if (doc.id == chat.receiver) {
+          if (doc.id == chat.receiver || chat.receiver >= doc.data()['name']) {
             token = doc.data()['fcmToken']
           }
         })

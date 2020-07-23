@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/ProfileList.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';

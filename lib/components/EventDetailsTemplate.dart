@@ -5,7 +5,6 @@ import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/screens/chatting.dart';
 import 'package:schedule_app/services/AppLocalizations.dart';
-import '../wrapper.dart';
 
 
 class EventDetailsTemplate extends StatefulWidget {
@@ -307,15 +306,10 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                                     'eventStatus':
                                                                         'Approved'
                                                                   }),
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    new MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              new Wrapper(),
-                                                                    ),
-                                                                  )
+                                                                   Navigator.popAndPushNamed(
+                                                                context,
+                                                                '/wrapper'
+                                                              )
                                                                 
                                                             }
                                                           // check event member
@@ -337,15 +331,10 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                                     'eventMemberList.$nameTemp':
                                                                         'Approved'
                                                                   }),
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    new MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              new Wrapper(),
-                                                                    ),
-                                                                  )
+                                                                   Navigator.popAndPushNamed(
+                                                                context,
+                                                                '/wrapper'
+                                                              )
                                                             }   
                                                           else if( (widget._document
                                                                       .data[
@@ -366,13 +355,9 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                                 'eventStatus':
                                                                     'Completed'
                                                               }),
-                                                              Navigator.push(
+                                                              Navigator.popAndPushNamed(
                                                                 context,
-                                                                new MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          new Wrapper(),
-                                                                ),
+                                                                '/wrapper'
                                                               )
                                                             }
                                                         },

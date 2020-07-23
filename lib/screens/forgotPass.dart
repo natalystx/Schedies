@@ -49,14 +49,6 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
       body: SafeArea(
           child: Stack(
         children: [
-          Positioned(
-            top: 20,
-            right: MediaQuery.of(context).size.width - 80,
-            child: TopOverlayBar(
-              isShowBackButton: true,
-              isShowRightIcon: false,
-            ),
-          ),
           SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -195,7 +187,15 @@ class _ForgotPassScreenState extends State<ForgotPassScreen> {
                 ],
               ),
             ),
-          )
+          ),
+          Positioned(
+            top: 20,
+            right: MediaQuery.of(context).size.width - 80,
+            child: TopOverlayBar(
+              isShowBackButton: true,
+              isShowRightIcon: false,
+            ),
+          ),
         ],
       )),
     );

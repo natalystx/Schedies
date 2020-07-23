@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/ChatView.dart';
 import 'package:schedule_app/components/TopOverlayBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,21 +6,28 @@ import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/services/AppLanguage.dart';
 import 'package:schedule_app/services/AppLocalizations.dart';
+import 'package:badges/badges.dart';
 
 class ChattingScreen extends StatefulWidget {
   final bool isShowChat;
   final String chatID;
   final DocumentSnapshot receiver;
 
+  int lastIndex = 0;
   ChattingScreen({this.chatID, this.isShowChat = false, this.receiver});
   @override
   _ChattingScreenState createState() => _ChattingScreenState();
 }
 
 class _ChattingScreenState extends State<ChattingScreen> {
+  List<Map<String, dynamic>> isSeletedList = [];
+  bool userSelected = false;
   bool isShowChat = false;
+  int lastIndex = 0;
   DocumentSnapshot receiver;
+  Map<String, dynamic> isRead = {};
   String chatID;
+  DocumentSnapshot sender;
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -62,7 +68,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                 /// users list view
                 Container(
                   width: MediaQuery.of(context).size.width - 40,
-                  height: 110,
+                  height: 130,
                   padding: EdgeInsets.only(top: 10),
                   child: StreamBuilder<QuerySnapshot>(
                       stream: Firestore.instance
@@ -73,6 +79,13 @@ class _ChattingScreenState extends State<ChattingScreen> {
                           return Padding(
                             padding: EdgeInsets.all(0),
                           );
+
+                        snapshot.data.documents.forEach((doc) {
+                          isSeletedList.add({'isSelected': false});
+                          if (doc.documentID == user.uid) {
+                            sender = doc;
+                          }
+                        });
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: snapshot.data.documents.length,
@@ -83,6 +96,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
+                                    isSeletedList[lastIndex]['isSelected'] =
+                                        false;
+                                    isSeletedList[index]['isSelected'] = true;
                                     if (user.uid.hashCode <=
                                         snapshot.data.documents[index]
                                             .documentID.hashCode) {
@@ -102,15 +118,42 @@ class _ChattingScreenState extends State<ChattingScreen> {
 
                                     receiver = snapshot.data.documents[index];
                                     isShowChat = true;
+                                    lastIndex = index;
                                   });
                                 },
                                 child: Column(
                                   children: <Widget>[
-                                    CircleAvatar(
-                                      radius: 32.5,
-                                      backgroundImage: NetworkImage(snapshot
-                                          .data
-                                          .documents[index]['imageProfile']),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: isSeletedList[index]
+                                                      ['isSelected']
+                                                  ? Color.fromRGBO(
+                                                      62, 230, 192, 1)
+                                                  : Color.fromRGBO(
+                                                      255, 202, 148, 1),
+                                              width: 2)),
+                                      child: isRead[snapshot
+                                                  .data
+                                                  .documents[index]
+                                                  .documentID] !=
+                                              null
+                                          ? Badge(
+                                              child: CircleAvatar(
+                                                radius: 32.5,
+                                                backgroundImage: NetworkImage(
+                                                    snapshot.data
+                                                            .documents[index]
+                                                        ['imageProfile']),
+                                              ),
+                                            )
+                                          : CircleAvatar(
+                                              radius: 32.5,
+                                              backgroundImage: NetworkImage(
+                                                  snapshot.data.documents[index]
+                                                      ['imageProfile']),
+                                            ),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -132,7 +175,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                           ),
                         );
                       }),
-                ),
+                )
               ],
             ),
           ),
@@ -141,7 +184,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
             child: isShowChat || widget.isShowChat
                 ? ChatView(
                     chatID: chatID != null ? chatID : widget.chatID,
-                    receiver: receiver != null ? receiver : widget.receiver)
+                    receiver: receiver != null ? receiver : widget.receiver,
+                    sender: sender,
+                  )
                 : Padding(padding: EdgeInsets.all(0)),
           ),
         ],

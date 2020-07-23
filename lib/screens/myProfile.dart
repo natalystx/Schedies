@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/BottomMenuBar.dart';
 import 'package:schedule_app/components/CalendarCarousel.dart';
 import 'package:schedule_app/components/EventLister.dart';
@@ -263,13 +262,21 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                               ),
                               Column(
                                 children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 20, top: 30),
-                                    child: CalendarCarousel(
-                                      widget.documentID,
-                                      isMe: widget.isMe,
-                                    ),
-                                  ),
+                                  StreamBuilder<QuerySnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('Events')
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 20, top: 30),
+                                          child: CalendarCarousel(
+                                            widget.documentID,
+                                            isMe: widget.isMe,
+                                            document: snapshot.data,
+                                          ),
+                                        );
+                                      }),
                                   Padding(
                                     padding:
                                         EdgeInsets.only(left: 20, bottom: 20),
