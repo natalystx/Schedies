@@ -12,9 +12,10 @@ class ChattingScreen extends StatefulWidget {
   final bool isShowChat;
   final String chatID;
   final DocumentSnapshot receiver;
+  final DocumentSnapshot sender;
 
-  int lastIndex = 0;
-  ChattingScreen({this.chatID, this.isShowChat = false, this.receiver});
+  ChattingScreen(
+      {this.chatID, this.isShowChat = false, this.receiver, this.sender});
   @override
   _ChattingScreenState createState() => _ChattingScreenState();
 }
@@ -185,7 +186,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                 ? ChatView(
                     chatID: chatID != null ? chatID : widget.chatID,
                     receiver: receiver != null ? receiver : widget.receiver,
-                    sender: sender,
+                    sender: sender != null ? sender : widget.sender,
                   )
                 : Padding(padding: EdgeInsets.all(0)),
           ),
