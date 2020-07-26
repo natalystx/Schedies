@@ -41,6 +41,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   String _eventStatus;
   List<dynamic> _moreInviteProfile = [];
   Map<dynamic, dynamic> _eventMemberList = {};
+  List<String> fcmList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -705,6 +706,18 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                 ),
                                               );
                                             }
+                                            snapshot.data.documents
+                                                .forEach((doc) {
+                                              if (doc.documentID == user.uid ||
+                                                  doc.documentID ==
+                                                      widget.uid) {
+                                                if (!fcmList.contains(
+                                                    doc.data['fcmToken'])) {
+                                                  fcmList.add(
+                                                      doc.data['fcmToken']);
+                                                }
+                                              }
+                                            });
                                             return ListView.builder(
                                                 scrollDirection:
                                                     Axis.horizontal,
@@ -726,6 +739,17 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                                       print(snapshot
                                                                           .data
                                                                           .documents[index]['name']);
+                                                                      print(snapshot
+                                                                          .data
+                                                                          .documents[
+                                                                              index]
+                                                                          .documentID);
+
+                                                                      fcmList.add(snapshot
+                                                                          .data
+                                                                          .documents[index]['fcmToken']);
+                                                                      print(
+                                                                          fcmList);
                                                                       setState(
                                                                           () {
                                                                         if (!_moreInviteList.contains(snapshot
@@ -1054,23 +1078,23 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                       _me, () => 'Approved');
                                                   await firestore
                                                       .addEventData(
-                                                        user.uid,
-                                                        widget.uid,
-                                                        widget.date
-                                                            .toIso8601String(),
-                                                        _topic,
-                                                        _details,
-                                                        _inviteUser,
-                                                        startTime,
-                                                        endTime,
-                                                        _location,
-                                                        _eventStatus =
-                                                            'Pending',
-                                                        moreInvite:
-                                                            _moreInviteList,
-                                                        eventMemberList:
-                                                            _eventMemberList,
-                                                      )
+                                                          user.uid,
+                                                          widget.uid,
+                                                          widget.date
+                                                              .toIso8601String(),
+                                                          _topic,
+                                                          _details,
+                                                          _inviteUser,
+                                                          startTime,
+                                                          endTime,
+                                                          _location,
+                                                          _eventStatus =
+                                                              'Pending',
+                                                          moreInvite:
+                                                              _moreInviteList,
+                                                          eventMemberList:
+                                                              _eventMemberList,
+                                                          uidList: fcmList)
                                                       //after finished access go to home
                                                       .then((value) =>
                                                           Navigator.push(

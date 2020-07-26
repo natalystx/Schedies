@@ -5,7 +5,7 @@ admin.initializeApp()
 
 const db = admin.firestore()
 const fcm = admin.messaging()
-let token: any
+let token: string[] = []
 export const toSendTopicToDevices = functions.firestore
   .document('Events/{eventId}')
   .onCreate(async (snapshot) => {
@@ -26,19 +26,7 @@ export const toSendTopicToDevices = functions.firestore
       },
     }
 
-    await db
-      .collection('Users data')
-      .get()
-      .then((snapshots) => {
-        snapshots.forEach((doc) => {
-          if (
-            doc.id == event.receiver ||
-            event.moreInvite >= doc.data()['name']
-          ) {
-            token = doc.data()['fcmToken']
-          }
-        })
-      })
+    token = event.uidList
     return fcm.sendToDevice(token, payload)
   })
 
@@ -68,7 +56,7 @@ export const toSendChatToDevices = functions.firestore
       .then((snapshots) => {
         snapshots.forEach((doc) => {
           if (doc.id == chat.receiver || chat.receiver >= doc.data()['name']) {
-            token = doc.data()['fcmToken']
+            token.push(doc.data()['fcmToken'])
           }
         })
       })

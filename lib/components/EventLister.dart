@@ -50,13 +50,9 @@ class _EventListerState extends State<EventLister> {
 
                       eventMemberList.forEach((key, value) {
                         temp.add(value);
-                        if (temp[0] == temp[counter]) {
-                          isAllStatusSame = true;
-                        } else {
-                          isAllStatusSame = false;
-                        }
-                        counter++;
                       });
+
+                      isAllStatusSame = temp.every((value) => value == temp[0]);
                       counter = 0;
                       if (isAllStatusSame) {
                         Firestore.instance
@@ -64,15 +60,11 @@ class _EventListerState extends State<EventLister> {
                             .document(doc.documentID)
                             .updateData({'eventStatus': temp[0]});
                       }
-                      if (!isAllStatusSame) {
-                        Firestore.instance
-                            .collection('Events')
-                            .document(doc.documentID)
-                            .updateData({'isQuestioning': 'Yes'});
-                      }
                     }
-                    if (endTime.isBefore(DateTime.now()) &&
-                        doc.data['eventStatus'] != 'Completed') {
+                    if ((endTime.isBefore(DateTime.now()) &&
+                            doc.data['eventStatus'] == 'Pending') ||
+                        (endTime.isBefore(DateTime.now()) &&
+                            doc.data['eventStatus'] == 'Approved')) {
                       Firestore.instance
                           .collection('Events')
                           .document(doc.documentID)
