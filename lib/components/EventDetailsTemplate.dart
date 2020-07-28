@@ -4,6 +4,7 @@ import 'package:schedule_app/components/ReasonBox.dart';
 import 'package:schedule_app/model/User.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/screens/chatting.dart';
+import 'package:schedule_app/screens/editEvent.dart';
 import 'package:schedule_app/services/AppLocalizations.dart';
 
 
@@ -35,7 +36,29 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
   List<dynamic> moreInvite= [];
   @override
   Widget build(BuildContext context) {
-
+     Future<bool> _onDeletePressed() {
+      return showDialog(
+            context: context,
+            builder: (context) => new AlertDialog(
+              title: new Text('Are you sure to delete event?'),
+              actions: <Widget>[
+                new GestureDetector(
+                  onTap: () => Navigator.of(context).pop(false),
+                  child: Text("NO"),
+                ),
+                SizedBox(height: 16),
+                new GestureDetector(
+                  onTap: () async => {
+                     await Firestore.instance.collection('Events').document(widget._document.documentID).delete(),
+                     Navigator.popAndPushNamed(context, '/wrapper')
+                  },
+                  child: Text("YES"),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+    }
     final user = Provider.of<User>(context);
     return StreamBuilder<DocumentSnapshot>(
         stream: Firestore.instance
@@ -117,11 +140,19 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                 Color.fromRGBO(85, 85, 85, 1),
                                           ),
                                         ),
-                                       widget._document.data['eventStatus'] == 'Pending' ||  widget._document.data['eventStatus'] == 'Approved' ?
+                                   
+                                        
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: <Widget>[
+                                          widget._document.data['eventStatus'] == 'Pending' ||  widget._document.data['eventStatus'] == 'Approved' ?
                                         Container(
                                           height: 30,
-                                          width: 45,
-                                          margin: EdgeInsets.only(right:20),
+                                           width: 45,
+                                          margin: EdgeInsets.only(right:0),
                                           child: FlatButton(onPressed: () => {
                                            if(widget._document.data['userCount']<= 2){
                                               if (widget._document.data['receiver'].hashCode <=
@@ -164,20 +195,36 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                         ) 
                                         : Padding(padding: EdgeInsets.all(0)),
 
-                                         widget._document.data['eventStatus'] == 'Pending' ||  widget._document.data['eventStatus'] == 'Approved' ?
+                                         widget._document.data['eventStatus'] == 'Pending' ?
                                         Container(
                                           height: 30,
                                           width: 45,
                                           child: FlatButton(onPressed: () => {
-                                          
+                                           Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                             EditEventScreen(
+                                                               widget._document,
+                                                               date: DateTime.parse(widget._document.data['date']),
+                                                               uid: widget._uid,
+                                                             )),
+                                                    ),
                                                     
                                           }, child: Icon(Icons.edit, size: 25, color: Colors.black,),),
                                         ) :
                                          Padding(padding: EdgeInsets.all(0)),
-
-                                        
-                                      ],
-                                    ),
+                                         widget._document.data['eventStatus'] == 'Pending' ||  widget._document.data['eventStatus'] == 'Approved' ?
+                                        Container(
+                                          height: 30,
+                                           width: 45,
+                                          child: FlatButton(onPressed: () async =>  {
+                                        await _onDeletePressed()
+                                                    
+                                          }, child: Icon(Icons.delete, size: 25, color: Colors.black,),),
+                                        ) :
+                                         Padding(padding: EdgeInsets.all(0)),
+                                    ],),
                                     Row(
                                       children: <Widget>[
                                         Text(

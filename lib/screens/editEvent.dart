@@ -9,16 +9,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'package:schedule_app/wrapper.dart';
 
-class AddEventScreen extends StatefulWidget {
+class EditEventScreen extends StatefulWidget {
   @override
-  _AddEventScreenState createState() => _AddEventScreenState();
+  _EditEventScreenState createState() => _EditEventScreenState();
   final DateTime date;
   final String uid;
   bool isSliderShow;
-  AddEventScreen({this.date, this.uid, this.isSliderShow = false});
+  DocumentSnapshot _eventDoc;
+  EditEventScreen(this._eventDoc,
+      {this.date, this.uid, this.isSliderShow = false});
 }
 
-class _AddEventScreenState extends State<AddEventScreen> {
+class _EditEventScreenState extends State<EditEventScreen> {
   final CloudDataService firestore = CloudDataService();
   final _addEventFormKey = GlobalKey<FormState>();
   String _inviteUser;
@@ -28,7 +30,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   String _topic;
   String _details;
   String _moreInvite = '';
-  List<String> _moreInviteList = [];
+  List<dynamic> _moreInviteList = [];
   String _location;
   double _time = 0;
   String _convertedTime = '00:00';
@@ -40,13 +42,27 @@ class _AddEventScreenState extends State<AddEventScreen> {
   String _eventStatus;
   List<dynamic> _moreInviteProfile = [];
   Map<dynamic, dynamic> _eventMemberList = {};
-  List<String> fcmList = [];
+  List<dynamic> fcmList = [];
+
+  @override
+  initState() {
+    super.initState();
+    _inviteUser = widget._eventDoc.data['inviteUser'];
+    startTime = widget._eventDoc.data['startTime'];
+    endTime = widget._eventDoc.data['endTime'];
+    _topic = widget._eventDoc.data['topic'];
+    _details = widget._eventDoc.data['details'];
+    _moreInviteList = widget._eventDoc.data['moreInvite'];
+    _eventMemberList = widget._eventDoc.data['eventMemberList'];
+    fcmList = widget._eventDoc.data['uidList'];
+    _location = widget._eventDoc.data['location'];
+    _moreInviteProfile = widget._eventDoc.data['moreInviteProfile'];
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     var appLanguage = Provider.of<AppLanguage>(context);
-
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
@@ -85,7 +101,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   25,
                                   FontWeight.w400,
                                   AppLocalizations.of(context)
-                                      .translate('make-an-appointment'),
+                                      .translate('edit-event'),
                                   paddingSide: EdgeInsets.only(top: 20),
                                 )
                               ],
@@ -371,6 +387,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   width: 350,
                                   margin: EdgeInsets.only(bottom: 20),
                                   child: TextFormField(
+                                    initialValue: _topic,
                                     validator: (value) => value.isNotEmpty
                                         ? null
                                         : AppLocalizations.of(context)
@@ -428,6 +445,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   width: 350,
                                   margin: EdgeInsets.only(bottom: 20),
                                   child: new TextFormField(
+                                    initialValue: _details,
                                     validator: (value) => value.isNotEmpty
                                         ? null
                                         : AppLocalizations.of(context)
@@ -487,6 +505,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                   width: 350,
                                   margin: EdgeInsets.only(bottom: 20),
                                   child: TextFormField(
+                                    initialValue: _location,
                                     validator: (value) => value.isNotEmpty
                                         ? null
                                         : AppLocalizations.of(context)
@@ -971,6 +990,17 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                                 .toString()
                                                                 .contains(
                                                                     _me)) {
+                                                          if (startTime ==
+                                                                  widget._eventDoc
+                                                                          .data[
+                                                                      'startTime'] &&
+                                                              endTime ==
+                                                                  widget._eventDoc
+                                                                          .data[
+                                                                      'endTime']) {
+                                                            isValidTime = true;
+                                                            return false;
+                                                          }
                                                           // check time is today ? true
                                                           if (inputDate ==
                                                               nowDate) {
@@ -1080,7 +1110,9 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                                   _eventMemberList.putIfAbsent(
                                                       _me, () => 'Approved');
                                                   await firestore
-                                                      .addEventData(
+                                                      .updateEventData(
+                                                          widget._eventDoc
+                                                              .documentID,
                                                           user.uid,
                                                           widget.uid,
                                                           widget.date
