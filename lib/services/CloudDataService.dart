@@ -35,9 +35,10 @@ class CloudDataService {
       String endTime,
       String location,
       String eventStatus,
-      {List<String> moreInvite,
+      {List<dynamic> moreInvite,
       dynamic eventMemberList,
-      List<String> uidList}) async {
+      List<dynamic> uidList,
+      List<dynamic> moreInviteProfile}) async {
     await firestore
         .collection("Events")
         .document('$myUID+$uid+$date+$inviteUser+$startTime+$endTime')
@@ -56,7 +57,44 @@ class CloudDataService {
       'eventStatus': eventStatus,
       'userCount': 2 + (moreInvite != null ? moreInvite.length : 0),
       'eventMemberList': eventMemberList,
-      'uidList': uidList
+      'uidList': uidList,
+      'moreInviteProfile': moreInviteProfile
+    });
+  }
+
+  Future updateEventData(
+      String eventId,
+      String myUID,
+      String uid,
+      String date,
+      String topic,
+      String details,
+      String inviteUser,
+      String startTime,
+      String endTime,
+      String location,
+      String eventStatus,
+      {List<dynamic> moreInvite,
+      dynamic eventMemberList,
+      List<dynamic> uidList,
+      List<dynamic> moreInviteProfile}) async {
+    await firestore.collection("Events").document(eventId).updateData({
+      'topic': topic,
+      'onCreatedTime': DateTime.now().toIso8601String(),
+      'inviteUser': inviteUser,
+      'startTime': startTime,
+      'endTime': endTime,
+      'location': location,
+      'details': details,
+      'date': date,
+      'moreInvite': moreInvite ?? '',
+      'receiver': uid,
+      'sender': myUID,
+      'eventStatus': eventStatus,
+      'userCount': 2 + (moreInvite != null ? moreInvite.length : 0),
+      'eventMemberList': eventMemberList,
+      'uidList': uidList,
+      'moreInviteProfile': moreInviteProfile
     });
   }
 }
