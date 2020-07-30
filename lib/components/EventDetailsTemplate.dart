@@ -49,8 +49,10 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                 SizedBox(height: 16),
                 new GestureDetector(
                   onTap: () async => {
-                     await Firestore.instance.collection('Events').document(widget._document.documentID).delete(),
-                     Navigator.popAndPushNamed(context, '/wrapper')
+                     await Firestore.instance.collection('Events').document(widget._document.documentID).delete().then((value) => 
+                     Navigator.pushNamed(context, '/wrapper')
+                     )
+                   
                   },
                   child: Text("YES"),
                 ),
