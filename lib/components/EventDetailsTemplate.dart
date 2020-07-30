@@ -188,7 +188,7 @@ class _EventDetailsTemplateState extends State<EventDetailsTemplate> {
                                                                 isShowChat: true,
                                                                 receiver:
                                                                     widget._document,
-                                                                sender: snapshot.data,    
+                                                                sender: snapshotMe.data,    
                                                               )),
                                                     ),
                                           }, child: Icon(Icons.chat_bubble_outline, size: 25, color: Colors.black,),),

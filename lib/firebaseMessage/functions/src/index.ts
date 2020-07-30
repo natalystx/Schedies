@@ -3,7 +3,7 @@ import * as admin from 'firebase-admin'
 
 admin.initializeApp()
 
-const db = admin.firestore()
+// const db = admin.firestore()
 const fcm = admin.messaging()
 let token: string[] = []
 export const toSendTopicToDevices = functions.firestore
@@ -50,15 +50,6 @@ export const toSendChatToDevices = functions.firestore
       },
     }
 
-    await db
-      .collection('Users data')
-      .get()
-      .then((snapshots) => {
-        snapshots.forEach((doc) => {
-          if (doc.id == chat.receiver || chat.receiver >= doc.data()['name']) {
-            token.push(doc.data()['fcmToken'])
-          }
-        })
-      })
+    token = chat.fcmList
     return fcm.sendToDevice(token, payload)
   })

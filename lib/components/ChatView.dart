@@ -19,6 +19,7 @@ class _ChatViewState extends State<ChatView> {
   String message;
   String imageProfile;
   String userName;
+  List<dynamic> fcm = [];
   clearText() {
     textController.clear();
   }
@@ -28,7 +29,9 @@ class _ChatViewState extends State<ChatView> {
     // TODO: implement initState
     userName = widget.sender.data['name'];
     imageProfile = widget.sender.data['imageProfile'];
-
+    fcm = widget.receiver.data['uidList'] != null
+        ? widget.receiver.data['uidList']
+        : [];
     super.initState();
   }
 
@@ -270,6 +273,11 @@ class _ChatViewState extends State<ChatView> {
                   value.isNotEmpty ? null : 'Please enter your massage.',
               onChanged: (value) => {
                 setState(() {
+                  if (widget.receiver.data['fcmToken'] != null) {
+                    if (!fcm.contains(widget.receiver.data['fcmToken'])) {
+                      fcm.add(widget.receiver.data['fcmToken']);
+                    }
+                  }
                   message = value;
                 })
               },
@@ -290,12 +298,14 @@ class _ChatViewState extends State<ChatView> {
                         'message': message,
                         'createdTime': DateTime.now().toIso8601String(),
                         'imageProfile': imageProfile,
-                        'name': userName
+                        'name': userName,
+                        'fcmList': fcm
                       });
                       setState(() {
                         imageProfile = imageProfile;
                         userName = userName;
                         message = '';
+                        fcm = [];
                         clearText();
                       });
                     }

@@ -40,7 +40,9 @@ class _CalendarCarouselState extends State<CalendarCarousel> {
               doc.data['receiver'] == (widget._uid) ||
               doc.data['moreInvite'].contains(widget.name)) &&
           (doc.data['eventMemberList'][widget.name] == 'Pending' ||
-              doc.data['eventMemberList'][widget.name] == 'Approved')) {
+              doc.data['eventMemberList'][widget.name] == 'Approved') &&
+          (doc.data['eventStatus'] == 'Pending' ||
+              doc.data['eventStatus'] == 'Approved')) {
         myevents.putIfAbsent(doc.data['date'], () => 1);
       }
     });

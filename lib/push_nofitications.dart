@@ -49,7 +49,7 @@ class PushNotificationsManager {
 
   saveToken(String uid) async {
     token = await _firebaseMessaging.getToken();
-    Firestore.instance
+    await Firestore.instance
         .collection('Users data')
         .document(uid)
         .updateData({'fcmToken': token});
