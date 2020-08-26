@@ -123,7 +123,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           ),
                           //buttons section
                           CustomButton(
-                              Color.fromRGBO(250, 137, 123, 1),
+                              Color.fromRGBO(62, 230, 192, 1),
                               AppLocalizations.of(context)
                                   .translate('have-exist-account'),
                               19,

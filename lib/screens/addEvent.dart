@@ -23,8 +23,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   final _addEventFormKey = GlobalKey<FormState>();
   String _inviteUser;
   String _me;
-  String startTime = '';
-  String endTime = '';
+  String startTime = '00:00';
+  String endTime = '00:00';
   String _topic;
   String _details;
   String _moreInvite = '';
@@ -1245,7 +1245,10 @@ class _AddEventScreenState extends State<AddEventScreen> {
                                         data: SliderTheme.of(context).copyWith(
                                           trackHeight: 10,
                                           activeTrackColor:
-                                              Color.fromRGBO(250, 137, 123, 1),
+                                            !DateTime.parse( widget.date
+                                        .toIso8601String()
+                                        .substring(0, 11) + _convertedTime +':00').isAfter(DateTime.now()) ? 
+                                         Color.fromRGBO(250, 137, 123, 1) : Color.fromRGBO(62, 230, 192, 1),
                                           inactiveTrackColor:
                                               Color.fromRGBO(255, 221, 148, .8),
                                           thumbColor:

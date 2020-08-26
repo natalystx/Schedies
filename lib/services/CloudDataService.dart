@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:schedule_app/model/UserSignUp.dart';
 
 class CloudDataService {
   //firestore instance
@@ -18,8 +17,6 @@ class CloudDataService {
       'email': email,
       'name': name,
       'phoneNumber': phoneNumber,
-      'userStatus': userStatus,
-      'studentID': studentID,
       'imageProfile': imageProfile
     });
   }

@@ -77,8 +77,6 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
     super.initState();
     _image = widget.document.data['imageProfile'];
     _name = widget.document.data['name'];
-    _studentID = widget.document.data['studentID'];
-    _userStatus = widget.document.data['userStatus'];
     _phonenumber = widget.document.data['phoneNumber'];
   }
 
@@ -188,102 +186,7 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                             fontWeight: FontWeight.w200,
                             color: Colors.white),
                       ),
-                    ),
-                    Container(
-                      height: 55,
-                      width: 350,
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: TextFormField(
-                        initialValue: _userStatus,
-                        validator: (value) => value.isNotEmpty
-                            ? null
-                            : AppLocalizations.of(context)
-                                .translate('user-status-isEmpty'),
-                        onChanged: (value) =>
-                            {setState(() => _userStatus = value)},
-                        obscureText: false,
-                        decoration: new InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.account_box,
-                            color: Colors.white,
-                            size: 24.0,
-                          ),
-                          labelText: AppLocalizations.of(context)
-                              .translate('user-status'),
-                          labelStyle: new TextStyle(
-                              fontFamily: "Mitr",
-                              fontSize: 15,
-                              fontWeight: FontWeight.w200,
-                              color: Colors.white),
-                          fillColor: Color.fromRGBO(62, 230, 192, 1),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Colors.white)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                              borderSide: BorderSide(color: Colors.white)),
-                          filled: true,
-                          border: new OutlineInputBorder(
-                            borderRadius: new BorderRadius.circular(20.0),
-                            borderSide: new BorderSide(color: Colors.white),
-                          ),
-                        ),
-                        keyboardType: TextInputType.text,
-                        style: new TextStyle(
-                            fontFamily: "Mitr",
-                            fontSize: 18,
-                            fontWeight: FontWeight.w200,
-                            color: Colors.white),
-                      ),
-                    ),
-                    _studentID != null
-                        ? Container(
-                            height: 55,
-                            width: 350,
-                            margin: EdgeInsets.only(bottom: 20),
-                            child: TextFormField(
-                              initialValue: _studentID,
-                              onChanged: (value) =>
-                                  {setState(() => _studentID = value)},
-                              obscureText: false,
-                              decoration: new InputDecoration(
-                                prefixIcon: Icon(
-                                  Icons.school,
-                                  color: Colors.white,
-                                  size: 24.0,
-                                ),
-                                labelText: AppLocalizations.of(context)
-                                    .translate('student-id'),
-                                labelStyle: new TextStyle(
-                                    fontFamily: "Mitr",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w200,
-                                    color: Colors.white),
-                                fillColor: Color.fromRGBO(62, 230, 192, 1),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide:
-                                        BorderSide(color: Colors.white)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                    borderSide:
-                                        BorderSide(color: Colors.white)),
-                                filled: true,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(20.0),
-                                  borderSide:
-                                      new BorderSide(color: Colors.white),
-                                ),
-                              ),
-                              keyboardType: TextInputType.number,
-                              style: new TextStyle(
-                                  fontFamily: "Mitr",
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w200,
-                                  color: Colors.white),
-                            ),
-                          )
-                        : Padding(padding: EdgeInsets.all(0)),
+                    ),                   
                     Container(
                       height: 55,
                       width: 350,

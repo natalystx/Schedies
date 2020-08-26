@@ -11,7 +11,7 @@
     "image-uploading": "Uploading",
     "upload-image-error": "Upload Error",
     "image-has-uploaded": "Upload completed",
-    "not-in-cmru": "You're not be apart of CMRU",
+    "not-in-cmru": "Email must contain @",
     "password-must-8": "Password Must be more than 8 characters.",
     "password-not-match": "Password and confirm password must be match.",
     "confirm-password": "Confirm password",

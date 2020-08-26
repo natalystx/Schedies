@@ -90,7 +90,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               fontSize: 15,
                               fontWeight: FontWeight.w200,
                               color: Colors.white),
-                          fillColor: Color.fromRGBO(250, 137, 123, 1),
+                          fillColor: Color.fromRGBO(62, 230, 192, 1),
                           focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0),
                               borderSide: BorderSide(color: Colors.white)),
@@ -174,7 +174,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 _email, _password),
                             Navigator.popAndPushNamed(context, '/wrapper')
                           },
-                          color: Color.fromRGBO(255, 211, 138, 1),
+                          color: Color.fromRGBO(62, 230, 192, 1),
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),

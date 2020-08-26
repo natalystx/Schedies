@@ -137,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         width: 350,
                         margin: EdgeInsets.only(bottom: 20),
                         child: TextFormField(
-                          validator: (value) => value.contains('@g.cmru.ac.th')
+                          validator: (value) => value.contains('@')
                               ? null
                               : AppLocalizations.of(context)
                                   .translate('not-in-cmru'),
@@ -361,94 +361,94 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Colors.white),
                         ),
                       ),
-                      Container(
-                        height: 55,
-                        width: 350,
-                        margin: EdgeInsets.only(bottom: 20),
-                        child: TextFormField(
-                          validator: (value) => value.isNotEmpty
-                              ? null
-                              : AppLocalizations.of(context)
-                                  .translate('user-status-isEmpty'),
-                          onChanged: (value) =>
-                              {setState(() => _userStatus = value)},
-                          obscureText: false,
-                          decoration: new InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.more_vert,
-                              color: Colors.white,
-                              size: 24.0,
-                            ),
-                            labelText: AppLocalizations.of(context)
-                                .translate('user-status'),
-                            labelStyle: new TextStyle(
-                                fontFamily: "Mitr",
-                                fontSize: 15,
-                                fontWeight: FontWeight.w200,
-                                color: Colors.white),
-                            fillColor: Color.fromRGBO(62, 230, 192, 1),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide(color: Colors.white)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide(color: Colors.white)),
-                            filled: true,
-                            border: new OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(20.0),
-                              borderSide: new BorderSide(color: Colors.white),
-                            ),
-                          ),
-                          keyboardType: TextInputType.text,
-                          style: new TextStyle(
-                              fontFamily: "Mitr",
-                              fontSize: 18,
-                              fontWeight: FontWeight.w200,
-                              color: Colors.white),
-                        ),
-                      ),
-                      Container(
-                        height: 55,
-                        width: 350,
-                        margin: EdgeInsets.only(bottom: 20),
-                        child: TextFormField(
-                          onChanged: (value) =>
-                              {setState(() => _studentID = value)},
-                          obscureText: false,
-                          decoration: new InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.school,
-                              color: Colors.white,
-                              size: 24.0,
-                            ),
-                            labelText: AppLocalizations.of(context)
-                                .translate('student-id'),
-                            labelStyle: new TextStyle(
-                                fontFamily: "Mitr",
-                                fontSize: 15,
-                                fontWeight: FontWeight.w200,
-                                color: Colors.white),
-                            fillColor: Color.fromRGBO(62, 230, 192, 1),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide(color: Colors.white)),
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                                borderSide: BorderSide(color: Colors.white)),
-                            filled: true,
-                            border: new OutlineInputBorder(
-                              borderRadius: new BorderRadius.circular(20.0),
-                              borderSide: new BorderSide(color: Colors.white),
-                            ),
-                          ),
-                          keyboardType: TextInputType.number,
-                          style: new TextStyle(
-                              fontFamily: "Mitr",
-                              fontSize: 18,
-                              fontWeight: FontWeight.w200,
-                              color: Colors.white),
-                        ),
-                      ),
+                      // Container(
+                      //   height: 55,
+                      //   width: 350,
+                      //   margin: EdgeInsets.only(bottom: 20),
+                      //   child: TextFormField(
+                      //     validator: (value) => value.isNotEmpty
+                      //         ? null
+                      //         : AppLocalizations.of(context)
+                      //             .translate('user-status-isEmpty'),
+                      //     onChanged: (value) =>
+                      //         {setState(() => _userStatus = value)},
+                      //     obscureText: false,
+                      //     decoration: new InputDecoration(
+                      //       prefixIcon: Icon(
+                      //         Icons.more_vert,
+                      //         color: Colors.white,
+                      //         size: 24.0,
+                      //       ),
+                      //       labelText: AppLocalizations.of(context)
+                      //           .translate('user-status'),
+                      //       labelStyle: new TextStyle(
+                      //           fontFamily: "Mitr",
+                      //           fontSize: 15,
+                      //           fontWeight: FontWeight.w200,
+                      //           color: Colors.white),
+                      //       fillColor: Color.fromRGBO(62, 230, 192, 1),
+                      //       focusedBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(20.0),
+                      //           borderSide: BorderSide(color: Colors.white)),
+                      //       enabledBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(20.0),
+                      //           borderSide: BorderSide(color: Colors.white)),
+                      //       filled: true,
+                      //       border: new OutlineInputBorder(
+                      //         borderRadius: new BorderRadius.circular(20.0),
+                      //         borderSide: new BorderSide(color: Colors.white),
+                      //       ),
+                      //     ),
+                      //     keyboardType: TextInputType.text,
+                      //     style: new TextStyle(
+                      //         fontFamily: "Mitr",
+                      //         fontSize: 18,
+                      //         fontWeight: FontWeight.w200,
+                      //         color: Colors.white),
+                      //   ),
+                      // ),
+                      // Container(
+                      //   height: 55,
+                      //   width: 350,
+                      //   margin: EdgeInsets.only(bottom: 20),
+                      //   child: TextFormField(
+                      //     onChanged: (value) =>
+                      //         {setState(() => _studentID = value)},
+                      //     obscureText: false,
+                      //     decoration: new InputDecoration(
+                      //       prefixIcon: Icon(
+                      //         Icons.school,
+                      //         color: Colors.white,
+                      //         size: 24.0,
+                      //       ),
+                      //       labelText: AppLocalizations.of(context)
+                      //           .translate('student-id'),
+                      //       labelStyle: new TextStyle(
+                      //           fontFamily: "Mitr",
+                      //           fontSize: 15,
+                      //           fontWeight: FontWeight.w200,
+                      //           color: Colors.white),
+                      //       fillColor: Color.fromRGBO(62, 230, 192, 1),
+                      //       focusedBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(20.0),
+                      //           borderSide: BorderSide(color: Colors.white)),
+                      //       enabledBorder: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(20.0),
+                      //           borderSide: BorderSide(color: Colors.white)),
+                      //       filled: true,
+                      //       border: new OutlineInputBorder(
+                      //         borderRadius: new BorderRadius.circular(20.0),
+                      //         borderSide: new BorderSide(color: Colors.white),
+                      //       ),
+                      //     ),
+                      //     keyboardType: TextInputType.number,
+                      //     style: new TextStyle(
+                      //         fontFamily: "Mitr",
+                      //         fontSize: 18,
+                      //         fontWeight: FontWeight.w200,
+                      //         color: Colors.white),
+                      //   ),
+                      // ),
                       GestureDetector(
                         onTap: () {
                           getImage();
@@ -549,9 +549,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _email, _password,
                                 name: _name,
                                 phoneNumber: _phoneNumber,
-                                userStatus: _userStatus,
-                                imageProfile: _profileImage,
-                                studentID: _studentID);
+                                imageProfile: _profileImage);
                             Navigator.pushNamed(context, '/wrapper');
                             if (result == null) {
                               setState(() => _error =

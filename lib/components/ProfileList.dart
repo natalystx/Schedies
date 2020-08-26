@@ -53,25 +53,7 @@ class ProfileList extends StatelessWidget {
                             color: Color.fromRGBO(126, 119, 119, 1),
                           ),
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              _document.data['userStatus'].toString(),
-                              style: TextStyle(
-                                fontFamily: 'Mitr',
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                                color: Color.fromRGBO(126, 119, 119, 1),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      ),                      
                     ],
                   ),
                 ],

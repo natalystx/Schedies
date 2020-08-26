@@ -185,24 +185,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                      AppLocalizations.of(context)
-                                              .translate('user-status-2') +
-                                          snapshot.data['userStatus'],
-                                      style: TextStyle(
-                                        fontFamily: 'Mitr',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w300,
-                                        color: Color.fromRGBO(85, 85, 85, 1),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                             
                               Padding(
                                 padding: const EdgeInsets.only(left: 20.0),
                                 child: Row(
@@ -238,28 +221,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 20.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    snapshot.data['studentID'] != null
-                                        ? Text(
-                                            AppLocalizations.of(context)
-                                                    .translate('student-id-2') +
-                                                snapshot.data['studentID'],
-                                            style: TextStyle(
-                                              fontFamily: 'Mitr',
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w300,
-                                              color:
-                                                  Color.fromRGBO(85, 85, 85, 1),
-                                            ),
-                                          )
-                                        : Text(''),
-                                  ],
-                                ),
-                              ),
+                              ),                             
                               Column(
                                 children: <Widget>[
                                   StreamBuilder<QuerySnapshot>(
