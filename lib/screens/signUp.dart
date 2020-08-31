@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:schedule_app/components/WelcomeText.dart';
 import 'package:schedule_app/model/UserSignUp.dart';
 import 'package:schedule_app/services/AppLanguage.dart';

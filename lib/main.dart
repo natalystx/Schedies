@@ -6,7 +6,6 @@ import 'package:schedule_app/model/User.dart';
 import 'package:schedule_app/push_nofitications.dart';
 import 'package:schedule_app/screens/addEvent.dart';
 import 'package:schedule_app/screens/chatting.dart';
-import 'package:schedule_app/screens/eventDetails.dart';
 import 'package:schedule_app/screens/forgotPass.dart';
 import 'package:schedule_app/screens/myProfile.dart';
 import 'package:schedule_app/screens/report.dart';

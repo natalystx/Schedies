@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
@@ -186,7 +185,7 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                             fontWeight: FontWeight.w200,
                             color: Colors.white),
                       ),
-                    ),                   
+                    ),
                     Container(
                       height: 55,
                       width: 350,
